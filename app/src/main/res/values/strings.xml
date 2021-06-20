@@ -9,4 +9,5 @@
 
 <resources>
     <string name="app_name">Dev Event</string>
+    <string name="copyright">© 2021 용감한 친구들. all rights reserved.</string>
 </resources>

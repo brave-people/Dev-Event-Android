@@ -1,4 +1,4 @@
-package team.bravepeople.devevent.ui.theme
+package team.bravepeople.devevent.theme
 
 import android.os.Build
 import android.view.View

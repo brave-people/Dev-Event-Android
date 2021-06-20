@@ -7,7 +7,7 @@
  * Please see: https://github.com/brave-people/Dev-Event-Android/blob/master/LICENSE.
  */
 
-package team.bravepeople.devevent.ui.theme
+package team.bravepeople.devevent.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.material.lightColors
