@@ -1,25 +1,12 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Theme.DevEvent" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
-        <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
-        <item name="colorOnPrimary">@color/white</item>
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_700</item>
-        <item name="colorOnSecondary">@color/black</item>
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
-    </style>
+<!--
+  ~ DevEventAndroid © 2021 용감한 친구들. all rights reserved.
+  ~ DevEventAndroid license is under the MIT.
+  ~
+  ~ [themes.xml] created by Ji Sungbin on 21. 6. 20. 오후 11:59.
+  ~
+  ~ Please see: https://github.com/brave-people/Dev-Event-Android/blob/master/LICENSE.
+  -->
 
-    <style name="Theme.DevEvent.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
-
-    <style name="Theme.DevEvent.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="Theme.DevEvent.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+<resources>
+    <style name="Theme.DevEvent" parent="Theme.MaterialComponents.Light.DarkActionBar" />
 </resources>
