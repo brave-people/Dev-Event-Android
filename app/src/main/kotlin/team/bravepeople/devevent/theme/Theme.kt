@@ -105,9 +105,9 @@ val typography = Typography(
 )
 
 val colors = lightColors().copy(
-    primary = Color(0xFF29b6f6),
-    primaryVariant = Color(0xFF0086c3),
-    secondary = Color(0xFF73e8ff)
+    primary = Color(0xFF1e88e5),
+    primaryVariant = Color(0xFF005cb2),
+    secondary = Color(0xFF6ab7ff)
 )
 
 @Composable

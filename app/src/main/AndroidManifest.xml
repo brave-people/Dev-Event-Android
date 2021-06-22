@@ -29,5 +29,7 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".activity.MainActivity" />
+
     </application>
 </manifest>
