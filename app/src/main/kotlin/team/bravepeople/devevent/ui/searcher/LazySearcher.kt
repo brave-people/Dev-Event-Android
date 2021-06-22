@@ -7,16 +7,15 @@
  * Please see: https://github.com/brave-people/Dev-Event-Android/blob/master/LICENSE.
  */
 
-package team.bravepeople.devevent.ui.search
+package team.bravepeople.devevent.ui.searcher
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
@@ -24,7 +23,7 @@ import androidx.compose.ui.unit.dp
 private val vm = SearcherViewModel.instance
 
 @Composable
-fun LazySearcher(onSearcherChanged: MutableState<TextFieldValue>.() -> Unit) {
+fun LazySearcher(onSearcherChanged: State<TextFieldValue>.() -> Unit) {
     LazyRow(
         modifier = Modifier
             .fillMaxWidth()
@@ -32,12 +31,7 @@ fun LazySearcher(onSearcherChanged: MutableState<TextFieldValue>.() -> Unit) {
         contentPadding = PaddingValues(start = 8.dp, end = 8.dp)
     ) {
         items(vm.getSearcherIds()) { id ->
-            Searcher(
-                modifier = Modifier.clickable {
-                    onSearcherChanged(vm.getTextField(id))
-                },
-                id = id
-            )
+            Searcher(id, onSearcherChanged)
         }
     }
 }

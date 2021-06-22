@@ -7,7 +7,7 @@
  * Please see: https://github.com/brave-people/Dev-Event-Android/blob/master/LICENSE.
  */
 
-package team.bravepeople.devevent.ui.search
+package team.bravepeople.devevent.ui.searcher
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -19,9 +19,9 @@ class SearcherViewModel private constructor() {
     private val textFields: HashMap<Int, MutableState<TextFieldValue>> = hashMapOf()
     private val searchers = SnapshotStateList<Int>()
 
-    fun addSearcher(id: Int) {
+    fun addSearcher(id: Int, value: String) {
         searchers.add(id)
-        textFields[id] = mutableStateOf(TextFieldValue())
+        textFields[id] = mutableStateOf(TextFieldValue(value))
     }
 
     fun getSearcherIds() = searchers
