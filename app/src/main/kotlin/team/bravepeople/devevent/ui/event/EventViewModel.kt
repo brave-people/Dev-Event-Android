@@ -26,7 +26,7 @@ class EventViewModel private constructor() {
         addEvent(eventEntity)
     }
 
-    fun saveEvents() {
+    fun save() {
 
     }
 

@@ -169,6 +169,6 @@ class MainActivity : ComponentActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        eventVm.saveEvents()
+        eventVm.save()
     }
 }
