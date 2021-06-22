@@ -12,7 +12,12 @@ package team.bravepeople.devevent.activity
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
@@ -30,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import team.bravepeople.devevent.R
 import team.bravepeople.devevent.theme.MaterialTheme
+import team.bravepeople.devevent.ui.search.LazySearcher
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -78,6 +84,8 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     fun Main() {
-        
+        LazySearcher {
+            // todo: searcher handler
+        }
     }
 }

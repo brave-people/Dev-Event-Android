@@ -9,12 +9,35 @@
 
 package team.bravepeople.devevent.ui.search
 
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.unit.dp
 
 private val vm = SearcherViewModel.instance
 
 @Composable
-fun LazySearcher(modifier: Modifier = Modifier) {
-
+fun LazySearcher(onSearcherChanged: MutableState<TextFieldValue>.() -> Unit) {
+    LazyRow(
+        modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentHeight(),
+        contentPadding = PaddingValues(start = 8.dp, end = 8.dp)
+    ) {
+        items(vm.getSearcherIds()) { id ->
+            Searcher(
+                modifier = Modifier.clickable {
+                    onSearcherChanged(vm.getTextField(id))
+                },
+                id = id
+            )
+        }
+    }
 }
