@@ -48,6 +48,7 @@ import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -62,12 +63,16 @@ import team.bravepeople.devevent.R
 import team.bravepeople.devevent.theme.MaterialTheme
 import team.bravepeople.devevent.theme.SystemUiController
 import team.bravepeople.devevent.theme.colors
+import team.bravepeople.devevent.ui.event.EventViewModel
+import team.bravepeople.devevent.ui.event.LazyEvent
 import team.bravepeople.devevent.ui.searcher.LazySearcher
 import team.bravepeople.devevent.ui.searcher.SearcherViewModel
 
 class MainActivity : ComponentActivity() {
 
+    private val eventVm = EventViewModel.instance
     private val searcherVm = SearcherViewModel.instance
+
     private var searching by mutableStateOf(false)
     private var searchField by mutableStateOf(TextFieldValue())
 
@@ -159,12 +164,20 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     fun Main() {
-        println("START")
+        var search by remember { mutableStateOf("") }
+        val events =
+            eventVm.eventEntity.filter { if (search.isNotBlank()) it.name.contains(search) else true }
+
         Column(modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)) {
             LazySearcher {
-                println("AAAAAAAAA")
-                println(value.text)
+                search = value.text
             }
+            LazyEvent(modifier = Modifier.padding(top = 8.dp), eventEntities = events)
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        eventVm.saveEvents()
     }
 }

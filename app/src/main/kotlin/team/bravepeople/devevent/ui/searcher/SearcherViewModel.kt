@@ -17,14 +17,18 @@ import androidx.compose.ui.text.input.TextFieldValue
 class SearcherViewModel private constructor() {
 
     private val textFields: HashMap<Int, MutableState<TextFieldValue>> = hashMapOf()
-    private val searchers = SnapshotStateList<Int>()
+    private val _searchers = SnapshotStateList<Int>()
+
+    val searchers: List<Int> get() = _searchers
 
     fun addSearcher(id: Int, value: String) {
-        searchers.add(id)
+        _searchers.add(id)
         textFields[id] = mutableStateOf(TextFieldValue(value))
     }
 
-    fun getSearcherIds() = searchers
+    fun removeSearcher(id: Int) {
+        _searchers.remove(id)
+    }
 
     fun getTextField(id: Int) = textFields[id]!!
 

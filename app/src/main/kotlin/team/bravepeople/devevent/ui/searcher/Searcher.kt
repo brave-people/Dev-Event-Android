@@ -11,14 +11,18 @@ package team.bravepeople.devevent.ui.searcher
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.Icon
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Cancel
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
@@ -54,10 +58,20 @@ fun Searcher(id: Int, onSearcherChanged: State<TextFieldValue>.() -> Unit) {
         enabled = enable,
         singleLine = true,
         value = field.value,
+        trailingIcon = {
+            Icon(
+                imageVector = Icons.Rounded.Cancel,
+                contentDescription = null,
+                modifier = Modifier.clickable {
+                    vm.removeSearcher(id)
+                }
+            )
+        },
         onValueChange = { field.value = it },
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
         keyboardActions = KeyboardActions(onDone = {
             focusManager.clearFocus()
+            onSearcherChanged(field)
             enable = false
         }),
         colors = TextFieldDefaults.textFieldColors(
@@ -72,7 +86,7 @@ fun Searcher(id: Int, onSearcherChanged: State<TextFieldValue>.() -> Unit) {
             .padding(start = 8.dp, end = 8.dp)
             .widthIn(
                 1.dp,
-                Dp.Unspecified
+                Dp.Infinity
             ) // todo: This is the best way; **Why do not working `wrapContentWidth()`?**
             .border(1.dp, colors.primary, shape)
             .combinedClickable(

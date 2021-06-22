@@ -30,7 +30,7 @@ fun LazySearcher(onSearcherChanged: State<TextFieldValue>.() -> Unit) {
             .wrapContentHeight(),
         contentPadding = PaddingValues(start = 8.dp, end = 8.dp)
     ) {
-        items(vm.getSearcherIds()) { id ->
+        items(vm.searchers) { id -> // todo: Item add/remove animation
             Searcher(id, onSearcherChanged)
         }
     }
