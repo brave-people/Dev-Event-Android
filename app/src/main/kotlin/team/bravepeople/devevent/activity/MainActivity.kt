@@ -112,7 +112,8 @@ class MainActivity : ComponentActivity() {
                             contentDescription = null,
                             tint = Color.White,
                             modifier = Modifier.clickable {
-                                searchField = TextFieldValue("")
+                                searchField = TextFieldValue()
+                                searching = false
                             }
                         )
                     }
@@ -139,11 +140,13 @@ class MainActivity : ComponentActivity() {
                         Icon(
                             imageVector = Icons.Rounded.Settings,
                             contentDescription = null,
-                            modifier = Modifier.padding(end = 8.dp)
+                            modifier = Modifier.padding(end = 8.dp),
+                            tint = Color.White
                         )
                         Icon(
                             imageVector = Icons.Rounded.Search,
                             contentDescription = null,
+                            tint = Color.White,
                             modifier = Modifier.clickable {
                                 searching = true
                             }

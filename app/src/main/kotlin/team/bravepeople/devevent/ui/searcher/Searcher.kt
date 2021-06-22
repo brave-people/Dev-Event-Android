@@ -9,17 +9,14 @@
 
 package team.bravepeople.devevent.ui.searcher
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.border
 import androidx.compose.foundation.combinedClickable
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Surface
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
@@ -37,6 +34,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import team.bravepeople.devevent.theme.colors
 
@@ -51,50 +49,41 @@ fun Searcher(id: Int, onSearcherChanged: State<TextFieldValue>.() -> Unit) {
     val shape = RoundedCornerShape(10.dp)
     val field = vm.getTextField(id)
 
-    Surface(
+    TextField(
+        shape = shape,
+        enabled = enable,
+        singleLine = true,
+        value = field.value,
+        onValueChange = { field.value = it },
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+        keyboardActions = KeyboardActions(onDone = {
+            focusManager.clearFocus()
+            enable = false
+        }),
+        colors = TextFieldDefaults.textFieldColors(
+            backgroundColor = Color.Transparent,
+            cursorColor = Color.Black,
+            textColor = Color.Black,
+            focusedIndicatorColor = Color.Transparent,
+            disabledIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
+        ),
         modifier = Modifier
             .padding(start = 8.dp, end = 8.dp)
-            .height(50.dp)
-            .width(100.dp),
-        border = BorderStroke(1.dp, colors.primary),
-        shape = shape
-    ) {
-        TextField(
-            enabled = enable,
-            singleLine = true,
-            value = field.value,
-            onValueChange = { field.value = it },
-            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-            keyboardActions = KeyboardActions(onDone = {
-                focusManager.clearFocus()
-                enable = false
-            }),
-            colors = TextFieldDefaults.textFieldColors(
-                backgroundColor = Color.Transparent,
-                cursorColor = Color.Black,
-                textColor = Color.Black,
-                focusedIndicatorColor = Color.Transparent,
-                disabledIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-            ),
-            modifier = Modifier
-                .wrapContentWidth()
-                .combinedClickable(
-                    onClick = {
-                        println("3")
-                        onSearcherChanged(field)
-                    },
-                    onLongClick = {
-                        println("4")
-                        enable = true
-                    }
-                )
-                .focusRequester(FocusRequester())
-                .onFocusChanged {
-                    if (it.isFocused) {
-                        onSearcherChanged(field)
-                    }
+            .widthIn(
+                1.dp,
+                Dp.Unspecified
+            ) // todo: This is the best way; **Why do not working `wrapContentWidth()`?**
+            .border(1.dp, colors.primary, shape)
+            .combinedClickable(
+                onClick = { onSearcherChanged(field) },
+                onLongClick = { enable = true }
+            )
+            .focusRequester(FocusRequester())
+            .onFocusChanged {
+                if (it.isFocused) {
+                    onSearcherChanged(field)
                 }
-        )
-    }
+            }
+    )
 }
