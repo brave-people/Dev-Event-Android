@@ -10,7 +10,8 @@
 package team.bravepeople.devevent.ui.searcher
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -23,6 +24,10 @@ import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -37,33 +42,32 @@ import team.bravepeople.devevent.theme.colors
 
 private val vm = SearcherViewModel.instance
 
-@OptIn(ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalComposeUiApi::class, ExperimentalFoundationApi::class)
 @Composable
 fun Searcher(id: Int, onSearcherChanged: State<TextFieldValue>.() -> Unit) {
     val focusManager = LocalFocusManager.current
+    var enable by remember { mutableStateOf(false) }
 
-    val shape = RoundedCornerShape(15.dp)
+    val shape = RoundedCornerShape(10.dp)
     val field = vm.getTextField(id)
 
     Surface(
         modifier = Modifier
             .padding(start = 8.dp, end = 8.dp)
             .height(50.dp)
-            .width(100.dp)
-            .clickable {
-                onSearcherChanged(field)
-            },
+            .width(100.dp),
         border = BorderStroke(1.dp, colors.primary),
         shape = shape
     ) {
         TextField(
-            readOnly = true,
+            enabled = enable,
             singleLine = true,
             value = field.value,
             onValueChange = { field.value = it },
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
             keyboardActions = KeyboardActions(onDone = {
                 focusManager.clearFocus()
+                enable = false
             }),
             colors = TextFieldDefaults.textFieldColors(
                 backgroundColor = Color.Transparent,
@@ -75,14 +79,21 @@ fun Searcher(id: Int, onSearcherChanged: State<TextFieldValue>.() -> Unit) {
             ),
             modifier = Modifier
                 .wrapContentWidth()
+                .combinedClickable(
+                    onClick = {
+                        println("3")
+                        onSearcherChanged(field)
+                    },
+                    onLongClick = {
+                        println("4")
+                        enable = true
+                    }
+                )
                 .focusRequester(FocusRequester())
                 .onFocusChanged {
                     if (it.isFocused) {
                         onSearcherChanged(field)
                     }
-                }
-                .clickable {
-                    onSearcherChanged(field)
                 }
         )
     }
