@@ -7,7 +7,7 @@
  * Please see: https://github.com/brave-people/Dev-Event-Android/blob/master/LICENSE.
  */
 
-package team.bravepeople.devevent.ui.event
+package team.bravepeople.devevent.activity.main.event
 
 import team.bravepeople.devevent.database.EventEntity
 

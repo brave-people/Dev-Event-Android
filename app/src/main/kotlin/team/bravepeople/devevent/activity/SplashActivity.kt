@@ -39,7 +39,7 @@ import team.bravepeople.devevent.repo.GithubService
 import team.bravepeople.devevent.theme.MaterialTheme
 import team.bravepeople.devevent.theme.SystemUiController
 import team.bravepeople.devevent.theme.colors
-import team.bravepeople.devevent.ui.event.EventViewModel
+import team.bravepeople.devevent.activity.main.event.EventViewModel
 
 @AndroidEntryPoint
 class SplashActivity : ComponentActivity() {

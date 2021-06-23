@@ -2,6 +2,15 @@
  * DevEventAndroid © 2021 용감한 친구들. all rights reserved.
  * DevEventAndroid license is under the MIT.
  *
+ * [MainActivity.kt] created by Ji Sungbin on 21. 6. 24. 오전 12:11.
+ *
+ * Please see: https://github.com/brave-people/Dev-Event-Android/blob/master/LICENSE.
+ */
+
+/*
+ * DevEventAndroid © 2021 용감한 친구들. all rights reserved.
+ * DevEventAndroid license is under the MIT.
+ *
  * [MainActivity.kt] created by Ji Sungbin on 21. 6. 22. 오후 3:41.
  *
  * Please see: https://github.com/brave-people/Dev-Event-Android/blob/master/LICENSE.
@@ -13,6 +22,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.Crossfade
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -51,13 +61,23 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlin.random.Random
 import team.bravepeople.devevent.R
+import team.bravepeople.devevent.activity.main.event.Event
+import team.bravepeople.devevent.activity.main.event.EventFilter
+import team.bravepeople.devevent.activity.main.event.EventViewModel
+import team.bravepeople.devevent.activity.main.info.Info
 import team.bravepeople.devevent.theme.MaterialTheme
 import team.bravepeople.devevent.theme.SystemUiController
 import team.bravepeople.devevent.theme.colors
-import team.bravepeople.devevent.ui.event.EventViewModel
-import team.bravepeople.devevent.ui.event.LazyEvent
-import team.bravepeople.devevent.ui.searcher.LazySearcher
+import team.bravepeople.devevent.theme.defaultFontFamily
+import team.bravepeople.devevent.ui.fancybottombar.FancyBottomBar
+import team.bravepeople.devevent.ui.fancybottombar.FancyColors
+import team.bravepeople.devevent.ui.fancybottombar.FancyItem
+import team.bravepeople.devevent.ui.fancybottombar.FancyOptions
 import team.bravepeople.devevent.ui.searcher.SearcherViewModel
+
+private enum class Tab {
+    Event, Favorite, Info
+}
 
 class MainActivity : ComponentActivity() {
 
@@ -66,6 +86,12 @@ class MainActivity : ComponentActivity() {
 
     private var searching by mutableStateOf(false)
     private var searchField by mutableStateOf(TextFieldValue())
+
+    private val bottomItems = listOf(
+        FancyItem(icon = R.drawable.ic_round_event_note_24, id = 0),
+        FancyItem(icon = R.drawable.ic_round_favorite_24, id = 1),
+        FancyItem(icon = R.drawable.ic_round_info_24, id = 2)
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -155,15 +181,32 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     fun Main() {
-        var search by remember { mutableStateOf("") }
-        val events =
-            eventVm.eventEntity.filter { if (search.isNotBlank()) it.name.contains(search) else true }
+        var tab by remember { mutableStateOf(Tab.Event) }
 
-        Column(modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)) {
-            LazySearcher {
-                search = value.text
+        Box(modifier = Modifier.fillMaxSize()) {
+            Column(modifier = Modifier.padding(top = 16.dp, bottom = (16 + 60).dp)) {
+                Crossfade(tab) { target ->
+                    when (target) {
+                        Tab.Event -> Event(EventFilter.None)
+                        Tab.Favorite -> Event(EventFilter.Favorite)
+                        Tab.Info -> Info()
+                    }
+                }
             }
-            LazyEvent(modifier = Modifier.padding(top = 8.dp), eventEntities = events)
+            Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Bottom) {
+                FancyBottomBar(
+                    items = bottomItems,
+                    fancyColors = FancyColors(primary = colors.primary),
+                    fancyOptions = FancyOptions(fontFamily = defaultFontFamily)
+                ) {
+                    tab = when (id) {
+                        0 -> Tab.Event
+                        1 -> Tab.Favorite
+                        2 -> Tab.Info
+                        else -> throw Error("Unknown FancyItem type.")
+                    }
+                }
+            }
         }
     }
 
