@@ -21,7 +21,7 @@ abstract class EventDatabase : RoomDatabase() {
     companion object {
         @Suppress("ObjectPropertyName")
         private var _instance: EventDatabase? = null
-        val instance: EventDatabase get() = _instance!!
+        val instance by lazy { _instance!! }
 
         fun init(context: Context) {
             synchronized(EventDatabase::class) {
