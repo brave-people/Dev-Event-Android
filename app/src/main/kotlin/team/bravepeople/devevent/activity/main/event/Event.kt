@@ -23,10 +23,14 @@ import team.bravepeople.devevent.ui.searcher.LazySearcher
 private val eventVm = EventViewModel.instance
 
 @Composable
-fun Event(filter: EventFilter) { // todo
+fun Event(eventFilter: EventFilter) { // todo
     var search by remember { mutableStateOf("") }
-    val events =
-        eventVm.eventEntity.filter { if (search.isNotBlank()) it.name.contains(search) else true }
+    val events = eventVm.eventEntity.filter {
+        when (eventFilter) {
+            EventFilter.None -> if (search.isNotBlank()) it.name.contains(search) else true
+            EventFilter.Favorite -> it.favorite
+        }
+    }
 
     Column() {
         LazySearcher {

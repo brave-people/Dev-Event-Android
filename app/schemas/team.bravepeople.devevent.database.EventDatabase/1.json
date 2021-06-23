@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "a51ae53deb7bada509e21395b279c2be",
+    "identityHash": "f52624c508a500135d2be9ef06181c1a",
     "entities": [
       {
         "tableName": "EventEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `like` INTEGER NOT NULL, `site` TEXT, `name` TEXT NOT NULL, `category` TEXT, `joinDate` TEXT, `startDate` TEXT, `owner` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `favorite` INTEGER NOT NULL, `site` TEXT, `name` TEXT NOT NULL, `category` TEXT, `joinDate` TEXT, `startDate` TEXT, `owner` TEXT)",
         "fields": [
           {
             "fieldPath": "id",
@@ -15,8 +15,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "like",
-            "columnName": "like",
+            "fieldPath": "favorite",
+            "columnName": "favorite",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -70,7 +70,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'a51ae53deb7bada509e21395b279c2be')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f52624c508a500135d2be9ef06181c1a')"
     ]
   }
 }
