@@ -30,17 +30,17 @@ object Versions {
     }
 
     object Ui {
-        const val LottieCompose = "1.0.0-alpha07-SNAPSHOT"
+        // const val LottieCompose = "1.0.0-alpha07-SNAPSHOT"
         const val Glide = "4.12.0"
         const val Browser = "1.3.0"
     }
 
     object Util {
         const val CrashReporter = "1.1.0"
-        const val Gson = "2.8.7"
-        const val SerializationJson = "1.2.1"
+        // const val Gson = "2.8.7"
+        // const val SerializationJson = "1.2.1"
         const val CheckDependencyUpdates = "1.3.4"
-        const val SerializationConverter = "0.8.0"
+        // const val SerializationConverter = "0.8.0"
     }
 
     object Network {
@@ -88,15 +88,15 @@ object Dependencies {
     val ui = listOf(
         "androidx.browser:browser:${Versions.Ui.Browser}",
         "com.github.bumptech.glide:glide:${Versions.Ui.Glide}",
-        "com.airbnb.android:lottie-compose:${Versions.Ui.LottieCompose}"
+        // "com.airbnb.android:lottie-compose:${Versions.Ui.LottieCompose}"
     )
 
     val util = listOf(
         "com.balsikandar.android:crashreporter:${Versions.Util.CrashReporter}",
-        "org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.Util.SerializationJson}",
+        // "org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.Util.SerializationJson}",
         "com.squareup.retrofit2:converter-gson:${Versions.Network.Retrofit}",
-        "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:${Versions.Util.SerializationConverter}",
-        "com.google.code.gson:gson:${Versions.Util.Gson}"
+        // "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:${Versions.Util.SerializationConverter}",
+        // "com.google.code.gson:gson:${Versions.Util.Gson}"
     )
 
     val room = listOf(
@@ -114,7 +114,6 @@ object Dependencies {
         "androidx.compose.compiler:compiler:${Versions.Compose.Master}",
         "androidx.compose.runtime:runtime-livedata:${Versions.Compose.Master}",
         "androidx.compose.material:material:${Versions.Compose.Master}",
-        "androidx.compose.material:material-icons-extended:${Versions.Compose.Master}",
         "androidx.compose.ui:ui-tooling:${Versions.Compose.Master}",
         "androidx.compose.ui:ui:${Versions.Compose.Master}"
     )

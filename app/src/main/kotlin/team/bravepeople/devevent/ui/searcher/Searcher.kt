@@ -21,8 +21,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Icon
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Cancel
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
@@ -36,10 +34,12 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import team.bravepeople.devevent.R
 import team.bravepeople.devevent.theme.colors
 
 private val vm = SearcherViewModel.instance
@@ -60,7 +60,7 @@ fun Searcher(id: Int, onSearcherChanged: State<TextFieldValue>.() -> Unit) {
         value = field.value,
         trailingIcon = {
             Icon(
-                imageVector = Icons.Rounded.Cancel,
+                painter = painterResource(R.drawable.ic_round_cancel_24),
                 contentDescription = null,
                 modifier = Modifier.clickable {
                     vm.removeSearcher(id)
