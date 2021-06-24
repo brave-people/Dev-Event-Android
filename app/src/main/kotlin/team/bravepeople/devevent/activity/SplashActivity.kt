@@ -52,9 +52,9 @@ class SplashActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         CoroutineScope(Dispatchers.IO).launch {
-            client.getEvents().await().use {
+            client.getEvents().await().use { response ->
                 runCatching {
-                    eventVm.parseAndSave(it.string())
+                    eventVm.parseAndSave(response.string())
                 }
             }
             delay(1000)
