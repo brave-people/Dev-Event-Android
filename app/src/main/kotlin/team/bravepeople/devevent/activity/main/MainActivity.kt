@@ -63,9 +63,9 @@ import androidx.compose.ui.unit.sp
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.random.Random
 import team.bravepeople.devevent.R
-import team.bravepeople.devevent.activity.main.event.Event
 import team.bravepeople.devevent.activity.main.event.EventFilter
 import team.bravepeople.devevent.activity.main.event.EventViewModel
+import team.bravepeople.devevent.activity.main.event.LazyEvent
 import team.bravepeople.devevent.activity.main.info.Info
 import team.bravepeople.devevent.repo.RepositoryViewModel
 import team.bravepeople.devevent.theme.MaterialTheme
@@ -189,11 +189,18 @@ class MainActivity : ComponentActivity() {
         var tab by remember { mutableStateOf(Tab.Event) }
 
         Box(modifier = Modifier.fillMaxSize()) {
-            Column(modifier = Modifier.padding(top = 16.dp, bottom = (16 + 60).dp)) {
+            Column(
+                modifier = Modifier.padding(
+                    start = 16.dp,
+                    end = 16.dp,
+                    top = 16.dp,
+                    bottom = 60.dp
+                )
+            ) {
                 Crossfade(tab) { target ->
                     when (target) {
-                        Tab.Event -> Event(EventFilter.None)
-                        Tab.Favorite -> Event(EventFilter.Favorite)
+                        Tab.Event -> LazyEvent(EventFilter.None)
+                        Tab.Favorite -> LazyEvent(EventFilter.Favorite)
                         Tab.Info -> Info()
                     }
                 }

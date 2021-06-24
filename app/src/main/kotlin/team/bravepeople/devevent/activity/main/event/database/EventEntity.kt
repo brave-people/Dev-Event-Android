@@ -23,4 +23,8 @@ data class EventEntity(
     val joinDate: String? = "", // 신청 날짜
     val startDate: String? = "", // 시작 날짜
     val owner: String? = "" // 주최
-)
+) {
+    fun contains(value: String) =
+        name.contains(value) || category?.contains(value) == true
+                || owner?.contains(value) == true || site?.contains(value) == true
+}
