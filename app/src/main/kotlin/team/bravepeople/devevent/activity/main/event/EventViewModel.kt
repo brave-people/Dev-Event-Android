@@ -30,6 +30,10 @@ class EventViewModel private constructor() {
 
     }
 
+    fun parseAndSave(value: String) {
+
+    }
+
     companion object {
         val instance by lazy { EventViewModel() }
     }

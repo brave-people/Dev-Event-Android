@@ -35,11 +35,11 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import retrofit2.await
 import team.bravepeople.devevent.R
+import team.bravepeople.devevent.activity.main.event.EventViewModel
 import team.bravepeople.devevent.repo.GithubService
 import team.bravepeople.devevent.theme.MaterialTheme
 import team.bravepeople.devevent.theme.SystemUiController
 import team.bravepeople.devevent.theme.colors
-import team.bravepeople.devevent.activity.main.event.EventViewModel
 
 @AndroidEntryPoint
 class SplashActivity : ComponentActivity() {
@@ -52,7 +52,11 @@ class SplashActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         CoroutineScope(Dispatchers.IO).launch {
-            println(client.getReadMe().await().use { it.string() })
+            client.getEvents().await().use {
+                runCatching {
+                    eventVm.parseAndSave(it.string())
+                }
+            }
             delay(1000)
             finish()
             startActivity(Intent(this@SplashActivity, MainActivity::class.java))

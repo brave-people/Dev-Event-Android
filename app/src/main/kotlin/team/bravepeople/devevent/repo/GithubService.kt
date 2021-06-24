@@ -15,5 +15,5 @@ import retrofit2.http.GET
 
 interface GithubService {
     @GET("/brave-people/Dev-Event/master/README.md")
-    fun getReadMe(): Call<ResponseBody>
+    fun getEvents(): Call<ResponseBody>
 }
