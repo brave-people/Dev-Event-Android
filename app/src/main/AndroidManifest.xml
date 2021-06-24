@@ -24,7 +24,7 @@
         android:theme="@style/Theme.DevEvent">
 
         <activity
-            android:name=".activity.SplashActivity"
+            android:name=".activity.splash.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

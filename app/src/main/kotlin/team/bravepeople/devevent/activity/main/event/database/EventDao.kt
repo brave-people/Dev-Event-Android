@@ -24,5 +24,5 @@ interface EventDao {
     suspend fun updateAll(event: List<EventEntity>)
 
     @Query("SELECT * FROM EventEntity")
-    suspend fun getEvents(): List<EventEntity>? // 없을때 null
+    suspend fun getEvents(): List<EventEntity>
 }

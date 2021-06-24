@@ -21,6 +21,7 @@ package team.bravepeople.devevent.activity
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -59,12 +60,14 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import dagger.hilt.android.AndroidEntryPoint
 import kotlin.random.Random
 import team.bravepeople.devevent.R
 import team.bravepeople.devevent.activity.main.event.Event
 import team.bravepeople.devevent.activity.main.event.EventFilter
 import team.bravepeople.devevent.activity.main.event.EventViewModel
 import team.bravepeople.devevent.activity.main.info.Info
+import team.bravepeople.devevent.repo.RepositoryViewModel
 import team.bravepeople.devevent.theme.MaterialTheme
 import team.bravepeople.devevent.theme.SystemUiController
 import team.bravepeople.devevent.theme.colors
@@ -79,8 +82,10 @@ private enum class Tab {
     Event, Favorite, Info
 }
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
+    private val repositoryVm: RepositoryViewModel by viewModels()
     private val eventVm = EventViewModel.instance
     private val searcherVm = SearcherViewModel.instance
 
@@ -212,6 +217,6 @@ class MainActivity : ComponentActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        eventVm.save()
+        repositoryVm.save()
     }
 }

@@ -33,9 +33,7 @@ fun Event(eventFilter: EventFilter) { // todo
     }
 
     Column() {
-        LazySearcher {
-            search = value.text
-        }
+        LazySearcher { search = value.text }
         LazyEvent(modifier = Modifier.padding(top = 8.dp), eventEntities = events)
     }
 }

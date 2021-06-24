@@ -2,17 +2,27 @@
  * DevEventAndroid © 2021 용감한 친구들. all rights reserved.
  * DevEventAndroid license is under the MIT.
  *
+ * [SplashActivity.kt] created by Ji Sungbin on 21. 6. 24. 오후 11:48.
+ *
+ * Please see: https://github.com/brave-people/Dev-Event-Android/blob/master/LICENSE.
+ */
+
+/*
+ * DevEventAndroid © 2021 용감한 친구들. all rights reserved.
+ * DevEventAndroid license is under the MIT.
+ *
  * [SplashActivity.kt] created by Ji Sungbin on 21. 6. 21. 오전 12:41.
  *
  * Please see: https://github.com/brave-people/Dev-Event-Android/blob/master/LICENSE.
  */
 
-package team.bravepeople.devevent.activity
+package team.bravepeople.devevent.activity.splash
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -28,15 +38,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import retrofit2.await
 import team.bravepeople.devevent.R
-import team.bravepeople.devevent.activity.main.event.EventViewModel
-import team.bravepeople.devevent.repo.GithubService
+import team.bravepeople.devevent.activity.MainActivity
+import team.bravepeople.devevent.repo.RepositoryViewModel
 import team.bravepeople.devevent.theme.MaterialTheme
 import team.bravepeople.devevent.theme.SystemUiController
 import team.bravepeople.devevent.theme.colors
@@ -44,22 +52,18 @@ import team.bravepeople.devevent.theme.colors
 @AndroidEntryPoint
 class SplashActivity : ComponentActivity() {
 
-    @Inject
-    lateinit var client: GithubService
-    private val eventVm = EventViewModel.instance
+    private val repositoryVm: RepositoryViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        CoroutineScope(Dispatchers.IO).launch {
-            client.getEvents().await().use { response ->
-                runCatching {
-                    eventVm.parseAndSave(response.string())
-                }
-            }
-            delay(1000)
-            finish()
-            startActivity(Intent(this@SplashActivity, MainActivity::class.java))
+        CoroutineScope(Dispatchers.Main).launch {
+            repositoryVm.loadEvents(endAction = {
+                delay(1000)
+                finish()
+                startActivity(Intent(this@SplashActivity, MainActivity::class.java))
+                println("End `eventVm.loadEvents()`")
+            })
         }
 
         SystemUiController(window).setSystemBarsColor(colors.primary)
