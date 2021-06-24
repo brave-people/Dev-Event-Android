@@ -25,7 +25,7 @@ private val eventVm = EventViewModel.instance
 @Composable
 fun Event(eventFilter: EventFilter) { // todo
     var search by remember { mutableStateOf("") }
-    val events = eventVm.eventEntity.filter {
+    val events = eventVm.eventEntities.filter {
         when (eventFilter) {
             EventFilter.None -> if (search.isNotBlank()) it.name.contains(search) else true
             EventFilter.Favorite -> it.favorite

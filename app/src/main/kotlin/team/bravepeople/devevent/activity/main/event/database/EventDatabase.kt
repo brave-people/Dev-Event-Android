@@ -7,7 +7,7 @@
  * Please see: https://github.com/brave-people/Dev-Event-Android/blob/master/LICENSE.
  */
 
-package team.bravepeople.devevent.database
+package team.bravepeople.devevent.activity.main.event.database
 
 import android.content.Context
 import androidx.room.Database

@@ -7,18 +7,22 @@
  * Please see: https://github.com/brave-people/Dev-Event-Android/blob/master/LICENSE.
  */
 
-package team.bravepeople.devevent.database
+package team.bravepeople.devevent.activity.main.event.database
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
+import androidx.room.Query
 import androidx.room.Update
 
 @Dao
 interface EventDao {
     @Insert
-    suspend fun insert(event: EventEntity)
+    suspend fun insertAll(event: List<EventEntity>)
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun update(event: EventEntity)
+    suspend fun updateAll(event: List<EventEntity>)
+
+    @Query("SELECT * FROM EventEntity")
+    suspend fun getEvents(): List<EventEntity>? // 없을때 null
 }

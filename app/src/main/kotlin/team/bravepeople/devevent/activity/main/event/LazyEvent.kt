@@ -11,7 +11,7 @@ package team.bravepeople.devevent.activity.main.event
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import team.bravepeople.devevent.database.EventEntity
+import team.bravepeople.devevent.activity.main.event.database.EventEntity
 
 
 @Composable

@@ -13,8 +13,9 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.lifecycle.ViewModel
 
-class SearcherViewModel private constructor() {
+class SearcherViewModel private constructor(): ViewModel() {
 
     private val textFields: HashMap<Int, MutableState<TextFieldValue>> = hashMapOf()
     private val _searchers = SnapshotStateList<Int>()

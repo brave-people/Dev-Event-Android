@@ -11,7 +11,7 @@ package team.bravepeople.devevent
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
-import team.bravepeople.devevent.database.EventDatabase
+import team.bravepeople.devevent.activity.main.event.database.EventDatabase
 
 @HiltAndroidApp
 class DevEventAndroid : Application() {

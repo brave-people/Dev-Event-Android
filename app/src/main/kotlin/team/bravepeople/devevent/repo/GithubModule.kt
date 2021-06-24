@@ -40,7 +40,7 @@ object GithubModule {
     @Singleton
     fun provideRetrofit() = Retrofit.Builder()
         .baseUrl(BaseUrl)
-        .client(getInterceptor(httpLoggingInterceptor))
+        // .client(getInterceptor(httpLoggingInterceptor))
         .build()
         .create(GithubService::class.java)
 }
