@@ -45,6 +45,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -55,7 +56,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlin.random.Random
 import team.bravepeople.devevent.R
 import team.bravepeople.devevent.activity.main.event.EventFilter
-import team.bravepeople.devevent.activity.main.event.EventViewModel
 import team.bravepeople.devevent.activity.main.event.LazyEvent
 import team.bravepeople.devevent.activity.main.info.Info
 import team.bravepeople.devevent.repo.RepositoryViewModel
@@ -68,6 +68,7 @@ import team.bravepeople.devevent.ui.fancybottombar.FancyColors
 import team.bravepeople.devevent.ui.fancybottombar.FancyItem
 import team.bravepeople.devevent.ui.fancybottombar.FancyOptions
 import team.bravepeople.devevent.ui.searcher.SearcherViewModel
+import team.bravepeople.devevent.util.extension.toast
 
 private enum class Tab {
     Event, Favorite, Info
@@ -77,7 +78,6 @@ private enum class Tab {
 class MainActivity : ComponentActivity() {
 
     private val repositoryVm: RepositoryViewModel by viewModels()
-    private val eventVm = EventViewModel.instance
     private val searcherVm = SearcherViewModel.instance
 
     private var searching by mutableStateOf(false)
@@ -103,14 +103,21 @@ class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalAnimationApi::class)
     @Composable
     fun TopBar() {
+        val context = LocalContext.current
+
         TopAppBar {
             AnimatedVisibility(searching, exit = fadeOut()) {
                 TextField(
                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
                     keyboardActions = KeyboardActions(onSearch = {
-                        searcherVm.addSearcher(Random.nextInt(), searchField.text)
-                        searchField = TextFieldValue()
-                        searching = false
+                        val search = searchField.text
+                        if (search.isNotBlank()) {
+                            searcherVm.addSearcher(Random.nextInt(), search)
+                            searchField = TextFieldValue()
+                            searching = false
+                        } else {
+                            toast(context, "검색어를 입력해 주세요.")
+                        }
                     }),
                     modifier = Modifier.fillMaxSize(),
                     singleLine = true,
@@ -180,14 +187,7 @@ class MainActivity : ComponentActivity() {
         var tab by remember { mutableStateOf(Tab.Event) }
 
         Box(modifier = Modifier.fillMaxSize()) {
-            Column(
-                modifier = Modifier.padding(
-                    start = 16.dp,
-                    end = 16.dp,
-                    top = 16.dp,
-                    bottom = 60.dp
-                )
-            ) {
+            Column(modifier = Modifier.padding(bottom = 60.dp)) {
                 Crossfade(tab) { target ->
                     when (target) {
                         Tab.Event -> LazyEvent(EventFilter.None)

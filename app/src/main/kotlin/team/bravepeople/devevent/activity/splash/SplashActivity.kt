@@ -53,7 +53,6 @@ class SplashActivity : ComponentActivity() {
                 delay(1000)
                 finish()
                 startActivity(Intent(this@SplashActivity, MainActivity::class.java))
-                println("End `eventVm.loadEvents()`")
             })
         }
 

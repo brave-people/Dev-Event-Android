@@ -10,8 +10,6 @@
 package team.bravepeople.devevent.ui.searcher
 
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
@@ -23,11 +21,9 @@ import androidx.compose.ui.unit.dp
 private val vm = SearcherViewModel.instance
 
 @Composable
-fun LazySearcher(onSearcherChanged: State<TextFieldValue>.() -> Unit) {
+fun LazySearcher(modifier: Modifier, onSearcherChanged: State<TextFieldValue>.() -> Unit) {
     LazyRow(
-        modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentHeight(),
+        modifier = modifier,
         contentPadding = PaddingValues(start = 8.dp, end = 8.dp)
     ) {
         items(vm.searchers) { id -> // todo: Item add/remove animation

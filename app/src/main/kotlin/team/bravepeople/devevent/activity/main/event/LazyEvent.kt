@@ -20,8 +20,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
@@ -37,6 +39,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.zIndex
 import team.bravepeople.devevent.R
 import team.bravepeople.devevent.activity.main.event.database.EventEntity
 import team.bravepeople.devevent.theme.colors
@@ -105,6 +108,9 @@ fun Event(eventEntity: EventEntity) {
 
 @Composable
 fun LazyEvent(eventFilter: EventFilter) {
+    val listState = rememberLazyListState()
+    var preListFirstShowIndex = listState.firstVisibleItemIndex
+
     var search by remember { mutableStateOf("") }
     val eventEntities = eventVm.eventEntities.filter {
         when (eventFilter) {
@@ -114,13 +120,24 @@ fun LazyEvent(eventFilter: EventFilter) {
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
-        LazySearcher { search = value.text }
-        LazyColumn(
-            modifier = Modifier.padding(top = 8.dp),
-            contentPadding = PaddingValues(bottom = 8.dp)
-        ) {
-            items(eventEntities) { event ->
-                Event(event)
+        Box {
+            LazySearcher(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+                    .zIndex(9999f)
+                    .padding(top = 16.dp)
+            ) { search = value.text }
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(start = 16.dp, end = 16.dp),
+                contentPadding = PaddingValues(top = 8.dp, bottom = 8.dp),
+                state = listState
+            ) {
+                items(eventEntities) { event ->
+                    Event(event)
+                }
             }
         }
     }

@@ -10,6 +10,7 @@
 package team.bravepeople.devevent.ui.searcher
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
@@ -75,7 +76,7 @@ fun Searcher(id: Int, onSearcherChanged: State<TextFieldValue>.() -> Unit) {
             enable = false
         }),
         colors = TextFieldDefaults.textFieldColors(
-            backgroundColor = Color.Transparent,
+            backgroundColor = Color.White,
             cursorColor = Color.Black,
             textColor = Color.Black,
             focusedIndicatorColor = Color.Transparent,
@@ -89,6 +90,7 @@ fun Searcher(id: Int, onSearcherChanged: State<TextFieldValue>.() -> Unit) {
                 Dp.Infinity
             ) // todo: This is the best way; **Why do not working `wrapContentWidth()`?**
             .border(1.dp, colors.primary, shape)
+            .background(Color.White, shape)
             .combinedClickable(
                 onClick = { onSearcherChanged(field) },
                 onLongClick = { enable = true }
