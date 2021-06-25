@@ -33,7 +33,7 @@ class RepositoryViewModel @Inject constructor(
 
     fun loadEvents(endAction: suspend () -> Unit) = viewModelScope.launch(Dispatchers.IO) {
         eventVm.addEvents(databaseDao.getEvents())
-        println("DB: " + databaseDao.getEvents()) // todo: never save; fix database save issue
+        println("DB: " + databaseDao.getEvents()) // todo: **random** save; fix database save issue
         if (eventEntities.isEmpty()) {
             client.getEvents().await().use { response ->
                 runCatching {
@@ -41,8 +41,9 @@ class RepositoryViewModel @Inject constructor(
                 }
             }
             endAction()
+        } else {
+            endAction()
         }
-
     }
 
     fun save() = viewModelScope.launch(Dispatchers.IO) {

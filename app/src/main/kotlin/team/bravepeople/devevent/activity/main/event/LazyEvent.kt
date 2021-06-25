@@ -9,6 +9,8 @@
 
 package team.bravepeople.devevent.activity.main.event
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -46,6 +48,7 @@ import team.bravepeople.devevent.theme.colors
 import team.bravepeople.devevent.ui.searcher.LazySearcher
 
 private val eventVm = EventViewModel.instance
+private var preListFirstVisibleIndex = 0
 
 @Composable
 fun Event(eventEntity: EventEntity) {
@@ -106,10 +109,11 @@ fun Event(eventEntity: EventEntity) {
     }
 }
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun LazyEvent(eventFilter: EventFilter) {
     val listState = rememberLazyListState()
-    var preListFirstShowIndex = listState.firstVisibleItemIndex
+    var searcherVisible by remember { mutableStateOf(false) }
 
     var search by remember { mutableStateOf("") }
     val eventEntities = eventVm.eventEntities.filter {
@@ -119,25 +123,27 @@ fun LazyEvent(eventFilter: EventFilter) {
         }
     }
 
-    Column(modifier = Modifier.fillMaxSize()) {
-        Box {
+    searcherVisible = preListFirstVisibleIndex < listState.firstVisibleItemIndex
+    preListFirstVisibleIndex = listState.firstVisibleItemIndex
+
+    Box(modifier = Modifier.fillMaxSize()) {
+        AnimatedVisibility(visible = searcherVisible, modifier = Modifier.zIndex(9999f)) {
             LazySearcher(
                 modifier = Modifier
                     .fillMaxWidth()
                     .wrapContentHeight()
-                    .zIndex(9999f)
                     .padding(top = 16.dp)
             ) { search = value.text }
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(start = 16.dp, end = 16.dp),
-                contentPadding = PaddingValues(top = 8.dp, bottom = 8.dp),
-                state = listState
-            ) {
-                items(eventEntities) { event ->
-                    Event(event)
-                }
+        }
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(start = 16.dp, end = 16.dp),
+            contentPadding = PaddingValues(top = 8.dp, bottom = 8.dp),
+            state = listState
+        ) {
+            items(eventEntities) { event ->
+                Event(event)
             }
         }
     }

@@ -40,6 +40,7 @@ object GithubModule {
     @ViewModelScoped
     fun provideRetrofit() = Retrofit.Builder()
         .baseUrl(BaseUrl)
+        .client(getInterceptor(httpLoggingInterceptor))
         .build()
         .create(GithubService::class.java)
 }
