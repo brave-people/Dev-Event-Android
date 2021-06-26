@@ -93,7 +93,7 @@ class SplashActivity : ComponentActivity() {
                         Text(
                             text = stringResource(R.string.copyright),
                             color = Color.White,
-                            fontSize = 13.sp
+                            fontSize = 10.sp
                         )
                     }
                 }

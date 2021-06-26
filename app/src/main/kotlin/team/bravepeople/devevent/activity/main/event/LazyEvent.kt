@@ -47,6 +47,7 @@ import com.airbnb.lottie.compose.LottieAnimationSpec
 import com.airbnb.lottie.compose.rememberLottieAnimationState
 import team.bravepeople.devevent.R
 import team.bravepeople.devevent.activity.main.event.database.EventEntity
+import team.bravepeople.devevent.theme.ColorOrange
 import team.bravepeople.devevent.theme.colors
 import team.bravepeople.devevent.ui.searcher.LazySearcher
 
@@ -120,7 +121,7 @@ private fun Event(eventEntity: EventEntity) {
             Icon(
                 painter = painterResource(if (favorite) R.drawable.ic_round_favorite_24 else R.drawable.ic_round_favorite_border_24),
                 contentDescription = null,
-                tint = Color(0xFFF9A825),
+                tint = ColorOrange,
                 modifier = Modifier
                     .size(30.dp)
                     .clickable {

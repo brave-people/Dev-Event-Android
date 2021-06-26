@@ -18,9 +18,9 @@ import androidx.compose.ui.text.font.FontFamily
 import team.bravepeople.devevent.R
 
 val defaultFontFamily = FontFamily(Font(R.font.nanumbarungothic))
-
 val typography = Typography(defaultFontFamily = defaultFontFamily)
 
+val ColorOrange = Color(0xFFF9A825)
 val colors = lightColors().copy(
     primary = Color(0xFF1e88e5),
     primaryVariant = Color(0xFF005cb2),

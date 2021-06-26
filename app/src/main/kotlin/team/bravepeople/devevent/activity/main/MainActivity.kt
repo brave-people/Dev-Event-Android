@@ -192,7 +192,7 @@ class MainActivity : ComponentActivity() {
                     when (target) {
                         Tab.Event -> LazyEvent(EventFilter.None)
                         Tab.Favorite -> LazyEvent(EventFilter.Favorite)
-                        Tab.Info -> Info()
+                        Tab.Info -> Info(this@MainActivity)
                     }
                 }
             }
