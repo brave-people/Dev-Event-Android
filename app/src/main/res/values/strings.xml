@@ -12,5 +12,5 @@
     <string name="copyright">© 2021 용감한 친구들. all rights reserved.</string>
 
     <string name="splash_toast_need_network_connect">최초 연결시 인터넷 연결이 필요합니다.</string>
-    <string name="event_empty_favorite">즐겨찾기한 이벤트가 없어요</string>
+    <string name="event_empty_favorite">즐겨찾기한 이벤트가 없어요 😢</string>
 </resources>

@@ -23,7 +23,7 @@ object Application {
 
 object Versions {
     object Essential {
-        const val Kotlin = "1.5.20"
+        const val Kotlin = "1.5.10" // todo: 1.5.20
         const val Gradle = "7.1.0-alpha02"
         const val CoreKtx = "1.5.0"
         const val Coroutines = "1.5.0"
@@ -59,7 +59,7 @@ object Versions {
     }
 
     object Compose {
-        const val Master = "1.0.0-beta08"
+        const val Master = "1.0.0-beta09"
         const val Activity = "1.3.0-beta01"
     }
 

@@ -68,7 +68,7 @@ private fun EmptyEvent() {
         LottieAnimation(
             spec = animationSpec,
             animationState = animationState,
-            modifier = Modifier.size(150.dp)
+            modifier = Modifier.size(250.dp)
         )
         Text(
             text = stringResource(R.string.event_empty_favorite),

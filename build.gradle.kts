@@ -35,10 +35,9 @@ allprojects {
     afterEvaluate {
         tasks.withType<KotlinCompile> {
             kotlinOptions.freeCompilerArgs += listOf(
-                "-P",
                 "-Xopt-in=kotlin.RequiresOptIn",
                 "-Xopt-in=kotlin.OptIn",
-                "plugin:androidx.compose.compiler.plugins.kotlin:suppressKotlinVersionCompatibilityCheck=true"
+                // "plugin:androidx.compose.compiler.plugins.kotlin:suppressKotlinVersionCompatibilityCheck=true"
             )
         }
     }
