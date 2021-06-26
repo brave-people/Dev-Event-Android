@@ -23,7 +23,6 @@ import androidx.compose.material.Icon
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -47,7 +46,7 @@ private val vm = SearcherViewModel.instance
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalFoundationApi::class)
 @Composable
-fun Searcher(id: Int, onSearcherChanged: State<TextFieldValue>.() -> Unit) {
+fun Searcher(id: Int, onSearcherChanged: TextFieldValue.() -> Unit) {
     val focusManager = LocalFocusManager.current
     var enable by remember { mutableStateOf(false) }
 
@@ -72,7 +71,8 @@ fun Searcher(id: Int, onSearcherChanged: State<TextFieldValue>.() -> Unit) {
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
         keyboardActions = KeyboardActions(onDone = {
             focusManager.clearFocus()
-            onSearcherChanged(field)
+            vm.updateFocusedSearcher(id)
+            onSearcherChanged(field.value)
             enable = false
         }),
         colors = TextFieldDefaults.textFieldColors(
@@ -89,16 +89,24 @@ fun Searcher(id: Int, onSearcherChanged: State<TextFieldValue>.() -> Unit) {
                 1.dp,
                 Dp.Infinity
             ) // todo: This is the best way; **Why do not working `wrapContentWidth()`?**
-            .border(1.dp, colors.primary, shape)
+            .border(
+                if (vm.nowFocusedSearcher.value == id) 2.dp else 1.dp,
+                if (vm.nowFocusedSearcher.value == id) colors.primaryVariant else colors.primary,
+                shape
+            )
             .background(Color.White, shape)
             .combinedClickable(
-                onClick = { onSearcherChanged(field) },
+                onClick = {
+                    vm.updateFocusedSearcher(id)
+                    onSearcherChanged(field.value)
+                },
                 onLongClick = { enable = true }
             )
             .focusRequester(FocusRequester())
             .onFocusChanged {
                 if (it.isFocused) {
-                    onSearcherChanged(field)
+                    vm.updateFocusedSearcher(id)
+                    onSearcherChanged(field.value)
                 }
             }
     )

@@ -22,7 +22,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -144,13 +143,21 @@ private fun Event(eventEntity: EventEntity) {
 @Composable
 fun LazyEvent(eventFilter: EventFilter) {
     val listState = rememberLazyListState()
-    var searcherVisible by remember { mutableStateOf(false) }
+    var searcherVisible by remember { mutableStateOf(true) }
+    var searching by remember { mutableStateOf(false) }
 
     var search by remember { mutableStateOf("") }
-    val eventEntities = eventVm.eventEntities.filter {
-        when (eventFilter) {
-            EventFilter.None -> if (search.isNotBlank()) it.contains(search) else true
-            EventFilter.Favorite -> it.favorite
+    var eventEntities = eventVm.eventEntities.filter {
+        if (eventFilter == EventFilter.Favorite) it.favorite
+        else true
+    }
+    eventEntities = eventEntities.filter {
+        if (search.isNotBlank()) {
+            searching = true
+            it.contains(search)
+        } else {
+            searching = false
+            true
         }
     }
 
@@ -161,13 +168,11 @@ fun LazyEvent(eventFilter: EventFilter) {
         preListFirstVisibleIndex = listState.firstVisibleItemIndex
 
         Box(modifier = Modifier.fillMaxSize()) {
-            AnimatedVisibility(visible = searcherVisible, modifier = Modifier.zIndex(9999f)) {
-                LazySearcher(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentHeight()
-                        .padding(top = 16.dp)
-                ) { search = value.text }
+            AnimatedVisibility(
+                visible = searcherVisible || searching,
+                modifier = Modifier.zIndex(9999f)
+            ) {
+                LazySearcher { search = text }
             }
             LazyColumn(
                 modifier = Modifier

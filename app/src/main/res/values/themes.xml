@@ -8,5 +8,6 @@
   -->
 
 <resources>
+
     <style name="Theme.DevEvent" parent="Theme.MaterialComponents.Light.DarkActionBar" />
 </resources>

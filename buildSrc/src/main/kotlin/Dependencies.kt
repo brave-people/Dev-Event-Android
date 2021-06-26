@@ -37,6 +37,7 @@ object Versions {
 
     object Util {
         const val CrashReporter = "1.1.0"
+
         // const val Gson = "2.8.7"
         // const val SerializationJson = "1.2.1"
         const val CheckDependencyUpdates = "1.4.0"
