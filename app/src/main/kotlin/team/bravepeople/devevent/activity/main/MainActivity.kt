@@ -40,7 +40,6 @@ import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -77,6 +76,7 @@ private enum class Tab {
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
+    private var tab by mutableStateOf(Tab.Event)
     private val repositoryVm: RepositoryViewModel by viewModels()
     private val searcherVm = SearcherViewModel.instance
 
@@ -106,14 +106,15 @@ class MainActivity : ComponentActivity() {
         val context = LocalContext.current
 
         TopAppBar {
-            AnimatedVisibility(searching, exit = fadeOut()) {
+            AnimatedVisibility(visible = searching, exit = fadeOut()) {
                 TextField(
                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
                     keyboardActions = KeyboardActions(onSearch = {
                         val search = searchField.text
                         if (search.isNotBlank()) {
                             searcherVm.addSearcher(Random.nextInt(), search)
-                            searchField = TextFieldValue(text = "") // todo: clear TextFieldValue not working
+                            searchField =
+                                TextFieldValue(text = "") // todo: clear TextFieldValue not working
                             searching = false
                         } else {
                             toast(context, "검색어를 입력해 주세요.")
@@ -144,7 +145,7 @@ class MainActivity : ComponentActivity() {
                     }
                 )
             }
-            AnimatedVisibility(!searching, enter = fadeIn()) {
+            AnimatedVisibility(visible = !searching, enter = fadeIn()) {
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
@@ -158,24 +159,26 @@ class MainActivity : ComponentActivity() {
                             color = Color.White
                         )
                     }
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.End
-                    ) {
-                        Icon(
-                            imageVector = Icons.Rounded.Settings,
-                            contentDescription = null,
-                            modifier = Modifier.padding(end = 8.dp),
-                            tint = Color.White
-                        )
-                        Icon(
-                            imageVector = Icons.Rounded.Search,
-                            contentDescription = null,
-                            tint = Color.White,
-                            modifier = Modifier.clickable {
-                                searching = true
-                            }
-                        )
+                    if (tab != Tab.Info) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.End
+                        ) {
+                            Icon(
+                                imageVector = Icons.Rounded.Settings,
+                                contentDescription = null,
+                                modifier = Modifier.padding(end = 8.dp),
+                                tint = Color.White
+                            )
+                            Icon(
+                                imageVector = Icons.Rounded.Search,
+                                contentDescription = null,
+                                tint = Color.White,
+                                modifier = Modifier.clickable {
+                                    searching = true
+                                }
+                            )
+                        }
                     }
                 }
             }
@@ -184,8 +187,6 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     fun Main() {
-        var tab by remember { mutableStateOf(Tab.Event) }
-
         Box(modifier = Modifier.fillMaxSize()) {
             Column(modifier = Modifier.padding(bottom = 60.dp)) {
                 Crossfade(tab) { target ->
