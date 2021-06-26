@@ -39,6 +39,7 @@ import team.bravepeople.devevent.repo.RepositoryViewModel
 import team.bravepeople.devevent.theme.MaterialTheme
 import team.bravepeople.devevent.theme.SystemUiController
 import team.bravepeople.devevent.theme.colors
+import team.bravepeople.devevent.util.extension.toast
 
 @AndroidEntryPoint
 class SplashActivity : ComponentActivity() {
@@ -49,11 +50,18 @@ class SplashActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         CoroutineScope(Dispatchers.Main).launch {
-            repositoryVm.loadEvents(endAction = {
-                delay(1000)
-                finish()
-                startActivity(Intent(this@SplashActivity, MainActivity::class.java))
-            })
+            repositoryVm.loadEvents(
+                context = applicationContext,
+                endAction = {
+                    delay(1000)
+                    finish()
+                    startActivity(Intent(this@SplashActivity, MainActivity::class.java))
+                },
+                networkNotAvailableAction = {
+                    finish()
+                    toast(applicationContext, getString(R.string.splash_toast_need_network_connect))
+                }
+            )
         }
 
         SystemUiController(window).setSystemBarsColor(colors.primary)

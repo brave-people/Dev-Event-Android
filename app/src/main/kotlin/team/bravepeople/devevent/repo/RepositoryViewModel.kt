@@ -9,6 +9,7 @@
 
 package team.bravepeople.devevent.repo
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,6 +20,7 @@ import retrofit2.await
 import team.bravepeople.devevent.activity.main.event.EventViewModel
 import team.bravepeople.devevent.activity.main.event.database.EventDatabase
 import team.bravepeople.devevent.activity.main.event.database.EventEntity
+import team.bravepeople.devevent.util.NetworkUtil
 import team.bravepeople.devevent.util.extension.parseOrNull
 
 @HiltViewModel
@@ -31,16 +33,21 @@ class RepositoryViewModel @Inject constructor(
     private val eventVm = EventViewModel.instance
     private val eventEntities: List<EventEntity> get() = eventVm.eventEntities
 
-    fun loadEvents(endAction: suspend () -> Unit) = viewModelScope.launch(Dispatchers.IO) {
+    fun loadEvents(
+        context: Context,
+        endAction: suspend () -> Unit,
+        networkNotAvailableAction: () -> Unit
+    ) = viewModelScope.launch(Dispatchers.IO) {
         eventVm.addEvents(databaseDao.getEvents())
-        println("DB: " + databaseDao.getEvents()) // todo: **random** save; fix database save issue
         if (eventEntities.isEmpty()) {
-            client.getEvents().await().use { response ->
-                runCatching {
-                    parseAndSave(response.string())
+            if (NetworkUtil.isNetworkAvailable(context)) {
+                client.getEvents().await().use { response ->
+                    runCatching { parseAndSave(response.string()) }
                 }
+                endAction()
+            } else {
+                networkNotAvailableAction()
             }
-            endAction()
         } else {
             endAction()
         }
