@@ -39,9 +39,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieAnimationSpec
+import com.airbnb.lottie.compose.rememberLottieAnimationState
 import team.bravepeople.devevent.R
 import team.bravepeople.devevent.activity.main.event.database.EventEntity
 import team.bravepeople.devevent.theme.colors
@@ -51,7 +55,30 @@ private val eventVm = EventViewModel.instance
 private var preListFirstVisibleIndex = 0
 
 @Composable
-fun Event(eventEntity: EventEntity) {
+private fun EmptyEvent() {
+    val animationSpec = remember { LottieAnimationSpec.RawRes(R.raw.empty) }
+    val animationState =
+        rememberLottieAnimationState(repeatCount = Integer.MAX_VALUE)
+
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        LottieAnimation(
+            spec = animationSpec,
+            animationState = animationState,
+            modifier = Modifier.size(150.dp)
+        )
+        Text(
+            text = stringResource(R.string.event_empty_favorite),
+            modifier = Modifier.padding(top = 16.dp)
+        )
+    }
+}
+
+@Composable
+private fun Event(eventEntity: EventEntity) {
     val shape = RoundedCornerShape(15.dp)
     var favorite by remember { mutableStateOf(eventEntity.favorite) }
 
@@ -127,27 +154,31 @@ fun LazyEvent(eventFilter: EventFilter) {
         }
     }
 
-    searcherVisible = preListFirstVisibleIndex < listState.firstVisibleItemIndex
-    preListFirstVisibleIndex = listState.firstVisibleItemIndex
+    if (eventFilter == EventFilter.Favorite && eventEntities.isEmpty()) {
+        EmptyEvent()
+    } else {
+        searcherVisible = preListFirstVisibleIndex < listState.firstVisibleItemIndex
+        preListFirstVisibleIndex = listState.firstVisibleItemIndex
 
-    Box(modifier = Modifier.fillMaxSize()) {
-        AnimatedVisibility(visible = searcherVisible, modifier = Modifier.zIndex(9999f)) {
-            LazySearcher(
+        Box(modifier = Modifier.fillMaxSize()) {
+            AnimatedVisibility(visible = searcherVisible, modifier = Modifier.zIndex(9999f)) {
+                LazySearcher(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight()
+                        .padding(top = 16.dp)
+                ) { search = value.text }
+            }
+            LazyColumn(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentHeight()
-                    .padding(top = 16.dp)
-            ) { search = value.text }
-        }
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(start = 16.dp, end = 16.dp),
-            contentPadding = PaddingValues(top = 8.dp, bottom = 8.dp),
-            state = listState
-        ) {
-            items(eventEntities) { event ->
-                Event(event)
+                    .fillMaxSize()
+                    .padding(start = 16.dp, end = 16.dp),
+                contentPadding = PaddingValues(top = 8.dp, bottom = 8.dp),
+                state = listState
+            ) {
+                items(eventEntities) { event ->
+                    Event(event)
+                }
             }
         }
     }

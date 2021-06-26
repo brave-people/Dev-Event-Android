@@ -23,14 +23,14 @@ object Application {
 
 object Versions {
     object Essential {
-        const val Kotlin = "1.5.10"
+        const val Kotlin = "1.5.20"
         const val Gradle = "7.1.0-alpha02"
         const val CoreKtx = "1.5.0"
         const val Coroutines = "1.5.0"
     }
 
     object Ui {
-        // const val LottieCompose = "1.0.0-alpha07-SNAPSHOT"
+        const val LottieCompose = "1.0.0-beta07-2-SNAPSHOT"
         const val Glide = "4.12.0"
         const val Browser = "1.3.0"
     }
@@ -39,7 +39,7 @@ object Versions {
         const val CrashReporter = "1.1.0"
         // const val Gson = "2.8.7"
         // const val SerializationJson = "1.2.1"
-        const val CheckDependencyUpdates = "1.3.4"
+        const val CheckDependencyUpdates = "1.4.0"
         // const val SerializationConverter = "0.8.0"
     }
 
@@ -88,7 +88,7 @@ object Dependencies {
     val ui = listOf(
         "androidx.browser:browser:${Versions.Ui.Browser}",
         "com.github.bumptech.glide:glide:${Versions.Ui.Glide}",
-        // "com.airbnb.android:lottie-compose:${Versions.Ui.LottieCompose}"
+        "com.airbnb.android:lottie-compose:${Versions.Ui.LottieCompose}"
     )
 
     val util = listOf(

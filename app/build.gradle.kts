@@ -31,6 +31,11 @@ android {
             arguments {
                 arg("room.schemaLocation", "$projectDir/schemas")
             }
+
+            javacOptions {
+                option("-Adagger.fastInit=ENABLED")
+                option("-Adagger.hilt.android.internal.disableAndroidSuperclassValidation=true")
+            }
         }
 
         vectorDrawables {

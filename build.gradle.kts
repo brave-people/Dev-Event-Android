@@ -31,15 +31,19 @@ allprojects {
         maven { setUrl("https://oss.jfrog.org/libs-snapshot") }
         maven { setUrl("https://oss.sonatype.org/content/repositories/snapshots") }
     }
+
+    afterEvaluate {
+        tasks.withType<KotlinCompile> {
+            kotlinOptions.freeCompilerArgs += listOf(
+                "-P",
+                "-Xopt-in=kotlin.RequiresOptIn",
+                "-Xopt-in=kotlin.OptIn",
+                "plugin:androidx.compose.compiler.plugins.kotlin:suppressKotlinVersionCompatibilityCheck=true"
+            )
+        }
+    }
 }
 
 tasks.register("clean", Delete::class) {
     delete(rootProject.buildDir)
-}
-
-tasks.withType<KotlinCompile>().all {
-    kotlinOptions.freeCompilerArgs += listOf(
-        "-Xopt-in=kotlin.RequiresOptIn",
-        "-Xopt-in=kotlin.OptIn"
-    )
 }
