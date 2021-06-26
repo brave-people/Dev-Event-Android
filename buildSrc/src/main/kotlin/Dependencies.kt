@@ -40,7 +40,7 @@ object Versions {
 
         // const val Gson = "2.8.7"
         // const val SerializationJson = "1.2.1"
-        const val CheckDependencyUpdates = "1.4.0"
+            const val CheckDependencyUpdates = "1.4.0"
         // const val SerializationConverter = "0.8.0"
     }
 

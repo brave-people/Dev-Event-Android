@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Icon
@@ -26,7 +25,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import team.bravepeople.devevent.R
 import team.bravepeople.devevent.util.Web
@@ -45,9 +43,7 @@ sealed class License(val name: String) {
 
 @Composable
 fun LicenserHeader(license: License) {
-    Column(modifier = Modifier
-        .padding(bottom = 4.dp)
-        .fillMaxWidth()) {
+    Column(modifier = Modifier.fillMaxWidth()) {
         Text(
             text = license.name,
             color = Color.Black,
@@ -82,7 +78,7 @@ fun LazyListScope.Licenser(projects: List<Project>) {
             LicenserHeader(license)
         }
 
-        items(projects) { project ->
+        items(projects.sortedByDescending { it.name }.asReversed()) { project ->
             LicenserItem(project)
         }
     }

@@ -187,35 +187,67 @@ fun Info(activity: Activity) {
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(top = 8.dp),
+                    .padding(top = 8.dp, bottom = 30.dp),
                 verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 Licenser(
                     listOf(
-                        Project("TEST", "https://sungbin.tistory.com/21", License.AGPL3),
-                        Project("TEST2", "https://sungbin.tistory.com/21", License.AGPL3),
-                        Project("TEST3", "https://sungbin.tistory.com/21", License.MIT),
-                        Project("TEST4", "https://sungbin.tistory.com/21", License.MIT),
-                        Project("TEST5", "https://sungbin.tistory.com/21", License.MIT),
-                        Project("TEST5", "https://sungbin.tistory.com/21", License.MIT),
-                        Project("TEST5", "https://sungbin.tistory.com/21", License.MIT),
-                        Project("TEST5", "https://sungbin.tistory.com/21", License.MIT),
-                        Project("TEST5", "https://sungbin.tistory.com/21", License.MIT),
-                        Project("TEST5", "https://sungbin.tistory.com/21", License.MIT),
-                        Project("TEST5", "https://sungbin.tistory.com/21", License.MIT),
-                        Project("TEST5", "https://sungbin.tistory.com/21", License.MIT),
-                        Project("TEST5", "https://sungbin.tistory.com/21", License.MIT),
-                        Project("TEST6", "https://sungbin.tistory.com/21", License.MIT),
-                        Project("TEST7", "https://sungbin.tistory.com/21", License.GPL3),
-                        Project("TEST7", "https://sungbin.tistory.com/21", License.GPL3),
-                        Project("TEST7", "https://sungbin.tistory.com/21", License.GPL3),
-                        Project("TEST7", "https://sungbin.tistory.com/21", License.GPL3),
-                        Project("TEST7", "https://sungbin.tistory.com/21", License.GPL3),
-                        Project("TEST7", "https://sungbin.tistory.com/21", License.GPL3),
-                        Project("TEST7", "https://sungbin.tistory.com/21", License.GPL3),
-                        Project("TEST7", "https://sungbin.tistory.com/21", License.GPL3),
-                        Project("TEST8", "https://sungbin.tistory.com/21", License.GPL3),
-                        Project("TEST9", "https://sungbin.tistory.com/21", License.BSD),
+                        Project("Kotlin", "https://github.com/JetBrains/kotlin", License.Apache2),
+                        Project("Gradle", "https://github.com/gradle/gradle", License.Apache2),
+                        Project(
+                            "Android Icons",
+                            "https://www.apache.org/licenses/LICENSE-2.0.txt",
+                            License.Apache2
+                        ),
+                        Project(
+                            "kotlinx.coroutines",
+                            "https://github.com/Kotlin/kotlinx.coroutines",
+                            License.Apache2
+                        ),
+                        Project(
+                            "CoreKtx",
+                            "https://android.googlesource.com/platform/frameworks/support/",
+                            License.Apache2
+                        ),
+                        Project(
+                            "lottie",
+                            "https://github.com/airbnb/lottie/blob/master/android-compose.md",
+                            License.MIT
+                        ),
+                        Project("glide", "https://github.com/bumptech/glide", License.BSD),
+                        Project(
+                            "Browser",
+                            "https://developer.android.com/jetpack/androidx/releases/browser",
+                            License.Apache2
+                        ),
+                        Project(
+                            "CrashReporter",
+                            "https://github.com/MindorksOpenSource/CrashReporter",
+                            License.Apache2
+                        ),
+                        Project("okhttp", "https://github.com/square/okhttp", License.Apache2),
+                        Project("retrofit", "https://github.com/square/retrofit", License.Apache2),
+                        Project(
+                            "Room",
+                            "https://developer.android.com/jetpack/androidx/releases/room",
+                            License.Apache2
+                        ),
+                        Project("Hilt", "https://dagger.dev/hilt/", License.Apache2),
+                        Project(
+                            "Jetpack Compose",
+                            "https://developer.android.com/jetpack/compose",
+                            License.Apache2
+                        ),
+                        Project(
+                            "leakcanary",
+                            "https://github.com/square/leakcanary",
+                            License.Apache2
+                        ),
+                        Project(
+                            "바른나눔고딕",
+                            "https://help.naver.com/support/contents/contents.help?serviceNo=1074&categoryNo=3497",
+                            License.CUSTOM("SIL")
+                        ),
                     )
                 )
             }
