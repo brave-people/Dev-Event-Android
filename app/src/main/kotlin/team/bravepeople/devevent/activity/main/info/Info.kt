@@ -126,7 +126,7 @@ fun Info(activity: Activity) {
             }
             Row(
                 modifier = Modifier
-                    .padding(top = 8.dp)
+                    .padding(top = 30.dp)
                     .wrapContentHeight()
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center
