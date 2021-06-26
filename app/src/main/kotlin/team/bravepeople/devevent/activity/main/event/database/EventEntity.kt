@@ -15,7 +15,7 @@ import androidx.room.PrimaryKey
 @Entity
 data class EventEntity(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
-    val favorite: Boolean = false,
+    var favorite: Boolean = false,
     val site: String? = "",
     val name: String = "",
     val category: String? = "",

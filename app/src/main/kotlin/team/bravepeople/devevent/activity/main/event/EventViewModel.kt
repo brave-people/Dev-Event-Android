@@ -16,7 +16,10 @@ class EventViewModel private constructor() : ViewModel() {
 
     private val _eventEntities: MutableList<EventEntity> = mutableListOf()
 
-    val eventEntities: List<EventEntity> get() = _eventEntities
+    val eventEntities: List<EventEntity>
+        get() = _eventEntities
+            .sortedByDescending { it.name }
+            .sortedByDescending { it.headerDate }.asReversed()
 
     fun updateEvent(eventEntity: EventEntity) {
         _eventEntities.removeIf { it.name == eventEntity.name }

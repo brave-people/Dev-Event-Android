@@ -72,8 +72,8 @@ class RepositoryViewModel @Inject constructor(
                             val name: String
 
                             if (contains("http")) {
-                                name = split("[")[1].split("]")[0]
-                                site = split("(")[1].split(")")[0]
+                                name = "__$this".split("__[")[1].split("](http")[0]
+                                site = "http" + split("(http")[1].split(")")[0]
                             } else {
                                 name = split("__")[0]
                             }

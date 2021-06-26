@@ -97,7 +97,11 @@ fun Event(eventEntity: EventEntity) {
                 tint = Color(0xFFF9A825),
                 modifier = Modifier
                     .size(30.dp)
-                    .clickable { favorite = !favorite }
+                    .clickable {
+                        favorite = !favorite
+                        eventEntity.favorite = favorite
+                        eventVm.updateEvent(eventEntity)
+                    }
             )
             Text(
                 text = eventEntity.headerDate,
