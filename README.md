@@ -1,4 +1,4 @@
-# Dev-Event-Android (alpha version)
+# Dev-Event-Android (beta version)
 🎉🎈 개발자 {웨비나, 컨퍼런스, 해커톤} 행사를 안드로이드 앱으로 알려드립니다. 
 
 <div align=center>
