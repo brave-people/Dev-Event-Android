@@ -62,6 +62,13 @@ android {
         }
     }
 
+    buildTypes {
+        release {
+            isDebuggable = false
+            isMinifyEnabled = true
+        }
+    }
+
     compileOptions {
         sourceCompatibility = Application.sourceCompat
         targetCompatibility = Application.targetCompat
