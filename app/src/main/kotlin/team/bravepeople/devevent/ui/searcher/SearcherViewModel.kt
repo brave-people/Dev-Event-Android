@@ -25,6 +25,11 @@ class SearcherViewModel private constructor() : ViewModel() {
     val searchers: List<Int> get() = _searchers
     val nowFocusedSearcher: State<Int> get() = _nowFocusedSearcher
 
+    fun clear() {
+        textFields.clear()
+        _searchers.clear()
+    }
+
     fun updateFocusedSearcher(id: Int) {
         _nowFocusedSearcher.value = id
     }

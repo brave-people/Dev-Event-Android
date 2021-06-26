@@ -164,6 +164,7 @@ fun LazyEvent(eventFilter: EventFilter) {
     if (eventFilter == EventFilter.Favorite && eventEntities.isEmpty()) {
         EmptyEvent()
     } else {
+        // todo: searcherVisible state - not working properly
         searcherVisible = preListFirstVisibleIndex < listState.firstVisibleItemIndex
         preListFirstVisibleIndex = listState.firstVisibleItemIndex
 

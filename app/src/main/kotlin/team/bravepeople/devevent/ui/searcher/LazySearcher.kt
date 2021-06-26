@@ -11,6 +11,7 @@ package team.bravepeople.devevent.ui.searcher
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -44,17 +45,23 @@ fun LazySearcher(onSearcherChanged: TextFieldValue.() -> Unit) {
             .wrapContentHeight()
             .padding(top = 16.dp, start = 16.dp)
     ) {
-        Icon(
-            painter = painterResource(R.drawable.ic_round_cancel_24),
-            contentDescription = null,
-            tint = Color.Gray,
-            modifier = Modifier
-                .zIndex(9999f)
-                .border(1.dp, colors.primary, shape)
-                .background(Color.White, shape)
-                .size(50.dp)
-                .padding(10.dp)
-        )
+        if (vm.searchers.isNotEmpty()) {
+            Icon(
+                painter = painterResource(R.drawable.ic_round_cancel_24),
+                contentDescription = null,
+                tint = Color.Gray,
+                modifier = Modifier
+                    .zIndex(9999f)
+                    .border(1.dp, colors.primary, shape)
+                    .background(Color.White, shape)
+                    .clickable {
+                        vm.clear()
+                        onSearcherChanged(TextFieldValue(text = ""))
+                    }
+                    .size(50.dp)
+                    .padding(10.dp)
+            )
+        }
         LazyRow(
             modifier = Modifier
                 .padding(start = 25.dp)

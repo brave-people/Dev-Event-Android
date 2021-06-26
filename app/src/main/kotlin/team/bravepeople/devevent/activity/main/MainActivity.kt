@@ -113,7 +113,7 @@ class MainActivity : ComponentActivity() {
                         val search = searchField.text
                         if (search.isNotBlank()) {
                             searcherVm.addSearcher(Random.nextInt(), search)
-                            searchField = TextFieldValue()
+                            searchField = TextFieldValue(text = "") // todo: clear TextFieldValue not working
                             searching = false
                         } else {
                             toast(context, "검색어를 입력해 주세요.")
