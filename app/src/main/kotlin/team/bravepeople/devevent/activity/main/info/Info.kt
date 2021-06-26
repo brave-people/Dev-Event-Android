@@ -26,9 +26,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -40,6 +42,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -49,11 +52,16 @@ import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieAnimationSpec
 import com.airbnb.lottie.compose.rememberLottieAnimationState
 import team.bravepeople.devevent.R
+import team.bravepeople.devevent.activity.main.event.database.EventDatabase
 import team.bravepeople.devevent.theme.ColorOrange
 import team.bravepeople.devevent.theme.colors
 import team.bravepeople.devevent.ui.glideimage.GlideImage
+import team.bravepeople.devevent.ui.license.License
+import team.bravepeople.devevent.ui.license.Licenser
+import team.bravepeople.devevent.ui.license.Project
 import team.bravepeople.devevent.util.Web
 import team.bravepeople.devevent.util.extension.doDelay
+import team.bravepeople.devevent.util.extension.toast
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalAnimationApi::class)
 @Composable
@@ -64,6 +72,8 @@ fun Info(activity: Activity) {
     val projectUrl = "https://github.com/brave-people/Dev-Event-Android"
     val organizationUrl = "https://github.com/brave-people"
     val logoUrl = "https://avatars.githubusercontent.com/u/68955947?s=200&v=4"
+
+    var dbClearButtonLastClick = 0L
 
     val animationSpec = remember { LottieAnimationSpec.RawRes(R.raw.confetti) }
     val animationState =
@@ -129,21 +139,85 @@ fun Info(activity: Activity) {
                     .padding(top = 30.dp)
                     .wrapContentHeight()
                     .fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center
+                horizontalArrangement = Arrangement.SpaceEvenly
             ) {
                 Button(
-                    onClick = {},
+                    onClick = {
+                        val clickedTime = System.currentTimeMillis()
+                        if (clickedTime - dbClearButtonLastClick > 2000) {
+                            toast(
+                                context,
+                                activity.getString(R.string.info_button_confirm_clear_db)
+                            )
+                            dbClearButtonLastClick = clickedTime
+                        } else {
+                            Thread {
+                                EventDatabase.instance.clearAllTables()
+                            }.start()
+                            toast(context, activity.getString(R.string.info_button_cleared_db))
+                            activity.finish()
+                        }
+                    },
                     colors = ButtonDefaults.buttonColors(backgroundColor = ColorOrange)
                 ) {
-                    Text(text = "앱 전체 데이터 초기화", color = Color.White)
+                    Icon(
+                        painter = painterResource(R.drawable.ic_round_warning_24),
+                        contentDescription = null,
+                        tint = Color.White
+                    )
+                    Text(
+                        text = "앱 전체 데이터 초기화",
+                        color = Color.White,
+                        modifier = Modifier.padding(start = 8.dp)
+                    )
                 }
                 Button(
-                    onClick = {},
-                    colors = ButtonDefaults.buttonColors(backgroundColor = colors.secondary),
-                    modifier = Modifier.padding(start = 8.dp)
+                    onClick = { },
+                    colors = ButtonDefaults.buttonColors(backgroundColor = colors.secondary)
                 ) {
-                    Text(text = "용감한 친구들")
+                    Text(text = "앱 정보", color = Color.White)
                 }
+            }
+            Text(
+                text = "오픈소스 라이선스",
+                fontSize = 25.sp,
+                color = Color.Black,
+                modifier = Modifier.padding(top = 30.dp)
+            )
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(top = 8.dp),
+                verticalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+                Licenser(
+                    listOf(
+                        Project("TEST", "https://sungbin.tistory.com/21", License.AGPL3),
+                        Project("TEST2", "https://sungbin.tistory.com/21", License.AGPL3),
+                        Project("TEST3", "https://sungbin.tistory.com/21", License.MIT),
+                        Project("TEST4", "https://sungbin.tistory.com/21", License.MIT),
+                        Project("TEST5", "https://sungbin.tistory.com/21", License.MIT),
+                        Project("TEST5", "https://sungbin.tistory.com/21", License.MIT),
+                        Project("TEST5", "https://sungbin.tistory.com/21", License.MIT),
+                        Project("TEST5", "https://sungbin.tistory.com/21", License.MIT),
+                        Project("TEST5", "https://sungbin.tistory.com/21", License.MIT),
+                        Project("TEST5", "https://sungbin.tistory.com/21", License.MIT),
+                        Project("TEST5", "https://sungbin.tistory.com/21", License.MIT),
+                        Project("TEST5", "https://sungbin.tistory.com/21", License.MIT),
+                        Project("TEST5", "https://sungbin.tistory.com/21", License.MIT),
+                        Project("TEST6", "https://sungbin.tistory.com/21", License.MIT),
+                        Project("TEST7", "https://sungbin.tistory.com/21", License.GPL3),
+                        Project("TEST7", "https://sungbin.tistory.com/21", License.GPL3),
+                        Project("TEST7", "https://sungbin.tistory.com/21", License.GPL3),
+                        Project("TEST7", "https://sungbin.tistory.com/21", License.GPL3),
+                        Project("TEST7", "https://sungbin.tistory.com/21", License.GPL3),
+                        Project("TEST7", "https://sungbin.tistory.com/21", License.GPL3),
+                        Project("TEST7", "https://sungbin.tistory.com/21", License.GPL3),
+                        Project("TEST7", "https://sungbin.tistory.com/21", License.GPL3),
+                        Project("TEST8", "https://sungbin.tistory.com/21", License.GPL3),
+                        Project("TEST9", "https://sungbin.tistory.com/21", License.BSD),
+                    )
+                )
             }
         }
         Column(

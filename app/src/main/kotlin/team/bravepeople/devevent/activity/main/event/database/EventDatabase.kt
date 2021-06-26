@@ -19,8 +19,12 @@ abstract class EventDatabase : RoomDatabase() {
     abstract fun dao(): EventDao
 
     companion object {
-        fun instance(context: Context): EventDatabase {
-            return synchronized(EventDatabase::class) {
+        @Suppress("ObjectPropertyName")
+        private var _instance: EventDatabase? = null
+        val instance by lazy { _instance!! }
+
+        fun init(context: Context) {
+            _instance = synchronized(EventDatabase::class) {
                 Room.databaseBuilder(
                     context,
                     EventDatabase::class.java,
