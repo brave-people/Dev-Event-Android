@@ -38,18 +38,22 @@ class RepositoryViewModel @Inject constructor(
         endAction: suspend () -> Unit,
         networkNotAvailableAction: () -> Unit
     ) = viewModelScope.launch(Dispatchers.IO) {
-        eventVm.addEvents(databaseDao.getEvents())
-        if (eventEntities.isEmpty()) {
-            if (NetworkUtil.isNetworkAvailable(context)) {
-                client.getEvents().await().use { response ->
-                    runCatching { parseAndSave(response.string()) }
-                }
-                endAction()
-            } else {
-                networkNotAvailableAction()
-            }
-        } else {
+        if (eventEntities.isNotEmpty()) {
             endAction()
+        } else {
+            eventVm.addEvents(databaseDao.getEvents())
+            if (eventEntities.isEmpty()) {
+                if (NetworkUtil.isNetworkAvailable(context)) {
+                    client.getEvents().await().use { response ->
+                        runCatching { parseAndSave(response.string()) }
+                    }
+                    endAction()
+                } else {
+                    networkNotAvailableAction()
+                }
+            } else {
+                endAction()
+            }
         }
     }
 
