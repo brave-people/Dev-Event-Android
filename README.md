@@ -17,7 +17,7 @@
 </p>
 
 ## 알려진 문제 및 의견 제출
-[Issue](https://github.com/brave-people/Dev-Event-Android/issues) 탭을 통해 확인/제출하실 수 있습니다.
+[Issue](https://github.com/brave-people/Dev-Event-Android/issues) 탭을 통해 확인/제출하실 수 있습니다. 감사합니다.
 
 <div align=center>
     <hr/>
