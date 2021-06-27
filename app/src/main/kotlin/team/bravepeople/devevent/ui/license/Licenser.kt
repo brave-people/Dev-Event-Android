@@ -42,7 +42,7 @@ sealed class License(val name: String) {
 }
 
 @Composable
-fun LicenserHeader(license: License) {
+private fun LicenserHeader(license: License) {
     Column(modifier = Modifier.fillMaxWidth()) {
         Text(
             text = license.name,
@@ -56,7 +56,7 @@ fun LicenserHeader(license: License) {
 }
 
 @Composable
-fun LicenserItem(project: Project) {
+private fun LicenserItem(project: Project) {
     val context = LocalContext.current
 
     Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()) {

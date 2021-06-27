@@ -166,7 +166,7 @@ fun Info(activity: Activity) {
                         tint = Color.White
                     )
                     Text(
-                        text = "앱 전체 데이터 초기화",
+                        text = stringResource(R.string.info_button_clear_all_db),
                         color = Color.White,
                         modifier = Modifier.padding(start = 8.dp)
                     )
@@ -175,11 +175,11 @@ fun Info(activity: Activity) {
                     onClick = { },
                     colors = ButtonDefaults.buttonColors(backgroundColor = colors.secondary)
                 ) {
-                    Text(text = "앱 정보", color = Color.White)
+                    Text(text = stringResource(R.string.info_button_app_information), color = Color.White)
                 }
             }
             Text(
-                text = "오픈소스 라이선스",
+                text = stringResource(R.string.info_opensource_license),
                 fontSize = 25.sp,
                 color = Color.Black,
                 modifier = Modifier.padding(top = 30.dp)
