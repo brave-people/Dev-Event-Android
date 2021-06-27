@@ -5,9 +5,9 @@
 
 ---
 
-# 다운로드
+# 다운로드 👉 [[구글 플레이스토어]](https://play.google.com/store/apps/details?id=team.bravepeople.devevent)
 아직 베타 버전이므로 앱이 불안정 할 수 있습니다. <br/>
-👉 [[구글 플레이스토어]](https://play.google.com/store/apps/details?id=team.bravepeople.devevent)
+또한 작동 안하는 기능이 있을 수 있습니다. <br/>  
 
 ## 스크린샷
 <p align="center">
