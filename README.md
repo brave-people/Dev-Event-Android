@@ -11,9 +11,9 @@
 
 ## 스크린샷
 <p align="center">
-  <img alt="splash" src="https://github.com/brave-people/Dev-Event-Android/blob/master/images/splash_transparent.png?raw=true" width="25%"/>
-  <img alt="main" src="https://github.com/brave-people/Dev-Event-Android/blob/master/images/main_transparent.png?raw=true" width="25%" />
-  <img alt="info" src="https://github.com/brave-people/Dev-Event-Android/blob/master/images/info_transparent.png?raw=true" width="25%" />
+  <img alt="splash" src="https://github.com/brave-people/Dev-Event-Android/blob/master/images/splash.png?raw=true" width="25%"/>
+  <img alt="main" src="https://github.com/brave-people/Dev-Event-Android/blob/master/images/main.png?raw=true" width="25%" />
+  <img alt="info" src="https://github.com/brave-people/Dev-Event-Android/blob/master/images/info.png?raw=true" width="25%" />
 </p>
 
 ## 알려진 문제 및 의견 제출
