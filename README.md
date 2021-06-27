@@ -13,6 +13,9 @@
   <img alt="main" src="https://github.com/brave-people/Dev-Event-Android/blob/master/images/main_transparent.png?raw=true" width="25%" />
   <img alt="info" src="https://github.com/brave-people/Dev-Event-Android/blob/master/images/info_transparent.png?raw=true" width="25%" />
 </p>
+
+## 알려진 문제 및 의견 제출
+[Issue](https://github.com/brave-people/Dev-Event-Android/issues) 탭을 통해 확인/제출하실 수 있습니다.
     
 </div>
 
