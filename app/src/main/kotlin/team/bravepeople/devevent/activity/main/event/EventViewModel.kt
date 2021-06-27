@@ -20,6 +20,7 @@ class EventViewModel private constructor() : ViewModel() {
         get() = _eventEntities
             .sortedByDescending { it.name }
             .sortedByDescending { it.headerDate }.asReversed()
+            .distinct()
 
     fun updateEvent(eventEntity: EventEntity) {
         _eventEntities.removeIf { it.name == eventEntity.name }
