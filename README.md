@@ -1,6 +1,6 @@
 <image src="https://raw.githubusercontent.com/brave-people/Dev-Event-Android/master/app/src/main/res/mipmap-xxhdpi/ic_launcher.png" align="right"/>
 
-# Dev-Event-Android (beta version)
+# Dev-Event-Android (beta version) [![ktlint](https://img.shields.io/badge/code%20style-%E2%9D%A4-FF4081.svg)](https://ktlint.github.io/)
 🎉🎈 개발자 {웨비나, 컨퍼런스, 해커톤} 행사를 안드로이드 앱으로 알려드립니다. 
 
 ---
