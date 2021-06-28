@@ -65,6 +65,7 @@ import team.bravepeople.devevent.ui.bottomsheet.BottomSheet
 import team.bravepeople.devevent.ui.searcher.LazySearcher
 import team.bravepeople.devevent.ui.tag.LazyTag
 import team.bravepeople.devevent.util.Web
+import team.bravepeople.devevent.util.extension.takeIfLength
 import team.bravepeople.devevent.util.extension.takeIfSizeToCategory
 import team.bravepeople.devevent.util.extension.toast
 
@@ -238,7 +239,7 @@ private fun EventItem(event: EventEntity, onClick: () -> Unit) {
                     }
             )
             Text(
-                text = (event.joinDate ?: event.startDate) ?: event.headerDate,
+                text = (event.joinDate ?: event.startDate)?.takeIfLength(18) ?: event.headerDate,
                 fontSize = 13.sp,
                 color = Color.LightGray
             )

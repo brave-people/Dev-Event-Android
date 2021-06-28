@@ -38,7 +38,7 @@ fun BottomSheet(
     bottomSheetContent: @Composable ColumnScope.() -> Unit,
     contentHeight: Dp,
     bottomSheetVisible: State<Boolean>
-) {
+) { // todo: SwipeDown to dimiss
     val shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)
     val sheetContentHeight = if (bottomSheetVisible.value) contentHeight else 0.dp
 

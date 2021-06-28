@@ -10,3 +10,5 @@
 package team.bravepeople.devevent.util.extension
 
 fun String.parseOrNull(content: String) = if (contains(content)) split(content)[1] else null
+
+fun String.takeIfLength(n: Int) = if (length > n) "${take(n)}…" else this
