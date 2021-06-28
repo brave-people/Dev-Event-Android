@@ -24,12 +24,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.AlertDialog
+import androidx.compose.material.Button
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -61,6 +61,7 @@ import team.bravepeople.devevent.activity.main.event.database.EventEntity
 import team.bravepeople.devevent.repo.RepositoryViewModel
 import team.bravepeople.devevent.theme.ColorOrange
 import team.bravepeople.devevent.theme.colors
+import team.bravepeople.devevent.ui.bottomsheet.BottomSheet
 import team.bravepeople.devevent.ui.searcher.LazySearcher
 import team.bravepeople.devevent.util.Web
 import team.bravepeople.devevent.util.extension.toast
@@ -92,61 +93,75 @@ private fun EmptyEvent() {
 }
 
 @Composable
-private fun EventDialog(_event: MutableState<EventEntity?>) { // todo: re-design (dialog -> bottomsheet)
+private fun EventBottomSheet(event: EventEntity?, sheetVisible: MutableState<Boolean>) {
     val context = LocalContext.current
-
-    val event = _event.value
     val unknown = "정보없음"
 
     fun String?.toHashTag() = if (isNullOrBlank()) ""
     else "#" + replace(",", " #")
 
     if (event != null) {
-        AlertDialog(
-            onDismissRequest = { _event.value = null },
-            confirmButton = {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(300.dp)
+                .padding(16.dp),
+            contentAlignment = Alignment.TopEnd
+        ) {
+            Icon(
+                painter = painterResource(R.drawable.ic_round_cancel_24),
+                contentDescription = null,
+                modifier = Modifier
+                    .size(30.dp)
+                    .clickable {
+                        sheetVisible.value = false
+                    }
+            )
+            Column(modifier = Modifier.fillMaxWidth()) {
                 Text(
-                    text = "사이트 방문",
-                    fontSize = 15.sp,
-                    modifier = Modifier
-                        .clickable {
-                            if (event.site != null) {
-                                Web.open(context, event.site)
-                            } else {
-                                toast(
-                                    context,
-                                    context.getString(R.string.event_toast_unknown_site)
-                                )
-                            }
-                        }
-                        .padding(8.dp)
+                    text = event.name,
+                    fontSize = 20.sp,
+                    color = Color.Black,
+                    modifier = Modifier.padding(end = 40.dp)
                 )
-            },
-            text = {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentHeight()
-                ) {
-                    Text(text = event.name, fontSize = 20.sp, color = Color.Black)
+                Text(
+                    text = with(event) {
+                        """
+                    주최: ${owner ?: unknown}
+                    신청날짜: ${joinDate?.replace("~", " ~ ") ?: unknown}
+                    시작날짜: ${startDate?.replace("~", " ~ ") ?: unknown}
+                    
+                    ${category.toHashTag()}
+                    """.trimIndent()
+                    },
+                    lineHeight = 20.sp,
+                    color = Color.Gray,
+                    fontSize = 13.sp,
+                    modifier = Modifier.padding(top = 15.dp)
+                )
+            }
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Bottom,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Button(onClick = {
+                    if (event.site != null) {
+                        Web.open(context, event.site)
+                    } else {
+                        toast(
+                            context,
+                            context.getString(R.string.event_toast_unknown_site)
+                        )
+                    }
+                }) {
                     Text(
-                        text = with(event) {
-                            """
-                            주최: ${owner ?: unknown}
-                            신청날짜: ${joinDate?.replace("~", " ~ ") ?: unknown}
-                            시작날짜: ${startDate?.replace("~", " ~ ") ?: unknown}
-                            
-                            ${category.toHashTag()}
-                            """.trimIndent()
-                        },
-                        lineHeight = 20.sp,
-                        color = Color.Gray,
-                        fontSize = 13.sp,
-                        modifier = Modifier.padding(top = 15.dp)
+                        text = "사이트 방문",
+                        fontSize = 15.sp
                     )
                 }
             }
-        )
+        }
     }
 }
 
@@ -226,13 +241,17 @@ private fun EventItem(event: EventEntity, onClick: () -> Unit) {
     }
 }
 
-@OptIn(ExperimentalAnimationApi::class, ExperimentalFoundationApi::class)
+@OptIn(
+    ExperimentalAnimationApi::class,
+    ExperimentalFoundationApi::class,
+    ExperimentalMaterialApi::class
+)
 @Composable
 fun LazyEvent(repositoryVm: RepositoryViewModel, eventFilter: EventFilter) {
     val context = LocalContext.current
 
-    val selectedEvent = remember { mutableStateOf<EventEntity?>(null) }
-    EventDialog(selectedEvent)
+    var selectedEvent by remember { mutableStateOf<EventEntity?>(null) }
+    val bottomSheetVisible = remember { mutableStateOf(selectedEvent != null) }
 
     val listState = rememberLazyListState()
     var refreshing by remember { mutableStateOf(false) }
@@ -260,60 +279,71 @@ fun LazyEvent(repositoryVm: RepositoryViewModel, eventFilter: EventFilter) {
         searcherVisible = preListFirstVisibleIndex < listState.firstVisibleItemIndex
         preListFirstVisibleIndex = listState.firstVisibleItemIndex
 
-        SwipeRefresh(
-            state = rememberSwipeRefreshState(refreshing),
-            indicator = { state, refreshTrigger ->
-                SwipeRefreshIndicator(
-                    state = state,
-                    refreshTriggerDistance = refreshTrigger,
-                    contentColor = colors.primary
-                )
-            },
-            onRefresh = {
-                refreshing = true
-                repositoryVm.refresh(
-                    context = context,
-                    endAction = {
-                        delay(1000)
-                        refreshing = false
+        BottomSheet(
+            bottomSheetContent = { EventBottomSheet(selectedEvent, bottomSheetVisible) },
+            contentHeight = 300.dp,
+            bottomSheetVisible = bottomSheetVisible,
+            content = {
+                SwipeRefresh(
+                    state = rememberSwipeRefreshState(refreshing),
+                    indicator = { state, refreshTrigger ->
+                        SwipeRefreshIndicator(
+                            state = state,
+                            refreshTriggerDistance = refreshTrigger,
+                            contentColor = colors.primary
+                        )
                     },
-                    networkNotAvailableAction = {
-                        toast(getString(R.string.splash_toast_need_network_connect))
-                    }
-                )
-            }
-        ) {
-            Box(modifier = Modifier.fillMaxSize()) {
-                AnimatedVisibility(
-                    visible = searcherVisible,
-                    modifier = Modifier.zIndex(9999f)
+                    onRefresh = {
+                        refreshing = true
+                        repositoryVm.refresh(
+                            context = context,
+                            endAction = {
+                                delay(1000)
+                                refreshing = false
+                            },
+                            networkNotAvailableAction = {
+                                toast(getString(R.string.splash_toast_need_network_connect))
+                            }
+                        )
+                    },
+                    modifier = Modifier.fillMaxSize()
                 ) {
-                    LazySearcher {
-                        search = text
-                        searcherVisible = true
-                    }
-                }
-                LazyColumn(
-                    modifier = Modifier.fillMaxSize(),
-                    contentPadding = PaddingValues(top = 16.dp, bottom = 16.dp),
-                    state = listState,
-                    verticalArrangement = Arrangement.spacedBy(16.dp)
-                ) {
-                    val eventGroup = eventEntities.groupBy { it.headerDate }
-                    eventGroup.forEach { (headerDate, events) ->
-                        stickyHeader {
-                            EventHeader(headerDate)
+                    Box(modifier = Modifier.fillMaxSize()) {
+                        AnimatedVisibility(
+                            visible = searcherVisible,
+                            modifier = Modifier.zIndex(9999f)
+                        ) {
+                            LazySearcher {
+                                search = text
+                                searcherVisible = true
+                            }
                         }
+                        LazyColumn(
+                            modifier = Modifier.fillMaxSize(),
+                            contentPadding = PaddingValues(top = 16.dp, bottom = 16.dp),
+                            state = listState,
+                            verticalArrangement = Arrangement.spacedBy(16.dp)
+                        ) {
+                            val eventGroup = eventEntities.groupBy { it.headerDate }
+                            eventGroup.forEach { (headerDate, events) ->
+                                stickyHeader {
+                                    EventHeader(headerDate)
+                                }
 
-                        items(events) { event ->
-                            EventItem(
-                                event = event,
-                                onClick = { selectedEvent.value = event }
-                            )
+                                items(events) { event ->
+                                    EventItem(
+                                        event = event,
+                                        onClick = {
+                                            selectedEvent = event
+                                            bottomSheetVisible.value = true
+                                        }
+                                    )
+                                }
+                            }
                         }
                     }
                 }
             }
-        }
+        )
     }
 }
