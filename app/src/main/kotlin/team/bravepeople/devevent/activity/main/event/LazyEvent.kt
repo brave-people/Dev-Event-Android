@@ -65,7 +65,7 @@ import team.bravepeople.devevent.ui.bottomsheet.BottomSheet
 import team.bravepeople.devevent.ui.searcher.LazySearcher
 import team.bravepeople.devevent.ui.tag.LazyTag
 import team.bravepeople.devevent.util.Web
-import team.bravepeople.devevent.util.extension.takeIfSize
+import team.bravepeople.devevent.util.extension.takeIfSizeToCategory
 import team.bravepeople.devevent.util.extension.toast
 
 private val eventVm = EventViewModel.instance
@@ -213,7 +213,7 @@ private fun EventItem(event: EventEntity, onClick: () -> Unit) {
                 modifier = Modifier.padding(end = 50.dp)
             )
             Text(
-                text = event.category?.split(",")?.takeIfSize(3)?.joinToString(",") ?: "",
+                text = event.category?.split(",")?.takeIfSizeToCategory(3) ?: "",
                 fontSize = 13.sp,
                 color = Color.LightGray
             )

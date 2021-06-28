@@ -9,4 +9,5 @@
 
 package team.bravepeople.devevent.util.extension
 
-fun <E> Collection<E>.takeIfSize(n: Int) = if (size >= n) take(n) else this
+fun <E> Collection<E>.takeIfSizeToCategory(n: Int) =
+    if (size >= n) "${take(n).joinToString(",")}…" else this.joinToString(",")
