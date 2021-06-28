@@ -101,10 +101,14 @@ class RepositoryViewModel @Inject constructor(
     }
 
     private fun parseAndSave(value: String) {
-        fun String?.polish() =
-            if (this != null) replaceFirst("-", "").replaceFirst(":", "")
-                .replace("`", "").replace(" ", "").split("\n")[0].trim()
-            else null
+        fun String?.polish(removeWhiteSpace: Boolean = true): String? {
+            return if (this != null) {
+                var content = replaceFirst("-", "").replaceFirst(":", "")
+                    .replace("`", "").split("\n")[0].trim()
+                if (removeWhiteSpace) content = content.replace(" ", "")
+                content
+            } else null
+        }
 
         val data = value.split("## Dev Event만의 특별함")[1].split("---------------")[0]
         data.split("##").forEachIndexed { eventsIndex, events ->
@@ -126,7 +130,7 @@ class RepositoryViewModel @Inject constructor(
                             val category = parseOrNull("- 분류").polish()
                             val joinDate = (parseOrNull("- 신청") ?: parseOrNull("- 모집")).polish()
                             val startDate = parseOrNull("- 일시").polish()
-                            val owner = parseOrNull("- 주최").polish()
+                            val owner = parseOrNull("- 주최").polish(false)
 
                             val eventEntity = EventEntity(
                                 site = site,

@@ -149,13 +149,12 @@ private fun EventDialog(_event: MutableState<EventEntity?>) { // todo: re-design
 }
 
 @Composable
-private fun Event(eventEntity: EventEntity, onClick: () -> Unit) {
+private fun Event(event: EventEntity, onClick: () -> Unit) {
     val shape = RoundedCornerShape(15.dp)
-    var favorite by remember { mutableStateOf(eventEntity.favorite) }
+    var favorite by remember { mutableStateOf(event.favorite) }
 
     Box(
         modifier = Modifier
-            .padding(top = 8.dp, bottom = 8.dp)
             .fillMaxWidth()
             .height(100.dp)
             .clickable { onClick() }
@@ -168,19 +167,18 @@ private fun Event(eventEntity: EventEntity, onClick: () -> Unit) {
             modifier = Modifier
                 .fillMaxWidth()
                 .height(75.dp),
-            verticalArrangement = Arrangement.Center
+            verticalArrangement = Arrangement.SpaceEvenly
         ) {
             Text(
-                text = eventEntity.name,
+                text = event.name,
                 fontSize = 15.sp,
                 color = Color.Black,
                 modifier = Modifier.padding(end = 50.dp)
             )
             Text(
-                text = eventEntity.category ?: "",
+                text = event.category ?: "",
                 fontSize = 13.sp,
-                color = Color.LightGray,
-                modifier = Modifier.padding(top = 8.dp)
+                color = Color.LightGray
             )
         }
         Column(
@@ -188,7 +186,7 @@ private fun Event(eventEntity: EventEntity, onClick: () -> Unit) {
                 .fillMaxWidth()
                 .height(75.dp),
             horizontalAlignment = Alignment.End,
-            verticalArrangement = Arrangement.Center
+            verticalArrangement = Arrangement.SpaceEvenly
         ) {
             Icon(
                 painter = painterResource(if (favorite) R.drawable.ic_round_favorite_24 else R.drawable.ic_round_favorite_border_24),
@@ -198,15 +196,14 @@ private fun Event(eventEntity: EventEntity, onClick: () -> Unit) {
                     .size(30.dp)
                     .clickable {
                         favorite = !favorite
-                        eventEntity.favorite = favorite
-                        eventVm.updateEvent(eventEntity)
+                        event.favorite = favorite
+                        eventVm.updateEvent(event)
                     }
             )
             Text(
-                text = eventEntity.headerDate,
+                text = (event.joinDate ?: event.startDate) ?: event.headerDate,
                 fontSize = 13.sp,
-                color = Color.LightGray,
-                modifier = Modifier.padding(top = 8.dp)
+                color = Color.LightGray
             )
         }
     }
@@ -223,7 +220,6 @@ fun LazyEvent(repositoryVm: RepositoryViewModel, eventFilter: EventFilter) {
     val listState = rememberLazyListState()
     var refreshing by remember { mutableStateOf(false) }
     var searcherVisible by remember { mutableStateOf(true) }
-    var searching by remember { mutableStateOf(false) }
 
     var search by remember { mutableStateOf("") }
     var eventEntities = eventVm.eventEntityFlow.collectAsState().value.filter {
@@ -232,10 +228,10 @@ fun LazyEvent(repositoryVm: RepositoryViewModel, eventFilter: EventFilter) {
     }
     eventEntities = eventEntities.filter {
         if (search.isNotBlank()) {
-            searching = true
+            searcherVisible = true
             it.contains(search)
         } else {
-            searching = false
+            searcherVisible = false
             true
         }
     }
@@ -272,23 +268,25 @@ fun LazyEvent(repositoryVm: RepositoryViewModel, eventFilter: EventFilter) {
         ) {
             Box(modifier = Modifier.fillMaxSize()) {
                 AnimatedVisibility(
-                    visible = searcherVisible || searching,
+                    visible = searcherVisible,
                     modifier = Modifier.zIndex(9999f)
                 ) {
                     LazySearcher {
                         search = text
+                        searcherVisible = true
                     }
                 }
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(start = 16.dp, end = 16.dp),
-                    contentPadding = PaddingValues(top = 8.dp, bottom = 8.dp),
-                    state = listState
+                    contentPadding = PaddingValues(top = 16.dp, bottom = 16.dp),
+                    state = listState,
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     items(eventEntities) { event ->
-                        Event(
-                            eventEntity = event,
+                        Event( // todo: sticky header - header date
+                            event = event,
                             onClick = { selectedEvent.value = event }
                         )
                     }
