@@ -11,6 +11,8 @@ package team.bravepeople.devevent.activity.main.event
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -149,25 +151,40 @@ private fun EventDialog(_event: MutableState<EventEntity?>) { // todo: re-design
 }
 
 @Composable
-private fun Event(event: EventEntity, onClick: () -> Unit) {
+private fun EventHeader(headerDate: String) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(30.dp)
+            .background(color = colors.secondary)
+            .padding(start = 16.dp),
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text(text = headerDate, color = Color.White, fontSize = 15.sp)
+    }
+}
+
+@Composable
+private fun EventItem(event: EventEntity, onClick: () -> Unit) {
     val shape = RoundedCornerShape(15.dp)
     var favorite by remember { mutableStateOf(event.favorite) }
 
     Box(
         modifier = Modifier
+            .padding(start = 16.dp, end = 16.dp)
             .fillMaxWidth()
             .height(100.dp)
-            .clickable { onClick() }
             .clip(shape)
             .border(1.dp, colors.primary, shape)
+            .clickable { onClick() }
             .padding(start = 15.dp, end = 15.dp),
         contentAlignment = Alignment.Center
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(75.dp),
-            verticalArrangement = Arrangement.SpaceEvenly
+                .height(65.dp),
+            verticalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
                 text = event.name,
@@ -184,9 +201,9 @@ private fun Event(event: EventEntity, onClick: () -> Unit) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(75.dp),
+                .height(65.dp),
             horizontalAlignment = Alignment.End,
-            verticalArrangement = Arrangement.SpaceEvenly
+            verticalArrangement = Arrangement.SpaceBetween
         ) {
             Icon(
                 painter = painterResource(if (favorite) R.drawable.ic_round_favorite_24 else R.drawable.ic_round_favorite_border_24),
@@ -209,7 +226,7 @@ private fun Event(event: EventEntity, onClick: () -> Unit) {
     }
 }
 
-@OptIn(ExperimentalAnimationApi::class)
+@OptIn(ExperimentalAnimationApi::class, ExperimentalFoundationApi::class)
 @Composable
 fun LazyEvent(repositoryVm: RepositoryViewModel, eventFilter: EventFilter) {
     val context = LocalContext.current
@@ -277,18 +294,23 @@ fun LazyEvent(repositoryVm: RepositoryViewModel, eventFilter: EventFilter) {
                     }
                 }
                 LazyColumn(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(start = 16.dp, end = 16.dp),
+                    modifier = Modifier.fillMaxSize(),
                     contentPadding = PaddingValues(top = 16.dp, bottom = 16.dp),
                     state = listState,
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
-                    items(eventEntities) { event ->
-                        Event( // todo: sticky header - header date
-                            event = event,
-                            onClick = { selectedEvent.value = event }
-                        )
+                    val eventGroup = eventEntities.groupBy { it.headerDate }
+                    eventGroup.forEach { (headerDate, events) ->
+                        stickyHeader {
+                            EventHeader(headerDate)
+                        }
+
+                        items(events) { event ->
+                            EventItem(
+                                event = event,
+                                onClick = { selectedEvent.value = event }
+                            )
+                        }
                     }
                 }
             }
