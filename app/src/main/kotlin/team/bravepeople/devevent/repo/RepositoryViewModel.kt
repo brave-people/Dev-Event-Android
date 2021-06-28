@@ -13,6 +13,7 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import java.util.Date
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -20,8 +21,10 @@ import retrofit2.await
 import team.bravepeople.devevent.activity.main.event.EventViewModel
 import team.bravepeople.devevent.activity.main.event.database.EventDatabase
 import team.bravepeople.devevent.activity.main.event.database.EventEntity
-import team.bravepeople.devevent.util.NetworkUtil
+import team.bravepeople.devevent.util.Data
+import team.bravepeople.devevent.util.Network
 import team.bravepeople.devevent.util.extension.parseOrNull
+import team.bravepeople.devevent.util.manage.PathManager
 
 @HiltViewModel
 class RepositoryViewModel @Inject constructor(
@@ -46,7 +49,7 @@ class RepositoryViewModel @Inject constructor(
         if (eventEntities.isEmpty()) {
             val databaseEvents = databaseDao.getEvents()
             if (databaseEvents.isEmpty()) {
-                if (NetworkUtil.isNetworkAvailable(context)) {
+                if (Network.isNetworkAvailable(context)) {
                     client.getEvents().await().use { response ->
                         runCatching { parseAndSave(response.string()) }
                     }
@@ -73,7 +76,7 @@ class RepositoryViewModel @Inject constructor(
             endAction()
         }
 
-        if (NetworkUtil.isNetworkAvailable(context)) {
+        if (Network.isNetworkAvailable(context)) {
             eventVm.clearEvents()
             client.getEvents().await().use { response ->
                 runCatching { parseAndSave(response.string()) }
@@ -84,12 +87,16 @@ class RepositoryViewModel @Inject constructor(
         }
     }
 
-    fun save() = viewModelScope.launch(Dispatchers.IO) {
+    fun save(context: Context) = viewModelScope.launch(Dispatchers.IO) {
         if (databaseDao.getEvents().isEmpty()) {
             databaseDao.insertAll(eventEntities)
+            Data.save(context, PathManager.DatabaseSave, Date().time.toString())
         } else {
             eventEntities.filterNot { event -> databaseDao.getEvents().contains(event) }
-            databaseDao.updateAll(eventEntities)
+            if (eventEntities.isNotEmpty()) {
+                databaseDao.updateAll(eventEntities)
+                Data.save(context, PathManager.DatabaseSave, Date().time.toString())
+            }
         }
     }
 

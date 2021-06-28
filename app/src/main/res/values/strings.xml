@@ -21,4 +21,9 @@
     <string name="info_button_clear_all_db">앱 전체 데이터 초기화</string>
     <string name="info_button_app_information">앱 정보</string>
     <string name="info_opensource_license">오픈소스 라이선스</string>
+
+    <string name="service_wait_receive_new_event">새로운 이벤트 수신 대기중…</string>
+
+    <string name="notification_channel_description">새로운 이벤트를 매 시간마다 알림으로 표시합니다.</string>
+    <string name="notification_channel_name">이벤트 알림</string>
 </resources>

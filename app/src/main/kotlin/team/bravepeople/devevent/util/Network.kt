@@ -13,7 +13,7 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 
-object NetworkUtil {
+object Network {
     fun isNetworkAvailable(context: Context) =
         (context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager).run {
             getNetworkCapabilities(activeNetwork)?.run {
