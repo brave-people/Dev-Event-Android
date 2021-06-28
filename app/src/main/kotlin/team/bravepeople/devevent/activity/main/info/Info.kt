@@ -28,11 +28,13 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -63,6 +65,98 @@ import team.bravepeople.devevent.util.Web
 import team.bravepeople.devevent.util.extension.doDelay
 import team.bravepeople.devevent.util.extension.toast
 
+@Composable
+private fun OpenSourceDialog(isOpen: MutableState<Boolean>) {
+    if (isOpen.value) {
+        AlertDialog(
+            onDismissRequest = { isOpen.value = false },
+            buttons = {},
+            title = {
+                Text(
+                    text = stringResource(R.string.info_opensource_license),
+                    fontSize = 20.sp
+                )
+            },
+            text = {
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight(),
+                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    Licenser(
+                        listOf(
+                            Project(
+                                "Kotlin",
+                                "https://github.com/JetBrains/kotlin",
+                                License.Apache2
+                            ),
+                            Project("Gradle", "https://github.com/gradle/gradle", License.Apache2),
+                            Project(
+                                "Android Icons",
+                                "https://www.apache.org/licenses/LICENSE-2.0.txt",
+                                License.Apache2
+                            ),
+                            Project(
+                                "kotlinx.coroutines",
+                                "https://github.com/Kotlin/kotlinx.coroutines",
+                                License.Apache2
+                            ),
+                            Project(
+                                "CoreKtx",
+                                "https://android.googlesource.com/platform/frameworks/support/",
+                                License.Apache2
+                            ),
+                            Project(
+                                "lottie",
+                                "https://github.com/airbnb/lottie/blob/master/android-compose.md",
+                                License.MIT
+                            ),
+                            Project("glide", "https://github.com/bumptech/glide", License.BSD),
+                            Project(
+                                "Browser",
+                                "https://developer.android.com/jetpack/androidx/releases/browser",
+                                License.Apache2
+                            ),
+                            Project(
+                                "CrashReporter",
+                                "https://github.com/MindorksOpenSource/CrashReporter",
+                                License.Apache2
+                            ),
+                            Project("okhttp", "https://github.com/square/okhttp", License.Apache2),
+                            Project(
+                                "retrofit",
+                                "https://github.com/square/retrofit",
+                                License.Apache2
+                            ),
+                            Project(
+                                "Room",
+                                "https://developer.android.com/jetpack/androidx/releases/room",
+                                License.Apache2
+                            ),
+                            Project("Hilt", "https://dagger.dev/hilt/", License.Apache2),
+                            Project(
+                                "Jetpack Compose",
+                                "https://developer.android.com/jetpack/compose",
+                                License.Apache2
+                            ),
+                            Project(
+                                "leakcanary",
+                                "https://github.com/square/leakcanary",
+                                License.Apache2
+                            ),
+                            Project(
+                                "바른나눔고딕",
+                                "https://help.naver.com/support/contents/contents.help?serviceNo=1074&categoryNo=3497",
+                                License.CUSTOM("SIL")
+                            ),
+                        )
+                    )
+                }
+            })
+    }
+}
+
 @OptIn(ExperimentalFoundationApi::class, ExperimentalAnimationApi::class)
 @Composable
 fun Info(activity: Activity) {
@@ -74,11 +168,13 @@ fun Info(activity: Activity) {
     val logoUrl = "https://avatars.githubusercontent.com/u/68955947?s=200&v=4"
 
     var dbClearButtonLastClick = 0L
+    val isOpensourceDialogOpen = remember { mutableStateOf(false) }
 
     val animationSpec = remember { LottieAnimationSpec.RawRes(R.raw.confetti) }
     val animationState =
         rememberLottieAnimationState(autoPlay = true).apply { speed = .8f }
 
+    OpenSourceDialog(isOpensourceDialogOpen)
     doDelay(2500) { lottieVisible = false }
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -175,81 +271,31 @@ fun Info(activity: Activity) {
                     onClick = { },
                     colors = ButtonDefaults.buttonColors(backgroundColor = colors.secondary)
                 ) {
-                    Text(text = stringResource(R.string.info_button_app_information), color = Color.White)
+                    Text(
+                        text = stringResource(R.string.info_button_app_information),
+                        color = Color.White
+                    )
                 }
             }
-            Text(
-                text = stringResource(R.string.info_opensource_license),
-                fontSize = 25.sp,
-                color = Color.Black,
-                modifier = Modifier.padding(top = 30.dp)
-            )
-            LazyColumn(
+            Row(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(top = 8.dp, bottom = 30.dp),
-                verticalArrangement = Arrangement.spacedBy(4.dp)
+                    .padding(top = 15.dp)
+                    .wrapContentHeight()
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center
             ) {
-                Licenser(
-                    listOf(
-                        Project("Kotlin", "https://github.com/JetBrains/kotlin", License.Apache2),
-                        Project("Gradle", "https://github.com/gradle/gradle", License.Apache2),
-                        Project(
-                            "Android Icons",
-                            "https://www.apache.org/licenses/LICENSE-2.0.txt",
-                            License.Apache2
-                        ),
-                        Project(
-                            "kotlinx.coroutines",
-                            "https://github.com/Kotlin/kotlinx.coroutines",
-                            License.Apache2
-                        ),
-                        Project(
-                            "CoreKtx",
-                            "https://android.googlesource.com/platform/frameworks/support/",
-                            License.Apache2
-                        ),
-                        Project(
-                            "lottie",
-                            "https://github.com/airbnb/lottie/blob/master/android-compose.md",
-                            License.MIT
-                        ),
-                        Project("glide", "https://github.com/bumptech/glide", License.BSD),
-                        Project(
-                            "Browser",
-                            "https://developer.android.com/jetpack/androidx/releases/browser",
-                            License.Apache2
-                        ),
-                        Project(
-                            "CrashReporter",
-                            "https://github.com/MindorksOpenSource/CrashReporter",
-                            License.Apache2
-                        ),
-                        Project("okhttp", "https://github.com/square/okhttp", License.Apache2),
-                        Project("retrofit", "https://github.com/square/retrofit", License.Apache2),
-                        Project(
-                            "Room",
-                            "https://developer.android.com/jetpack/androidx/releases/room",
-                            License.Apache2
-                        ),
-                        Project("Hilt", "https://dagger.dev/hilt/", License.Apache2),
-                        Project(
-                            "Jetpack Compose",
-                            "https://developer.android.com/jetpack/compose",
-                            License.Apache2
-                        ),
-                        Project(
-                            "leakcanary",
-                            "https://github.com/square/leakcanary",
-                            License.Apache2
-                        ),
-                        Project(
-                            "바른나눔고딕",
-                            "https://help.naver.com/support/contents/contents.help?serviceNo=1074&categoryNo=3497",
-                            License.CUSTOM("SIL")
-                        ),
+                Button(onClick = { isOpensourceDialogOpen.value = true }) {
+                    Icon(
+                        painter = painterResource(R.drawable.ic_round_source_24),
+                        contentDescription = null,
+                        tint = Color.White
                     )
-                )
+                    Text(
+                        text = stringResource(R.string.info_opensource_license),
+                        color = Color.White,
+                        modifier = Modifier.padding(start = 8.dp)
+                    )
+                }
             }
         }
         Column(
