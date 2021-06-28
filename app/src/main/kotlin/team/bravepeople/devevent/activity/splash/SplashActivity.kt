@@ -28,11 +28,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import team.bravepeople.devevent.R
 import team.bravepeople.devevent.activity.MainActivity
 import team.bravepeople.devevent.repo.RepositoryViewModel
@@ -49,7 +47,7 @@ class SplashActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        CoroutineScope(Dispatchers.Main).launch {
+        lifecycleScope.launchWhenCreated {
             repositoryVm.loadEvents(
                 context = applicationContext,
                 endAction = {
@@ -59,7 +57,7 @@ class SplashActivity : ComponentActivity() {
                 },
                 networkNotAvailableAction = {
                     finish()
-                    toast(applicationContext, getString(R.string.splash_toast_need_network_connect))
+                    toast(getString(R.string.splash_toast_need_network_connect))
                 }
             )
         }

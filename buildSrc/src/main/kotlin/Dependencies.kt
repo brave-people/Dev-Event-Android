@@ -30,6 +30,7 @@ object Versions {
     }
 
     object Ui {
+        const val SwipeToRefresh = "0.12.0"
         const val LottieCompose = "1.0.0-beta07-2-SNAPSHOT"
         const val Glide = "4.12.0"
         const val Browser = "1.3.0"
@@ -89,7 +90,8 @@ object Dependencies {
     val ui = listOf(
         "androidx.browser:browser:${Versions.Ui.Browser}",
         "com.github.bumptech.glide:glide:${Versions.Ui.Glide}",
-        "com.airbnb.android:lottie-compose:${Versions.Ui.LottieCompose}"
+        "com.airbnb.android:lottie-compose:${Versions.Ui.LottieCompose}",
+        "com.google.accompanist:accompanist-swiperefresh:${Versions.Ui.SwipeToRefresh}"
     )
 
     val util = listOf(

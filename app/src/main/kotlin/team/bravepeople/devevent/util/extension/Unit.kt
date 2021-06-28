@@ -9,9 +9,15 @@
 
 package team.bravepeople.devevent.util.extension
 
+import android.content.Context
 import android.os.Handler
 import android.os.Looper
+import android.widget.Toast
 
 fun doDelay(ms: Long, action: () -> Unit) {
     Handler(Looper.getMainLooper()).postDelayed({ action() }, ms)
+}
+
+fun toast(context: Context, message: String, length: Int = Toast.LENGTH_SHORT) {
+    Toast.makeText(context, message, length).show()
 }

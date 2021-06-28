@@ -191,8 +191,8 @@ class MainActivity : ComponentActivity() {
             Column(modifier = Modifier.padding(bottom = 60.dp)) {
                 Crossfade(tab) { target ->
                     when (target) {
-                        Tab.Event -> LazyEvent(EventFilter.None)
-                        Tab.Favorite -> LazyEvent(EventFilter.Favorite)
+                        Tab.Event -> LazyEvent(repositoryVm, EventFilter.None)
+                        Tab.Favorite -> LazyEvent(repositoryVm, EventFilter.Favorite)
                         Tab.Info -> Info(this@MainActivity)
                     }
                 }

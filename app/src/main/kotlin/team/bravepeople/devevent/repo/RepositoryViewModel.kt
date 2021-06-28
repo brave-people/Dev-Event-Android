@@ -31,29 +31,56 @@ class RepositoryViewModel @Inject constructor(
 
     private val databaseDao = database.dao()
     private val eventVm = EventViewModel.instance
-    private val eventEntities: List<EventEntity> get() = eventVm.eventEntities
+    private val eventEntities get() = eventVm.eventEntityList
 
     fun loadEvents(
         context: Context,
         endAction: suspend () -> Unit,
         networkNotAvailableAction: () -> Unit
     ) = viewModelScope.launch(Dispatchers.IO) {
-        if (eventEntities.isNotEmpty()) {
+        suspend fun finish() {
+            eventVm.updateEventFlow()
             endAction()
-        } else {
-            eventVm.addEvents(databaseDao.getEvents())
-            if (eventEntities.isEmpty()) {
+        }
+
+        if (eventEntities.isEmpty()) {
+            val databaseEvents = databaseDao.getEvents()
+            if (databaseEvents.isEmpty()) {
                 if (NetworkUtil.isNetworkAvailable(context)) {
                     client.getEvents().await().use { response ->
                         runCatching { parseAndSave(response.string()) }
                     }
-                    endAction()
+                    finish()
                 } else {
                     networkNotAvailableAction()
                 }
             } else {
-                endAction()
+                eventVm.addEvents(databaseEvents)
+                finish()
             }
+        } else {
+            finish()
+        }
+    }
+
+    fun refresh(
+        context: Context,
+        endAction: suspend () -> Unit,
+        networkNotAvailableAction: Context.() -> Unit
+    ) = viewModelScope.launch(Dispatchers.IO) {
+        suspend fun finish() {
+            eventVm.updateEventFlow()
+            endAction()
+        }
+
+        if (NetworkUtil.isNetworkAvailable(context)) {
+            eventVm.clearEvents()
+            client.getEvents().await().use { response ->
+                runCatching { parseAndSave(response.string()) }
+            }
+            finish()
+        } else {
+            networkNotAvailableAction(context)
         }
     }
 

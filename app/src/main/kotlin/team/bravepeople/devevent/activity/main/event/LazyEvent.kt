@@ -29,6 +29,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -37,6 +38,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -45,11 +47,17 @@ import androidx.compose.ui.zIndex
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieAnimationSpec
 import com.airbnb.lottie.compose.rememberLottieAnimationState
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.SwipeRefreshIndicator
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
+import kotlinx.coroutines.delay
 import team.bravepeople.devevent.R
 import team.bravepeople.devevent.activity.main.event.database.EventEntity
+import team.bravepeople.devevent.repo.RepositoryViewModel
 import team.bravepeople.devevent.theme.ColorOrange
 import team.bravepeople.devevent.theme.colors
 import team.bravepeople.devevent.ui.searcher.LazySearcher
+import team.bravepeople.devevent.util.extension.toast
 
 private val eventVm = EventViewModel.instance
 private var preListFirstVisibleIndex = 0
@@ -142,13 +150,16 @@ private fun Event(eventEntity: EventEntity) {
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun LazyEvent(eventFilter: EventFilter) {
+fun LazyEvent(repositoryVm: RepositoryViewModel, eventFilter: EventFilter) {
+    val context = LocalContext.current
+
     val listState = rememberLazyListState()
+    var refreshing by remember { mutableStateOf(false) }
     var searcherVisible by remember { mutableStateOf(true) }
     var searching by remember { mutableStateOf(false) }
 
     var search by remember { mutableStateOf("") }
-    var eventEntities = eventVm.eventEntities.filter {
+    var eventEntities = eventVm.eventEntityFlow.collectAsState().value.filter {
         if (eventFilter == EventFilter.Favorite) it.favorite
         else true
     }
@@ -169,22 +180,48 @@ fun LazyEvent(eventFilter: EventFilter) {
         searcherVisible = preListFirstVisibleIndex < listState.firstVisibleItemIndex
         preListFirstVisibleIndex = listState.firstVisibleItemIndex
 
-        Box(modifier = Modifier.fillMaxSize()) {
-            AnimatedVisibility(
-                visible = searcherVisible || searching,
-                modifier = Modifier.zIndex(9999f)
-            ) {
-                LazySearcher { search = text }
+        SwipeRefresh(
+            state = rememberSwipeRefreshState(refreshing),
+            indicator = { state, refreshTrigger ->
+                SwipeRefreshIndicator(
+                    state = state,
+                    refreshTriggerDistance = refreshTrigger,
+                    contentColor = colors.primary
+                )
+            },
+            onRefresh = {
+                refreshing = true
+                repositoryVm.refresh(
+                    context = context,
+                    endAction = {
+                        delay(1000)
+                        refreshing = false
+                    },
+                    networkNotAvailableAction = {
+                        toast(getString(R.string.splash_toast_need_network_connect))
+                    }
+                )
             }
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(start = 16.dp, end = 16.dp),
-                contentPadding = PaddingValues(top = 8.dp, bottom = 8.dp),
-                state = listState
-            ) {
-                items(eventEntities) { event ->
-                    Event(event)
+        ) {
+            Box(modifier = Modifier.fillMaxSize()) {
+                AnimatedVisibility(
+                    visible = searcherVisible || searching,
+                    modifier = Modifier.zIndex(9999f)
+                ) {
+                    LazySearcher {
+                        search = text
+                    }
+                }
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(start = 16.dp, end = 16.dp),
+                    contentPadding = PaddingValues(top = 8.dp, bottom = 8.dp),
+                    state = listState
+                ) {
+                    items(eventEntities) { event ->
+                        Event(event)
+                    }
                 }
             }
         }
