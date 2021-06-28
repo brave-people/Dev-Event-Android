@@ -63,7 +63,9 @@ import team.bravepeople.devevent.theme.ColorOrange
 import team.bravepeople.devevent.theme.colors
 import team.bravepeople.devevent.ui.bottomsheet.BottomSheet
 import team.bravepeople.devevent.ui.searcher.LazySearcher
+import team.bravepeople.devevent.ui.tag.LazyTag
 import team.bravepeople.devevent.util.Web
+import team.bravepeople.devevent.util.extension.takeIfSize
 import team.bravepeople.devevent.util.extension.toast
 
 private val eventVm = EventViewModel.instance
@@ -97,15 +99,14 @@ private fun EventBottomSheet(event: EventEntity?, sheetVisible: MutableState<Boo
     val context = LocalContext.current
     val unknown = "정보없음"
 
-    fun String?.toHashTag() = if (isNullOrBlank()) ""
-    else "#" + replace(",", " #")
+    fun String?.toTags() = if (isNullOrBlank()) listOf() else split(",")
 
     if (event != null) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(300.dp)
-                .padding(16.dp),
+                .padding(PaddingValues(16.dp)),
             contentAlignment = Alignment.TopEnd
         ) {
             Icon(
@@ -127,18 +128,17 @@ private fun EventBottomSheet(event: EventEntity?, sheetVisible: MutableState<Boo
                 Text(
                     text = with(event) {
                         """
-                    주최: ${owner ?: unknown}
-                    신청날짜: ${joinDate?.replace("~", " ~ ") ?: unknown}
-                    시작날짜: ${startDate?.replace("~", " ~ ") ?: unknown}
-                    
-                    ${category.toHashTag()}
-                    """.trimIndent()
+                        주최: ${owner ?: unknown}
+                        신청날짜: ${joinDate?.replace("~", " ~ ") ?: unknown}
+                        시작날짜: ${startDate?.replace("~", " ~ ") ?: unknown}
+                        """.trimIndent()
                     },
                     lineHeight = 20.sp,
                     color = Color.Gray,
                     fontSize = 13.sp,
                     modifier = Modifier.padding(top = 15.dp)
                 )
+                LazyTag(modifier = Modifier.padding(top = 15.dp), tags = event.category.toTags())
             }
             Column(
                 modifier = Modifier.fillMaxSize(),
@@ -155,9 +155,14 @@ private fun EventBottomSheet(event: EventEntity?, sheetVisible: MutableState<Boo
                         )
                     }
                 }) {
+                    Icon(
+                        painter = painterResource(R.drawable.ic_round_home_24),
+                        contentDescription = null
+                    )
                     Text(
                         text = "사이트 방문",
-                        fontSize = 15.sp
+                        fontSize = 15.sp,
+                        modifier = Modifier.padding(start = 8.dp)
                     )
                 }
             }
@@ -208,7 +213,7 @@ private fun EventItem(event: EventEntity, onClick: () -> Unit) {
                 modifier = Modifier.padding(end = 50.dp)
             )
             Text(
-                text = event.category ?: "",
+                text = event.category?.split(",")?.takeIfSize(3)?.joinToString(",") ?: "",
                 fontSize = 13.sp,
                 color = Color.LightGray
             )
