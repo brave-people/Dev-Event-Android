@@ -58,9 +58,9 @@ import team.bravepeople.devevent.activity.main.event.database.EventDatabase
 import team.bravepeople.devevent.theme.ColorOrange
 import team.bravepeople.devevent.theme.colors
 import team.bravepeople.devevent.ui.glideimage.GlideImage
-import team.bravepeople.devevent.ui.license.License
-import team.bravepeople.devevent.ui.license.Licenser
-import team.bravepeople.devevent.ui.license.Project
+import team.bravepeople.devevent.ui.licenser.License
+import team.bravepeople.devevent.ui.licenser.Licenser
+import team.bravepeople.devevent.ui.licenser.Project
 import team.bravepeople.devevent.util.Web
 import team.bravepeople.devevent.util.extension.doDelay
 import team.bravepeople.devevent.util.extension.toast

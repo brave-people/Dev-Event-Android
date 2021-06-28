@@ -26,4 +26,5 @@
 
     <string name="notification_channel_description">새로운 이벤트를 매 시간마다 알림으로 표시합니다.</string>
     <string name="notification_channel_name">이벤트 알림</string>
+    <string name="event_toast_unknown_site">사이트 정보가 없습니다.</string>
 </resources>

@@ -216,6 +216,6 @@ class MainActivity : ComponentActivity() {
 
     override fun onStop() {
         super.onStop()
-        repositoryVm.save()
+        repositoryVm.save(applicationContext)
     }
 }

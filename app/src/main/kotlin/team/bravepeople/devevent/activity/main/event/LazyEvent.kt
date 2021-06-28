@@ -22,13 +22,16 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.AlertDialog
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -57,6 +60,7 @@ import team.bravepeople.devevent.repo.RepositoryViewModel
 import team.bravepeople.devevent.theme.ColorOrange
 import team.bravepeople.devevent.theme.colors
 import team.bravepeople.devevent.ui.searcher.LazySearcher
+import team.bravepeople.devevent.util.Web
 import team.bravepeople.devevent.util.extension.toast
 
 private val eventVm = EventViewModel.instance
@@ -86,7 +90,66 @@ private fun EmptyEvent() {
 }
 
 @Composable
-private fun Event(eventEntity: EventEntity) {
+private fun EventDialog(_event: MutableState<EventEntity?>) { // todo: re-design (dialog -> bottomsheet)
+    val context = LocalContext.current
+
+    val event = _event.value
+    val unknown = "정보없음"
+
+    fun String?.toHashTag() = if (isNullOrBlank()) ""
+    else "#" + replace(",", " #")
+
+    if (event != null) {
+        AlertDialog(
+            onDismissRequest = { _event.value = null },
+            confirmButton = {
+                Text(
+                    text = "사이트 방문",
+                    fontSize = 15.sp,
+                    modifier = Modifier
+                        .clickable {
+                            if (event.site != null) {
+                                Web.open(context, event.site)
+                            } else {
+                                toast(
+                                    context,
+                                    context.getString(R.string.event_toast_unknown_site)
+                                )
+                            }
+                        }
+                        .padding(8.dp)
+                )
+            },
+            text = {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight()
+                ) {
+                    Text(text = event.name, fontSize = 20.sp, color = Color.Black)
+                    Text(
+                        text = with(event) {
+                            """
+                            주최: ${owner ?: unknown}
+                            신청날짜: ${joinDate?.replace("~", " ~ ") ?: unknown}
+                            시작날짜: ${startDate?.replace("~", " ~ ") ?: unknown}
+                            
+                            ${category.toHashTag()}
+                            """.trimIndent()
+                        },
+                        lineHeight = 20.sp,
+                        color = Color.Gray,
+                        fontSize = 13.sp,
+                        modifier = Modifier.padding(top = 15.dp)
+                    )
+                }
+            }
+        )
+    }
+}
+
+@Composable
+private fun Event(eventEntity: EventEntity, onClick: () -> Unit) {
     val shape = RoundedCornerShape(15.dp)
     var favorite by remember { mutableStateOf(eventEntity.favorite) }
 
@@ -95,6 +158,7 @@ private fun Event(eventEntity: EventEntity) {
             .padding(top = 8.dp, bottom = 8.dp)
             .fillMaxWidth()
             .height(100.dp)
+            .clickable { onClick() }
             .clip(shape)
             .border(1.dp, colors.primary, shape)
             .padding(start = 15.dp, end = 15.dp),
@@ -152,6 +216,9 @@ private fun Event(eventEntity: EventEntity) {
 @Composable
 fun LazyEvent(repositoryVm: RepositoryViewModel, eventFilter: EventFilter) {
     val context = LocalContext.current
+
+    val selectedEvent = remember { mutableStateOf<EventEntity?>(null) }
+    EventDialog(selectedEvent)
 
     val listState = rememberLazyListState()
     var refreshing by remember { mutableStateOf(false) }
@@ -220,7 +287,10 @@ fun LazyEvent(repositoryVm: RepositoryViewModel, eventFilter: EventFilter) {
                     state = listState
                 ) {
                     items(eventEntities) { event ->
-                        Event(event)
+                        Event(
+                            eventEntity = event,
+                            onClick = { selectedEvent.value = event }
+                        )
                     }
                 }
             }

@@ -7,7 +7,7 @@
  * Please see: https://github.com/brave-people/Dev-Event-Android/blob/master/LICENSE.
  */
 
-package team.bravepeople.devevent.ui.license
+package team.bravepeople.devevent.ui.licenser
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
