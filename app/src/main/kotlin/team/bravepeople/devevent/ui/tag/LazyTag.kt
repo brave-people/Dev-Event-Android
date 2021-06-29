@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.graphics.ColorUtils
 import team.bravepeople.devevent.ui.flowrow.FlowRow
 import team.bravepeople.devevent.util.ColorUtil
 
@@ -30,12 +31,13 @@ import team.bravepeople.devevent.util.ColorUtil
 @Composable
 private fun Tag(name: String) {
     val shape = RoundedCornerShape(5.dp)
-    val color = Color(ColorUtil.getRandom()).copy(alpha = .8f)
+    val color = ColorUtil.getRandom()
+    val isDarkColor = ColorUtils.calculateLuminance(color) < 0.5
 
-    Surface(shape = shape, color = color, elevation = 1.dp) { // todo: fix inner shadow issue
+    Surface(shape = shape, color = Color(color), elevation = 1.dp) {
         Text(
             text = name,
-            color = Color.White,
+            color = if (isDarkColor) Color.White else Color.Black,
             fontSize = 14.sp,
             modifier = Modifier.padding(top = 4.dp, bottom = 4.dp, start = 8.dp, end = 8.dp)
         )
