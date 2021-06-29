@@ -52,7 +52,6 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dagger.hilt.android.AndroidEntryPoint
-import kotlin.random.Random
 import team.bravepeople.devevent.R
 import team.bravepeople.devevent.activity.main.event.EventFilter
 import team.bravepeople.devevent.activity.main.event.LazyEvent
@@ -66,7 +65,6 @@ import team.bravepeople.devevent.ui.fancybottombar.FancyBottomBar
 import team.bravepeople.devevent.ui.fancybottombar.FancyColors
 import team.bravepeople.devevent.ui.fancybottombar.FancyItem
 import team.bravepeople.devevent.ui.fancybottombar.FancyOptions
-import team.bravepeople.devevent.ui.searcher.SearcherViewModel
 import team.bravepeople.devevent.util.extension.toast
 
 private enum class Tab {
@@ -78,7 +76,6 @@ class MainActivity : ComponentActivity() {
 
     private var tab by mutableStateOf(Tab.Event)
     private val repositoryVm: RepositoryViewModel by viewModels()
-    private val searcherVm = SearcherViewModel.instance
 
     private var searching by mutableStateOf(false)
     private var searchField by mutableStateOf(TextFieldValue())
@@ -112,7 +109,6 @@ class MainActivity : ComponentActivity() {
                     keyboardActions = KeyboardActions(onSearch = {
                         val search = searchField.text
                         if (search.isNotBlank()) {
-                            searcherVm.addSearcher(Random.nextInt(), search)
                             searchField =
                                 TextFieldValue(text = "") // todo: clear TextFieldValue not working
                             searching = false
@@ -191,8 +187,12 @@ class MainActivity : ComponentActivity() {
             Column(modifier = Modifier.padding(bottom = 60.dp)) {
                 Crossfade(tab) { target ->
                     when (target) {
-                        Tab.Event -> LazyEvent(repositoryVm, EventFilter.None)
-                        Tab.Favorite -> LazyEvent(repositoryVm, EventFilter.Favorite)
+                        Tab.Event -> LazyEvent(repositoryVm, searchField.text, EventFilter.None)
+                        Tab.Favorite -> LazyEvent(
+                            repositoryVm,
+                            searchField.text,
+                            EventFilter.Favorite
+                        )
                         Tab.Info -> Info(this@MainActivity)
                     }
                 }

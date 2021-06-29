@@ -9,7 +9,6 @@
 
 package team.bravepeople.devevent.activity.main.event
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -48,7 +47,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.zIndex
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieAnimationSpec
 import com.airbnb.lottie.compose.rememberLottieAnimationState
@@ -62,7 +60,6 @@ import team.bravepeople.devevent.repo.RepositoryViewModel
 import team.bravepeople.devevent.theme.ColorOrange
 import team.bravepeople.devevent.theme.colors
 import team.bravepeople.devevent.ui.bottomsheet.BottomSheet
-import team.bravepeople.devevent.ui.searcher.LazySearcher
 import team.bravepeople.devevent.ui.tag.LazyTag
 import team.bravepeople.devevent.util.Web
 import team.bravepeople.devevent.util.extension.takeIfLength
@@ -253,7 +250,7 @@ private fun EventItem(event: EventEntity, onClick: () -> Unit) {
     ExperimentalMaterialApi::class
 )
 @Composable
-fun LazyEvent(repositoryVm: RepositoryViewModel, eventFilter: EventFilter) {
+fun LazyEvent(repositoryVm: RepositoryViewModel, search: String, eventFilter: EventFilter) {
     val context = LocalContext.current
 
     var selectedEvent by remember { mutableStateOf<EventEntity?>(null) }
@@ -261,19 +258,15 @@ fun LazyEvent(repositoryVm: RepositoryViewModel, eventFilter: EventFilter) {
 
     val listState = rememberLazyListState()
     var refreshing by remember { mutableStateOf(false) }
-    var searcherVisible by remember { mutableStateOf(true) }
 
-    var search by remember { mutableStateOf("") }
     var eventEntities = eventVm.eventEntityFlow.collectAsState().value.filter {
         if (eventFilter == EventFilter.Favorite) it.favorite
         else true
     }
     eventEntities = eventEntities.filter {
         if (search.isNotBlank()) {
-            searcherVisible = true
             it.contains(search)
         } else {
-            searcherVisible = false
             true
         }
     }
@@ -281,10 +274,6 @@ fun LazyEvent(repositoryVm: RepositoryViewModel, eventFilter: EventFilter) {
     if (eventFilter == EventFilter.Favorite && eventEntities.isEmpty()) {
         EmptyEvent()
     } else {
-        // todo: searcherVisible state - not working properly
-        searcherVisible = preListFirstVisibleIndex < listState.firstVisibleItemIndex
-        preListFirstVisibleIndex = listState.firstVisibleItemIndex
-
         BottomSheet(
             bottomSheetContent = { EventBottomSheet(selectedEvent, bottomSheetVisible) },
             contentHeight = 300.dp,
@@ -314,37 +303,26 @@ fun LazyEvent(repositoryVm: RepositoryViewModel, eventFilter: EventFilter) {
                     },
                     modifier = Modifier.fillMaxSize()
                 ) {
-                    Box(modifier = Modifier.fillMaxSize()) {
-                        AnimatedVisibility(
-                            visible = searcherVisible,
-                            modifier = Modifier.zIndex(9999f)
-                        ) {
-                            LazySearcher {
-                                search = text
-                                searcherVisible = true
+                    LazyColumn(
+                        modifier = Modifier.fillMaxSize(),
+                        contentPadding = PaddingValues(top = 16.dp, bottom = 16.dp),
+                        state = listState,
+                        verticalArrangement = Arrangement.spacedBy(16.dp)
+                    ) {
+                        val eventGroup = eventEntities.groupBy { it.headerDate }
+                        eventGroup.forEach { (headerDate, events) ->
+                            stickyHeader {
+                                EventHeader(headerDate)
                             }
-                        }
-                        LazyColumn(
-                            modifier = Modifier.fillMaxSize(),
-                            contentPadding = PaddingValues(top = 16.dp, bottom = 16.dp),
-                            state = listState,
-                            verticalArrangement = Arrangement.spacedBy(16.dp)
-                        ) {
-                            val eventGroup = eventEntities.groupBy { it.headerDate }
-                            eventGroup.forEach { (headerDate, events) ->
-                                stickyHeader {
-                                    EventHeader(headerDate)
-                                }
 
-                                items(events) { event ->
-                                    EventItem(
-                                        event = event,
-                                        onClick = {
-                                            selectedEvent = event
-                                            bottomSheetVisible.value = true
-                                        }
-                                    )
-                                }
+                            items(events) { event ->
+                                EventItem(
+                                    event = event,
+                                    onClick = {
+                                        selectedEvent = event
+                                        bottomSheetVisible.value = true
+                                    }
+                                )
                             }
                         }
                     }

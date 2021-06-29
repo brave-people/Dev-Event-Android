@@ -10,5 +10,5 @@
 package team.bravepeople.devevent.util.manage
 
 object PathManager {
-    const val DatabaseSave = "events-database-save"
+    const val DatabaseSaveTime = "events-database-save-time"
 }

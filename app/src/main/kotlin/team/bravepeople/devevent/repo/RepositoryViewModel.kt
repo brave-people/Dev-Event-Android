@@ -90,12 +90,12 @@ class RepositoryViewModel @Inject constructor(
     fun save(context: Context) = viewModelScope.launch(Dispatchers.IO) {
         if (databaseDao.getEvents().isEmpty()) {
             databaseDao.insertAll(eventEntities)
-            Data.save(context, PathManager.DatabaseSave, Date().time.toString())
+            Data.save(context, PathManager.DatabaseSaveTime, Date().time.toString())
         } else {
             eventEntities.filterNot { event -> databaseDao.getEvents().contains(event) }
             if (eventEntities.isNotEmpty()) {
                 databaseDao.updateAll(eventEntities)
-                Data.save(context, PathManager.DatabaseSave, Date().time.toString())
+                Data.save(context, PathManager.DatabaseSaveTime, Date().time.toString())
             }
         }
     }

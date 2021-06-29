@@ -45,7 +45,7 @@ fun BottomSheet(
     bottomSheetContent: @Composable ColumnScope.() -> Unit,
     contentHeight: Dp,
     bottomSheetVisible: MutableState<Boolean>
-) { // todo: SwipeDown to dimiss
+) {
     val shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)
 
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomStart) {
@@ -62,20 +62,8 @@ fun BottomSheet(
                     .pointerInput(Unit) {
                         detectDragGestures { change, dragAmount ->
                             change.consumeAllChanges()
-
-                            val (x, y) = dragAmount
-                            when {
-                                x > 0 -> { /* right */
-                                }
-                                x < 0 -> { /* left */
-                                }
-                            }
-                            when {
-                                y > 0 -> { /* down */
-                                    bottomSheetVisible.value = false
-                                }
-                                y < 0 -> { /* up */
-                                }
+                            if (dragAmount.y > 0) { // down
+                                bottomSheetVisible.value = false
                             }
                         }
                     }
