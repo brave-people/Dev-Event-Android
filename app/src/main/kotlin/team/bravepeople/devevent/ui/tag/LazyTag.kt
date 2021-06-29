@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import team.bravepeople.devevent.ui.flowrow.FlowRow
 import team.bravepeople.devevent.util.ColorUtil
 
 
@@ -38,6 +39,15 @@ private fun Tag(name: String) {
             fontSize = 14.sp,
             modifier = Modifier.padding(top = 4.dp, bottom = 4.dp, start = 8.dp, end = 8.dp)
         )
+    }
+}
+
+@Composable
+fun FlowTag(modifier: Modifier, tags: List<String>) {
+    FlowRow(modifier = modifier, verticalGap = 4.dp, horizontalGap = 4.dp) {
+        for (tag in tags) {
+            Tag(tag)
+        }
     }
 }
 

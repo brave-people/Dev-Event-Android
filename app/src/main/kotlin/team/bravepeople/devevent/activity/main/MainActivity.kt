@@ -26,8 +26,10 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.AlertDialog
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
@@ -38,8 +40,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -54,6 +58,7 @@ import androidx.compose.ui.unit.sp
 import dagger.hilt.android.AndroidEntryPoint
 import team.bravepeople.devevent.R
 import team.bravepeople.devevent.activity.main.event.EventFilter
+import team.bravepeople.devevent.activity.main.event.EventViewModel
 import team.bravepeople.devevent.activity.main.event.LazyEvent
 import team.bravepeople.devevent.activity.main.info.Info
 import team.bravepeople.devevent.repo.RepositoryViewModel
@@ -65,6 +70,7 @@ import team.bravepeople.devevent.ui.fancybottombar.FancyBottomBar
 import team.bravepeople.devevent.ui.fancybottombar.FancyColors
 import team.bravepeople.devevent.ui.fancybottombar.FancyItem
 import team.bravepeople.devevent.ui.fancybottombar.FancyOptions
+import team.bravepeople.devevent.ui.tag.FlowTag
 import team.bravepeople.devevent.util.extension.toast
 
 private enum class Tab {
@@ -75,6 +81,7 @@ private enum class Tab {
 class MainActivity : ComponentActivity() {
 
     private var tab by mutableStateOf(Tab.Event)
+    private val eventVm = EventViewModel.instance
     private val repositoryVm: RepositoryViewModel by viewModels()
 
     private var searching by mutableStateOf(false)
@@ -97,10 +104,32 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    @Composable
+    fun EventOptionDialog(openDialogVisible: MutableState<Boolean>, tags: List<String>) {
+        if (openDialogVisible.value) {
+            AlertDialog(
+                onDismissRequest = { openDialogVisible.value = false },
+                buttons = {},
+                title = { Text(text = stringResource(R.string.main_dialog_event_option)) },
+                text = {
+                    FlowTag(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .wrapContentHeight(),
+                        tags = tags
+                    )
+                }
+            )
+        }
+    }
+
     @OptIn(ExperimentalAnimationApi::class)
     @Composable
     fun TopBar() {
+        val eventOptionDialogVisible = remember { mutableStateOf(false) }
         val context = LocalContext.current
+
+        EventOptionDialog(openDialogVisible = eventOptionDialogVisible, tags = eventVm.getAllTags())
 
         TopAppBar {
             AnimatedVisibility(visible = searching, exit = fadeOut()) {
@@ -162,7 +191,11 @@ class MainActivity : ComponentActivity() {
                             Icon(
                                 imageVector = Icons.Rounded.Settings,
                                 contentDescription = null,
-                                modifier = Modifier.padding(end = 8.dp),
+                                modifier = Modifier
+                                    .padding(end = 8.dp)
+                                    .clickable {
+                                        eventOptionDialogVisible.value = true
+                                    },
                                 tint = Color.White
                             )
                             Icon(

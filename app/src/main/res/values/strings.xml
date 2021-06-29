@@ -30,4 +30,5 @@
     <string name="notification_channel_name">이벤트 알림</string>
 
     <string name="web_non_install_browser">브라우저가 설치되어있지 않습니다.</string>
+    <string name="main_dialog_event_option">이벤트 옵션</string>
 </resources>
