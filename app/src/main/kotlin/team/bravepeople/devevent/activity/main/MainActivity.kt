@@ -109,8 +109,7 @@ class MainActivity : ComponentActivity() {
                     keyboardActions = KeyboardActions(onSearch = {
                         val search = searchField.text
                         if (search.isNotBlank()) {
-                            searchField =
-                                TextFieldValue(text = "") // todo: clear TextFieldValue not working
+                            searchField = TextFieldValue()
                             searching = false
                         } else {
                             toast(context, "검색어를 입력해 주세요.")
