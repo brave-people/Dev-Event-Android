@@ -71,6 +71,8 @@ class RepositoryViewModel @Inject constructor(
         endAction: suspend () -> Unit,
         networkNotAvailableAction: Context.() -> Unit
     ) = viewModelScope.launch(Dispatchers.IO) {
+        EventDatabase.instance.clearAllTables()
+
         suspend fun finish() {
             eventVm.updateEventFlow()
             endAction()
