@@ -13,24 +13,30 @@ import android.app.PendingIntent
 import android.content.Context
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.net.toUri
+import team.bravepeople.devevent.R
+import team.bravepeople.devevent.util.extension.toast
+
 
 object Web {
-    // todo: 크롬 사용 가능한지 체크
     fun open(context: Context, url: String) {
-        val builder = CustomTabsIntent.Builder()
+        try {
+            val builder = CustomTabsIntent.Builder()
 
-        val bravePeopleGithub = builder.build().intent
-        bravePeopleGithub.data = "https://github.com/brave-people".toUri()
+            val organization = builder.build().intent
+            organization.data = "https://github.com/brave-people".toUri()
 
-        val projectGithubIntent = PendingIntent.getActivity(
-            context,
-            1000,
-            bravePeopleGithub,
-            PendingIntent.FLAG_IMMUTABLE
-        )
-        builder.addMenuItem("용감한 친구들", projectGithubIntent)
+            val projectGithubIntent = PendingIntent.getActivity(
+                context,
+                1000,
+                organization,
+                PendingIntent.FLAG_IMMUTABLE
+            )
+            builder.addMenuItem(context.getString(R.string.brave_people), projectGithubIntent)
 
-        val customTabIntent = builder.build()
-        customTabIntent.launchUrl(context, url.toUri())
+            val customTabIntent = builder.build()
+            customTabIntent.launchUrl(context, url.toUri())
+        } catch (ignored: Exception) {
+            toast(context, context.getString(R.string.web_non_install_browser))
+        }
     }
 }
