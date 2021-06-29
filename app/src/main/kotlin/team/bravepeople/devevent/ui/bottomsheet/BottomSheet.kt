@@ -9,9 +9,13 @@
 
 package team.bravepeople.devevent.ui.bottomsheet
 
-import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,43 +25,70 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.consumeAllChanges
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun BottomSheet(
     content: @Composable () -> Unit,
     bottomSheetContent: @Composable ColumnScope.() -> Unit,
     contentHeight: Dp,
-    bottomSheetVisible: State<Boolean>
+    bottomSheetVisible: MutableState<Boolean>
 ) { // todo: SwipeDown to dimiss
     val shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)
-    val sheetContentHeight = if (bottomSheetVisible.value) contentHeight else 0.dp
 
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomStart) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .animateContentSize()
-                .height(sheetContentHeight)
-                .clip(shape)
-                .zIndex(999f)
-                .background(Color.White, shape)
-                .shadow(1.dp, shape)
-                .clickable(
-                    indication = null,
-                    interactionSource = remember { MutableInteractionSource() }
-                ) { }
+        AnimatedVisibility(
+            visible = bottomSheetVisible.value,
+            enter = expandVertically(),
+            exit = shrinkVertically(),
+            modifier = Modifier.zIndex(9999f)
         ) {
-            bottomSheetContent()
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(contentHeight)
+                    .pointerInput(Unit) {
+                        detectDragGestures { change, dragAmount ->
+                            change.consumeAllChanges()
+
+                            val (x, y) = dragAmount
+                            when {
+                                x > 0 -> { /* right */
+                                }
+                                x < 0 -> { /* left */
+                                }
+                            }
+                            when {
+                                y > 0 -> { /* down */
+                                    bottomSheetVisible.value = false
+                                }
+                                y < 0 -> { /* up */
+                                }
+                            }
+                        }
+                    }
+                    .clip(shape)
+                    .background(Color.White, shape)
+                    .shadow(1.dp, shape)
+                    .clickable(
+                        indication = null,
+                        interactionSource = remember { MutableInteractionSource() }
+                    ) { }
+            ) {
+                bottomSheetContent()
+            }
         }
         content()
     }
