@@ -315,7 +315,7 @@ fun LazyEvent(repositoryVm: RepositoryViewModel, search: String, eventFilter: Ev
                                 EventHeader(headerDate)
                             }
 
-                            items(events) { event ->
+                            items(events.sortedBy { it.startDate ?: it.joinDate }) { event ->
                                 EventItem(
                                     event = event,
                                     onClick = {

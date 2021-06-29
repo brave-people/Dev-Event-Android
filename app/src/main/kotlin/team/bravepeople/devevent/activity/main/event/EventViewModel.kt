@@ -28,7 +28,11 @@ class EventViewModel private constructor() : ViewModel() {
     val eventEntityFlow = _eventEntityFlow.asStateFlow() // flow; unnecessary getter
 
     fun getAllTags() =
-        eventEntityFlow.value.mapNotNull { it.category }.flatMap { it.split(",") } // .flatten()?
+        eventEntityFlow.value
+            .mapNotNull { it.category }
+            .flatMap { it.split(",") } // .flatten()?
+            .distinct()
+            .sorted()
 
     fun updateEventFlow() {
         _eventEntityFlow.value = eventEntityList
