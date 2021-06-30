@@ -263,13 +263,7 @@ fun LazyEvent(repositoryVm: RepositoryViewModel, search: String, eventFilter: Ev
         if (eventFilter == EventFilter.Favorite) it.favorite
         else true
     }
-    eventEntities = eventEntities.filter {
-        if (search.isNotBlank()) {
-            it.contains(search)
-        } else {
-            true
-        }
-    }
+    eventEntities = eventEntities.filter { it.contains(search.lowercase()) }
 
     if (eventFilter == EventFilter.Favorite && eventEntities.isEmpty()) {
         EmptyEvent()

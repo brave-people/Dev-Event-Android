@@ -25,6 +25,8 @@ data class EventEntity(
     val owner: String? = "" // 주최
 ) {
     fun contains(value: String) =
-        name.contains(value) || category?.contains(value) == true
-                || owner?.contains(value) == true || site?.contains(value) == true
+        name.lowercase().contains(value) ||
+                category?.lowercase()?.contains(value) == true
+                || owner?.lowercase()?.contains(value) == true
+                || site?.lowercase()?.contains(value) == true
 }
