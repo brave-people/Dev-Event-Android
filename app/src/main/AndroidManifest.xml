@@ -38,6 +38,7 @@
         </activity>
 
         <activity android:name=".activity.MainActivity" />
+
         <service android:name=".service.ForegroundService" />
 
     </application>

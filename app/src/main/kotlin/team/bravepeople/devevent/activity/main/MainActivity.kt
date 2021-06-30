@@ -66,11 +66,12 @@ import team.bravepeople.devevent.theme.MaterialTheme
 import team.bravepeople.devevent.theme.SystemUiController
 import team.bravepeople.devevent.theme.colors
 import team.bravepeople.devevent.theme.defaultFontFamily
+import team.bravepeople.devevent.ui.chip.ChipViewModel
+import team.bravepeople.devevent.ui.chip.FlowTag
 import team.bravepeople.devevent.ui.fancybottombar.FancyBottomBar
 import team.bravepeople.devevent.ui.fancybottombar.FancyColors
 import team.bravepeople.devevent.ui.fancybottombar.FancyItem
 import team.bravepeople.devevent.ui.fancybottombar.FancyOptions
-import team.bravepeople.devevent.ui.tag.FlowTag
 import team.bravepeople.devevent.util.extension.toast
 
 private enum class Tab {
@@ -81,6 +82,7 @@ private enum class Tab {
 class MainActivity : ComponentActivity() {
 
     private var tab by mutableStateOf(Tab.Event)
+    private val chipVm = ChipViewModel.instance
     private val eventVm = EventViewModel.instance
     private val repositoryVm: RepositoryViewModel by viewModels()
 
@@ -116,7 +118,10 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier
                             .fillMaxWidth()
                             .wrapContentHeight(),
-                        tags = tags
+                        tags = tags,
+                        onClick = {
+                            chipVm.toggleChipSelected(this)
+                        }
                     )
                 }
             )

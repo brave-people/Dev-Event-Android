@@ -60,14 +60,15 @@ import team.bravepeople.devevent.repo.RepositoryViewModel
 import team.bravepeople.devevent.theme.ColorOrange
 import team.bravepeople.devevent.theme.colors
 import team.bravepeople.devevent.ui.bottomsheet.BottomSheet
-import team.bravepeople.devevent.ui.tag.LazyTag
+import team.bravepeople.devevent.ui.chip.ChipViewModel
+import team.bravepeople.devevent.ui.chip.LazyTag
 import team.bravepeople.devevent.util.Web
 import team.bravepeople.devevent.util.extension.takeIfLength
 import team.bravepeople.devevent.util.extension.takeIfSizeToCategory
 import team.bravepeople.devevent.util.extension.toast
 
+private val chipVm = ChipViewModel.instance
 private val eventVm = EventViewModel.instance
-private var preListFirstVisibleIndex = 0
 
 @Composable
 private fun EmptyEvent() {
@@ -264,6 +265,12 @@ fun LazyEvent(repositoryVm: RepositoryViewModel, search: String, eventFilter: Ev
         else true
     }
     eventEntities = eventEntities.filter { it.contains(search.lowercase()) }
+    if (chipVm.selectedChip.isNotEmpty()) {
+        eventEntities = eventEntities.filter { event ->
+            if (event.category == null) false
+            else chipVm.selectedChip.any { event.category.contains(it) }
+        }
+    }
 
     if (eventFilter == EventFilter.Favorite && eventEntities.isEmpty()) {
         EmptyEvent()
