@@ -2,107 +2,88 @@
  * DevEventAndroid © 2021 용감한 친구들. all rights reserved.
  * DevEventAndroid license is under the MIT.
  *
- * [RepositoryViewModel.kt] created by Ji Sungbin on 21. 6. 25. 오전 12:04.
+ * [EventRepositoryImpl.kt] created by Ji Sungbin on 21. 7. 2. 오전 3:54.
  *
  * Please see: https://github.com/brave-people/Dev-Event-Android/blob/master/LICENSE.
  */
 
-package team.bravepeople.devevent.repo
+package team.bravepeople.devevent.activity.main.event.repo
 
 import android.content.Context
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.Date
 import javax.inject.Inject
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.launch
 import retrofit2.await
-import team.bravepeople.devevent.activity.main.event.EventViewModel
 import team.bravepeople.devevent.activity.main.event.database.EventDatabase
 import team.bravepeople.devevent.activity.main.event.database.EventEntity
+import team.bravepeople.devevent.repo.GithubService
 import team.bravepeople.devevent.util.Data
 import team.bravepeople.devevent.util.extension.parseOrNull
 import team.bravepeople.devevent.util.manage.PathManager
 import team.bravepeople.devevent.util.networkk.Network
+import team.bravepeople.devevent.util.networkk.NetworkNotConnected
 
-@HiltViewModel
-class RepositoryViewModel @Inject constructor(
+class EventRepositoryImpl @Inject constructor(
+    private val context: Context,
     private val client: GithubService,
     private val database: EventDatabase
-) : ViewModel() {
+) : EventRepository {
 
     private val databaseDao = database.dao()
-    private val eventVm = EventViewModel.instance
-    private val eventEntities get() = eventVm.eventEntityList
+    private val eventEntities get() = emptyList<EventEntity>() // todo: Caching Events
 
-    fun loadEvents(
-        context: Context,
-        endAction: suspend () -> Unit,
-        networkNotAvailableAction: () -> Unit
-    ) = viewModelScope.launch(Dispatchers.IO) {
-        suspend fun finish() {
-            eventVm.updateEventFlow()
-            endAction()
-        }
-
+    @OptIn(ExperimentalCoroutinesApi::class)
+    override fun load() = callbackFlow {
         if (eventEntities.isEmpty()) {
             val databaseEvents = databaseDao.getEvents()
             if (databaseEvents.isEmpty()) {
                 if (Network.isNetworkAvailable(context)) {
-                    client.getEvents().await().use { response ->
-                        runCatching { parseAndSave(response.string()) }
+                    client.getEvents().await().use { _response ->
+                        val response = runCatching { parseAndSave(_response.string()) }
+                        val result =
+                            (response.getOrNull() ?: response.exceptionOrNull()).toEventRepoResult()
+                        trySend(result)
                     }
-                    finish()
                 } else {
-                    networkNotAvailableAction()
+                    trySend(EventRepoResult.Error(NetworkNotConnected()))
                 }
             } else {
-                eventVm.addEvents(databaseEvents)
-                finish()
+                trySend(EventRepoResult.Success(databaseEvents))
             }
         } else {
-            finish()
+            trySend(EventRepoResult.Success(eventEntities))
         }
     }
 
-    fun refresh(
-        context: Context,
-        endAction: suspend () -> Unit,
-        networkNotAvailableAction: Context.() -> Unit
-    ) = viewModelScope.launch(Dispatchers.IO) {
-        EventDatabase.instance.clearAllTables()
-
-        suspend fun finish() {
-            eventVm.updateEventFlow()
-            endAction()
-        }
-
-        if (Network.isNetworkAvailable(context)) {
-            eventVm.clearEvents()
-            client.getEvents().await().use { response ->
-                runCatching { parseAndSave(response.string()) }
-            }
-            finish()
-        } else {
-            networkNotAvailableAction(context)
-        }
+    override fun refresh(): Flow<EventRepoResult> {
+        database.clearAllTables()
+        // eventEntities.clear() todo
+        return load()
     }
 
-    fun save(context: Context) = viewModelScope.launch(Dispatchers.IO) {
-        if (databaseDao.getEvents().isEmpty()) {
-            databaseDao.insertAll(eventEntities)
-            Data.save(context, PathManager.DatabaseSaveTime, Date().time.toString())
-        } else {
-            eventEntities.filterNot { event -> databaseDao.getEvents().contains(event) }
-            if (eventEntities.isNotEmpty()) {
-                databaseDao.updateAll(eventEntities)
+    override fun save() {
+        CoroutineScope(Dispatchers.IO).launch {
+            if (databaseDao.getEvents().isEmpty()) {
+                databaseDao.insertAll(eventEntities)
                 Data.save(context, PathManager.DatabaseSaveTime, Date().time.toString())
+            } else {
+                eventEntities.filterNot { event -> databaseDao.getEvents().contains(event) }
+                if (eventEntities.isNotEmpty()) {
+                    databaseDao.updateAll(eventEntities)
+                    Data.save(context, PathManager.DatabaseSaveTime, Date().time.toString())
+                }
             }
         }
     }
 
-    private fun parseAndSave(value: String) {
+    private fun parseAndSave(value: String): List<EventEntity> {
+        val eventList = mutableListOf<EventEntity>()
+
         fun String?.polish(removeWhiteSpace: Boolean = true): String? {
             return if (this != null) {
                 var content = replaceFirst("-", "").replaceFirst(":", "")
@@ -144,11 +125,12 @@ class RepositoryViewModel @Inject constructor(
                                 owner = owner
                             )
 
-                            eventVm.addEvent(eventEntity)
+                            eventList.add(eventEntity)
                         }
                     }
                 }
             }
         }
+        return eventList
     }
 }

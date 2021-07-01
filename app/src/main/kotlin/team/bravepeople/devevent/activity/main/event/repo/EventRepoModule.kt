@@ -2,25 +2,32 @@
  * DevEventAndroid © 2021 용감한 친구들. all rights reserved.
  * DevEventAndroid license is under the MIT.
  *
- * [GlobalModule.kt] created by Ji Sungbin on 21. 6. 24. 오후 11:30.
+ * [EventModule.kt] created by Ji Sungbin on 21. 7. 2. 오전 4:36.
  *
  * Please see: https://github.com/brave-people/Dev-Event-Android/blob/master/LICENSE.
  */
 
-package team.bravepeople.devevent.di
+package team.bravepeople.devevent.activity.main.event.repo
 
+import android.content.Context
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 import team.bravepeople.devevent.activity.main.event.database.EventDatabase
+import team.bravepeople.devevent.repo.GithubService
 
 @Module
 @InstallIn(SingletonComponent::class)
-object GlobalModule {
+object EventRepoModule {
 
     @Provides
     @Singleton
-    fun provideDatabase() = EventDatabase.instance
+    fun provideEventRespository(
+        @ApplicationContext context: Context,
+        client: GithubService,
+        database: EventDatabase,
+    ): EventRepository = EventRepositoryImpl(context, client, database)
 }

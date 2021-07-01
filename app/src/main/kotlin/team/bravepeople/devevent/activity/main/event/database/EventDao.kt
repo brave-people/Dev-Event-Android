@@ -11,7 +11,6 @@ package team.bravepeople.devevent.activity.main.event.database
 
 import androidx.room.Dao
 import androidx.room.Insert
-import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 
@@ -20,7 +19,7 @@ interface EventDao {
     @Insert
     suspend fun insertAll(event: List<EventEntity>)
 
-    @Update(onConflict = OnConflictStrategy.REPLACE)
+    @Update
     suspend fun updateAll(event: List<EventEntity>)
 
     @Query("SELECT * FROM EventEntity")
