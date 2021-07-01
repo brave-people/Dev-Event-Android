@@ -20,7 +20,9 @@ sealed class EventRepoResult {
 fun Any?.toEventRepoResult(): EventRepoResult {
     return when (this) {
         is Exception -> EventRepoResult.Error(this)
-        is List<*> -> EventRepoResult.Success(this as List<EventEntity>)
+        is List<*> -> EventRepoResult.Success(
+            this as? List<EventEntity> ?: throw Error("Miss type.")
+        )
         else -> throw Error("Unknown type.")
     }
 }
