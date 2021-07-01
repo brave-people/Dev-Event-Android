@@ -19,7 +19,7 @@ class DevEventAndroid : Application() {
     override fun onCreate() {
         super.onCreate()
         EventDatabase.init(applicationContext)
-        NotificationUtil.createChannel(
+        NotificationUtil.createChannel( // todo: Check channel already created
             applicationContext,
             getString(R.string.notification_channel_name),
             getString(R.string.notification_channel_description)

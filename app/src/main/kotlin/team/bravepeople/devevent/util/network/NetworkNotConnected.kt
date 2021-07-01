@@ -7,7 +7,7 @@
  * Please see: https://github.com/brave-people/Dev-Event-Android/blob/master/LICENSE.
  */
 
-package team.bravepeople.devevent.util.networkk
+package team.bravepeople.devevent.util.network
 
 class NetworkNotConnected : Exception() {
     override val message: String

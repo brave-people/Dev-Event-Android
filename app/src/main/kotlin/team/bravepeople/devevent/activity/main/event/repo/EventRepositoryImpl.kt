@@ -25,8 +25,8 @@ import team.bravepeople.devevent.repo.GithubService
 import team.bravepeople.devevent.util.Data
 import team.bravepeople.devevent.util.extension.parseOrNull
 import team.bravepeople.devevent.util.manage.PathManager
-import team.bravepeople.devevent.util.networkk.Network
-import team.bravepeople.devevent.util.networkk.NetworkNotConnected
+import team.bravepeople.devevent.util.network.Network
+import team.bravepeople.devevent.util.network.NetworkNotConnected
 
 class EventRepositoryImpl @Inject constructor(
     private val context: Context,

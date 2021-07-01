@@ -2,6 +2,15 @@
  * DevEventAndroid © 2021 용감한 친구들. all rights reserved.
  * DevEventAndroid license is under the MIT.
  *
+ * [Network.kt] created by Ji Sungbin on 21. 7. 2. 오전 5:09.
+ *
+ * Please see: https://github.com/brave-people/Dev-Event-Android/blob/master/LICENSE.
+ */
+
+/*
+ * DevEventAndroid © 2021 용감한 친구들. all rights reserved.
+ * DevEventAndroid license is under the MIT.
+ *
  * [Network.kt] created by Ji Sungbin on 21. 7. 2. 오전 4:12.
  *
  * Please see: https://github.com/brave-people/Dev-Event-Android/blob/master/LICENSE.
@@ -25,7 +34,7 @@
  * Please see: https://github.com/brave-people/Dev-Event-Android/blob/master/LICENSE.
  */
 
-package team.bravepeople.devevent.util.networkk
+package team.bravepeople.devevent.util.network
 
 import android.content.Context
 import android.net.ConnectivityManager
