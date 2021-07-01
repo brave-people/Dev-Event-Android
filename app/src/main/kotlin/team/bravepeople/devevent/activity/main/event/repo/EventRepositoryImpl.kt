@@ -15,6 +15,7 @@ import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.launch
@@ -58,6 +59,8 @@ class EventRepositoryImpl @Inject constructor(
         } else {
             trySend(EventRepoResult.Success(eventEntities))
         }
+
+        awaitClose { close() }
     }
 
     override fun refresh(): Flow<EventRepoResult> {

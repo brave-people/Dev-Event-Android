@@ -12,15 +12,15 @@ package team.bravepeople.devevent.repo
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ViewModelComponent
-import dagger.hilt.android.scopes.ViewModelScoped
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 
 @Module
-@InstallIn(ViewModelComponent::class)
+@InstallIn(SingletonComponent::class)
 object GithubModule {
     private const val BaseUrl =
         "https://raw.githubusercontent.com"
@@ -37,7 +37,7 @@ object GithubModule {
     }
 
     @Provides
-    @ViewModelScoped
+    @Singleton
     fun provideRetrofit() = Retrofit.Builder()
         .baseUrl(BaseUrl)
         .client(getInterceptor(httpLoggingInterceptor))

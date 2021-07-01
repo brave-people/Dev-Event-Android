@@ -9,11 +9,9 @@
 
 package team.bravepeople.devevent.activity.splash
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -30,25 +28,32 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
+import javax.inject.Inject
+import kotlinx.coroutines.flow.collect
 import team.bravepeople.devevent.R
-import team.bravepeople.devevent.activity.MainActivity
-import team.bravepeople.devevent.repo.RepositoryViewModel
+import team.bravepeople.devevent.activity.main.event.repo.EventRepoResult
+import team.bravepeople.devevent.activity.main.event.repo.EventRepository
 import team.bravepeople.devevent.theme.MaterialTheme
 import team.bravepeople.devevent.theme.SystemUiController
 import team.bravepeople.devevent.theme.colors
-import team.bravepeople.devevent.util.extension.toast
 
 @AndroidEntryPoint
 class SplashActivity : ComponentActivity() {
 
-    private val repositoryVm: RepositoryViewModel by viewModels()
+    @Inject
+    lateinit var eventRepository: EventRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         lifecycleScope.launchWhenCreated {
-            repositoryVm.loadEvents(
+            eventRepository.load().collect { result ->
+                when (result) {
+                    is EventRepoResult.Success -> println("repo: " + result.events)
+                    is EventRepoResult.Error -> println("repo: " + result.exception.message)
+                }
+            }
+            /*repositoryVm.loadEvents(
                 context = applicationContext,
                 endAction = {
                     delay(1000)
@@ -59,7 +64,7 @@ class SplashActivity : ComponentActivity() {
                     finish()
                     toast(getString(R.string.splash_toast_need_network_connect))
                 }
-            )
+            )*/
         }
 
         SystemUiController(window).setSystemBarsColor(colors.primary)
