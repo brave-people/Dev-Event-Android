@@ -19,6 +19,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieAnimationSpec
@@ -26,7 +27,11 @@ import com.airbnb.lottie.compose.rememberLottieAnimationState
 import team.bravepeople.devevent.R
 
 @Composable
-fun ErrorDialog(visible: MutableState<Boolean>, exception: Exception) {
+fun ErrorDialog(
+    visible: MutableState<Boolean>,
+    exception: Exception,
+    onDismiss: () -> Unit = {}
+) {
     if (visible.value) {
         val animationSpec = remember { LottieAnimationSpec.RawRes(R.raw.error) }
         val animationState =
@@ -35,7 +40,10 @@ fun ErrorDialog(visible: MutableState<Boolean>, exception: Exception) {
             }
 
         AlertDialog(
-            onDismissRequest = { visible.value = false },
+            onDismissRequest = {
+                visible.value = false
+                onDismiss()
+            },
             buttons = {},
             title = { // todo: Centering
                 LottieAnimation(
@@ -46,7 +54,10 @@ fun ErrorDialog(visible: MutableState<Boolean>, exception: Exception) {
             },
             text = {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text(text = "에러가 발생했어요 \uD83D\uDE22", color = Color.Black)
+                    Text(
+                        text = stringResource(R.string.error_dialog_occur_exception),
+                        color = Color.Black
+                    )
                     exception.message?.let { errorMessage ->
                         Text(text = errorMessage, color = Color.Black)
                     }

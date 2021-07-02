@@ -38,6 +38,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -53,6 +54,8 @@ import androidx.compose.ui.zIndex
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieAnimationSpec
 import com.airbnb.lottie.compose.rememberLottieAnimationState
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import team.bravepeople.devevent.R
 import team.bravepeople.devevent.activity.main.event.database.EventDatabase
 import team.bravepeople.devevent.theme.ColorOrange
@@ -162,6 +165,7 @@ private fun OpenSourceDialog(isOpen: MutableState<Boolean>) {
 @Composable
 fun Info(database: EventDatabase, activity: Activity) {
     val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
 
     var lottieVisible by remember { mutableStateOf(true) }
     val organizationUrl = "https://github.com/brave-people"
@@ -249,10 +253,10 @@ fun Info(database: EventDatabase, activity: Activity) {
                             )
                             dbClearButtonLastClick = clickedTime
                         } else {
-                            Thread {
+                            coroutineScope.launch(Dispatchers.IO) {
                                 Data.clear(context)
                                 database.clearAllTables()
-                            }.start()
+                            }
                             toast(context, activity.getString(R.string.info_button_cleared_db))
                             activity.finish()
                         }

@@ -61,7 +61,7 @@ private fun Chip(
         shape = shape,
         color = surfaceColor,
         elevation = 1.dp,
-        border = BorderStroke(1.dp, Color(color)),
+        border = BorderStroke(1.dp, animateColorAsState(Color(color)).value),
         modifier = modifier
     ) {
         Text(

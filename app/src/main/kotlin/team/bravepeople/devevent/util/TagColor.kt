@@ -37,8 +37,14 @@ object TagColor {
     operator fun invoke(context: Context, tag: String): Int {
         var color = tagColors[tag]
         if (color == null) {
-            color = Data.read(context, PathConfig.TagColor(tag), RandomColor.toString())!!.toInt()
-            tagColors[tag] = color
+            val savedColor = Data.read(context, PathConfig.TagColor(tag), null)?.toInt()
+            if (savedColor != null) {
+                color = savedColor
+                tagColors[tag] = color
+            } else {
+                color = RandomColor
+                Data.save(context, PathConfig.TagColor(tag), color.toString())
+            }
         }
         return color
     }

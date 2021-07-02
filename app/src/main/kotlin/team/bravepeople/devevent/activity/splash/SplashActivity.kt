@@ -84,7 +84,11 @@ class SplashActivity : ComponentActivity() {
         SystemUiController(window).setSystemBarsColor(colors.primary)
         setContent {
             MaterialTheme {
-                ErrorDialog(visible = errorDialogVisible, exception = exception)
+                ErrorDialog(
+                    visible = errorDialogVisible,
+                    exception = exception,
+                    onDismiss = { finish() }
+                )
 
                 Box(
                     modifier = Modifier
