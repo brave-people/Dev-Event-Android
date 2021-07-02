@@ -64,9 +64,11 @@ class SplashActivity : ComponentActivity() {
             eventRepo.load().collect { result ->
                 when (result) {
                     is EventRepoResult.Success -> {
+                        println("result: " + result.events)
                         eventRepo.save(
                             result.events,
                             endAction = {
+                                println("splash: " + eventDatabase.dao().getEvents())
                                 delay(1000)
                                 finish()
                                 startActivity(Intent(this@SplashActivity, MainActivity::class.java))

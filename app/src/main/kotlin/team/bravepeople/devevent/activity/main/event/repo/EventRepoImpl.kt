@@ -63,15 +63,20 @@ class EventRepoImpl @Inject constructor(
         return load()
     }
 
-    override fun save(eventEntities: List<EventEntity>, endAction: suspend () -> Unit) {
+    override fun save(_eventEntities: List<EventEntity>, endAction: suspend () -> Unit) {
         CoroutineScope(Dispatchers.IO).launch {
             val databaseEvents = databaseDao.getEvents()
-            eventEntities.filterNot { event -> databaseEvents.contains(event) }
+            val eventEntities = _eventEntities.filterNot { event -> databaseEvents.contains(event) }
             if (eventEntities.isNotEmpty()) {
+                println("uploadAll start: $eventEntities")
                 databaseDao.updateAll(eventEntities)
                 Data.save(context, PathConfig.DatabaseSaveTime, Date().time.toString())
+                println("uploadAll end: " + databaseDao.getEvents())
+                endAction()
+            } else {
+                println("else statement launch")
+                endAction()
             }
-            endAction()
         }
     }
 

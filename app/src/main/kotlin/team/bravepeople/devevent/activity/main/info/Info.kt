@@ -173,10 +173,11 @@ fun Info(database: EventDatabase, activity: Activity) {
 
     val animationSpec = remember { LottieAnimationSpec.RawRes(R.raw.confetti) }
     val animationState =
-        rememberLottieAnimationState(autoPlay = true).apply { speed = .8f }
+        rememberLottieAnimationState(autoPlay = false).apply { speed = .8f }
 
     OpenSourceDialog(isOpensourceDialogOpen)
-    doDelay(2500) { lottieVisible = false }
+    doDelay(500) { animationState.toggleIsPlaying() }
+    doDelay(3000) { lottieVisible = false }
 
     Box(modifier = Modifier.fillMaxSize()) {
         AnimatedVisibility(

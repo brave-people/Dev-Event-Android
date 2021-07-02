@@ -125,6 +125,7 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier
                             .fillMaxWidth()
                             .wrapContentHeight(),
+                        chipVm = chipVm,
                         tags = tags,
                         onClick = {
                             chipVm.toggleChipSelected(this)

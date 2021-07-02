@@ -55,6 +55,7 @@ class EventViewModel @Inject constructor(
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
+            println("vm: " + database.dao().getEvents())
             _eventEntityList.addAll(database.dao().getEvents())
         }
     }

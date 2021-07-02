@@ -98,7 +98,11 @@ private fun EmptyEvent() {
 }
 
 @Composable
-private fun EventBottomSheet(event: EventEntity?, sheetVisible: MutableState<Boolean>) {
+private fun EventBottomSheet(
+    chipVm: ChipViewModel,
+    event: EventEntity?,
+    sheetVisible: MutableState<Boolean>
+) {
     val context = LocalContext.current
     val unknown = "정보없음"
 
@@ -141,7 +145,11 @@ private fun EventBottomSheet(event: EventEntity?, sheetVisible: MutableState<Boo
                     fontSize = 13.sp,
                     modifier = Modifier.padding(top = 15.dp)
                 )
-                LazyTag(modifier = Modifier.padding(top = 15.dp), tags = event.category.toTags())
+                LazyTag(
+                    modifier = Modifier.padding(top = 15.dp),
+                    tags = event.category.toTags(),
+                    chipVm = chipVm
+                )
             }
             Column(
                 modifier = Modifier.fillMaxSize(),
@@ -290,7 +298,13 @@ fun LazyEvent(
         EmptyEvent()
     } else {
         BottomSheet(
-            bottomSheetContent = { EventBottomSheet(selectedEvent, bottomSheetVisible) },
+            bottomSheetContent = {
+                EventBottomSheet(
+                    chipVm = chipVm,
+                    event = selectedEvent,
+                    sheetVisible = bottomSheetVisible
+                )
+            },
             contentHeight = 300.dp,
             bottomSheetVisible = bottomSheetVisible,
             content = {
