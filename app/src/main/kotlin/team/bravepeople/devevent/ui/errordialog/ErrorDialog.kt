@@ -30,7 +30,7 @@ fun ErrorDialog(visible: MutableState<Boolean>, exception: Exception) {
     if (visible.value) {
         val animationSpec = remember { LottieAnimationSpec.RawRes(R.raw.error) }
         val animationState =
-            rememberLottieAnimationState(autoPlay = true, repeatCount = Int.MAX_VALUE).apply {
+            rememberLottieAnimationState(repeatCount = Int.MAX_VALUE).apply {
                 speed = 2f
             }
 
