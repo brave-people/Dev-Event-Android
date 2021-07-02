@@ -16,8 +16,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import retrofit2.await
 import team.bravepeople.devevent.activity.main.event.database.EventDatabase
@@ -58,10 +58,14 @@ class EventRepoImpl @Inject constructor(
         awaitClose { close() }
     }
 
-    override fun refresh(): Flow<EventRepoResult> {
-        if (Network.isNetworkAvailable(context)) database.clearAllTables()
-        return load()
-    }
+    override fun refresh() =
+        if (!Network.isNetworkAvailable(context)) flow {
+            emit(EventRepoResult.Error(NetworkNotConnected()))
+        }
+        else {
+            database.clearAllTables()
+            load()
+        }
 
     override fun save(eventEntities: List<EventEntity>, endAction: suspend () -> Unit) {
         CoroutineScope(Dispatchers.IO).launch {

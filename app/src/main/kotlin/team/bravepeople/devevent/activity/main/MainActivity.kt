@@ -139,10 +139,12 @@ class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalAnimationApi::class)
     @Composable
     fun TopBar() {
-        val eventOptionDialogVisible = remember { mutableStateOf(false) }
         val context = LocalContext.current
 
-        EventOptionDialog(openDialogVisible = eventOptionDialogVisible, tags = eventVm.getAllTags())
+        val eventOptionDialogVisible = remember { mutableStateOf(false) }
+        var tags by remember { mutableStateOf(eventVm.getAllTags()) }
+
+        EventOptionDialog(openDialogVisible = eventOptionDialogVisible, tags = tags)
 
         TopAppBar {
             AnimatedVisibility(visible = searching, exit = fadeOut()) {
@@ -207,6 +209,7 @@ class MainActivity : ComponentActivity() {
                                 modifier = Modifier
                                     .padding(end = 8.dp)
                                     .clickable {
+                                        tags = eventVm.getAllTags()
                                         eventOptionDialogVisible.value = true
                                     },
                                 tint = Color.White

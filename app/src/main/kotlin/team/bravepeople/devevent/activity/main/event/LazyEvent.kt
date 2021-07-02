@@ -147,8 +147,7 @@ private fun EventBottomSheet(
                 )
                 LazyTag(
                     modifier = Modifier.padding(top = 15.dp),
-                    tags = event.category.toTags(),
-                    chipVm = chipVm
+                    tags = event.category.toTags()
                 )
             }
             Column(
@@ -328,12 +327,14 @@ fun LazyEvent(
                                             endAction = {
                                                 delay(1000)
                                                 refreshing = false
+                                                eventVm.reload()
                                             }
                                         )
                                     }
                                     is EventRepoResult.Error -> {
                                         exception = result.exception
                                         errorDialogVisible.value = true
+                                        refreshing = false
                                     }
                                 }
                             }

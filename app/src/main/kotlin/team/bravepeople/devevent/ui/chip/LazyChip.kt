@@ -9,8 +9,8 @@
 
 package team.bravepeople.devevent.ui.chip
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -22,6 +22,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -31,28 +34,39 @@ import androidx.compose.ui.unit.sp
 import androidx.core.graphics.ColorUtils
 import team.bravepeople.devevent.ui.flowrow.FlowRow
 import team.bravepeople.devevent.util.TagColor
+import team.bravepeople.devevent.util.extension.noRippleClickable
 
 @Composable
-private fun Chip(chipVm: ChipViewModel, name: String, onClick: String.() -> Unit) {
+private fun Chip(
+    name: String,
+    selected: State<Boolean>,
+    onClick: (String.() -> Unit)?
+) {
     val context = LocalContext.current
     val shape = RoundedCornerShape(5.dp)
     val color = TagColor(context, name)
     val isDarkColor = ColorUtils.calculateLuminance(color) < 0.5
-    val selected = chipVm.isChipSelected(name).value
+    var modifier = Modifier
+        .wrapContentSize()
+        .clip(shape)
+
+    val textColor by animateColorAsState(if (selected.value) if (isDarkColor) Color.White else Color.Black else Color.Black)
+    val surfaceColor by animateColorAsState(if (selected.value) Color(color) else Color.White)
+
+    onClick?.let { action ->
+        modifier = modifier.noRippleClickable { action(name) }
+    }
 
     Surface(
         shape = shape,
-        color = if (selected) Color(color) else Color.White,
+        color = surfaceColor,
         elevation = 1.dp,
         border = BorderStroke(1.dp, Color(color)),
-        modifier = Modifier
-            .wrapContentSize()
-            .clip(shape)
-            .clickable { onClick(name) }
+        modifier = modifier
     ) {
         Text(
             text = name,
-            color = if (selected) if (isDarkColor) Color.White else Color.Black else Color.Black,
+            color = textColor,
             fontSize = 14.sp,
             modifier = Modifier.padding(top = 4.dp, bottom = 4.dp, start = 8.dp, end = 8.dp)
         )
@@ -68,7 +82,11 @@ fun FlowTag(
 ) { // used in setting dialog -> chip clickable
     FlowRow(modifier = modifier, verticalGap = 4.dp, horizontalGap = 4.dp) {
         for (tag in tags) {
-            Chip(chipVm = chipVm, name = tag, onClick = onClick)
+            Chip(
+                name = tag,
+                selected = chipVm.isChipSelected(tag),
+                onClick = onClick
+            )
         }
     }
 }
@@ -76,7 +94,6 @@ fun FlowTag(
 @Composable
 fun LazyTag(
     modifier: Modifier,
-    chipVm: ChipViewModel,
     tags: List<String>
 ) { // used in event detail bottomsheet -> chip unclickable
     LazyRow(
@@ -85,8 +102,12 @@ fun LazyTag(
             .wrapContentHeight(),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        items(tags) { tagName ->
-            Chip(chipVm = chipVm, name = tagName, onClick = {})
+        items(tags) { tag ->
+            Chip(
+                name = tag,
+                selected = mutableStateOf(true),
+                onClick = null
+            )
         }
     }
 }
