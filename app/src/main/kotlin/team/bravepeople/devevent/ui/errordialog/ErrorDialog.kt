@@ -9,9 +9,7 @@
 
 package team.bravepeople.devevent.ui.errordialog
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Text
@@ -39,19 +37,15 @@ fun ErrorDialog(visible: MutableState<Boolean>, exception: Exception) {
         AlertDialog(
             onDismissRequest = { visible.value = false },
             buttons = {},
+            title = { // todo: Centering
+                LottieAnimation(
+                    spec = animationSpec,
+                    animationState = animationState,
+                    modifier = Modifier.size(100.dp)
+                )
+            },
             text = {
-                Column(
-                    modifier = Modifier.height(500.dp),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Column(modifier = Modifier.height(100.dp)) {
-                        LottieAnimation(
-                            spec = animationSpec,
-                            animationState = animationState,
-                            modifier = Modifier.size(100.dp)
-                        )
-                    }
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Text(text = "에러가 발생했어요 \uD83D\uDE22", color = Color.Black)
                     exception.message?.let { errorMessage ->
                         Text(text = errorMessage, color = Color.Black)
