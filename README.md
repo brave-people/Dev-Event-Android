@@ -16,7 +16,7 @@
   <img alt="info" src="/images/info.png?raw=true" width="25%" />
 </p>
 
-## MAD Score
+## [MAD Score](https://madscorecard.withgoogle.com/scorecard/share/1492290925/)
 ![](/images/madscore/summary.png?raw=true)
 
 ## 알려진 문제 및 의견 제출
