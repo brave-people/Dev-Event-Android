@@ -11,10 +11,13 @@
 
 ## 스크린샷
 <p align="center">
-  <img alt="splash" src="https://github.com/brave-people/Dev-Event-Android/blob/master/images/splash.png?raw=true" width="25%"/>
-  <img alt="main" src="https://github.com/brave-people/Dev-Event-Android/blob/master/images/main.png?raw=true" width="25%" />
-  <img alt="info" src="https://github.com/brave-people/Dev-Event-Android/blob/master/images/info.png?raw=true" width="25%" />
+  <img alt="splash" src="/images/splash.png?raw=true" width="25%"/>
+  <img alt="main" src="/images/main.png?raw=true" width="25%" />
+  <img alt="info" src="/images/info.png?raw=true" width="25%" />
 </p>
+
+## MAD Score
+![](/images/madscore/summary.png?raw=true)
 
 ## 알려진 문제 및 의견 제출
 [Issue](https://github.com/brave-people/Dev-Event-Android/issues) 탭을 통해 확인/제출하실 수 있습니다. 감사합니다.
