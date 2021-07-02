@@ -43,20 +43,26 @@ class EventViewModel @Inject constructor(
             .distinct()
             .sorted()
 
+    private fun updateFlow() {
+        _eventEntityFlow.value = eventEntityList
+    }
+
     fun update(event: EventEntity) {
         _eventEntityList.removeIf { it.name == event.name }
         _eventEntityList.add(event)
+        updateFlow()
     }
 
     fun reload() = viewModelScope.launch(Dispatchers.IO) {
         _eventEntityList.clear()
         _eventEntityList.addAll(database.dao().getEvents())
+        updateFlow()
     }
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            println("vm: " + database.dao().getEvents())
             _eventEntityList.addAll(database.dao().getEvents())
+            updateFlow()
         }
     }
 }
