@@ -2,15 +2,6 @@
  * DevEventAndroid © 2021 용감한 친구들. all rights reserved.
  * DevEventAndroid license is under the MIT.
  *
- * [GlobalModule.kt] created by Ji Sungbin on 21. 7. 2. 오전 4:37.
- *
- * Please see: https://github.com/brave-people/Dev-Event-Android/blob/master/LICENSE.
- */
-
-/*
- * DevEventAndroid © 2021 용감한 친구들. all rights reserved.
- * DevEventAndroid license is under the MIT.
- *
  * [GlobalModule.kt] created by Ji Sungbin on 21. 6. 24. 오후 11:30.
  *
  * Please see: https://github.com/brave-people/Dev-Event-Android/blob/master/LICENSE.

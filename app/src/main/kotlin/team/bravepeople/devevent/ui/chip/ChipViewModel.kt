@@ -14,7 +14,7 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 
-class ChipViewModel private constructor() : ViewModel() {
+class ChipViewModel : ViewModel() {
 
     private val _selectedChip = mutableStateListOf<String>()
     val selectedChip: List<String> get() = _selectedChip
@@ -29,9 +29,5 @@ class ChipViewModel private constructor() : ViewModel() {
 
     fun isChipSelected(name: String): State<Boolean> {
         return mutableStateOf(_selectedChip.contains(name))
-    }
-
-    companion object {
-        val instance by lazy { ChipViewModel() }
     }
 }

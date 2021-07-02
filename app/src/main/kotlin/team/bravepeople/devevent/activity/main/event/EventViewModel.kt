@@ -10,10 +10,13 @@
 package team.bravepeople.devevent.activity.main.event
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import team.bravepeople.devevent.activity.main.event.database.EventDatabase
 import team.bravepeople.devevent.activity.main.event.database.EventEntity
 
@@ -33,7 +36,6 @@ class EventViewModel @Inject constructor(
     private val _eventEntityFlow = MutableStateFlow<List<EventEntity>>(emptyList())
     val eventEntityFlow = _eventEntityFlow.asStateFlow() // flow; unnecessary getter
 
-
     fun getAllTags() =
         eventEntityFlow.value
             .mapNotNull { it.category }
@@ -41,15 +43,19 @@ class EventViewModel @Inject constructor(
             .distinct()
             .sorted()
 
-    fun updateEvent() {
-
+    fun update(event: EventEntity) {
+        _eventEntityList.removeIf { it.name == event.name }
+        _eventEntityList.add(event)
     }
 
-    fun clearEvents() {
+    fun reload() = viewModelScope.launch(Dispatchers.IO) {
         _eventEntityList.clear()
+        _eventEntityList.addAll(database.dao().getEvents())
     }
 
     init {
-        
+        viewModelScope.launch(Dispatchers.IO) {
+            _eventEntityList.addAll(database.dao().getEvents())
+        }
     }
 }

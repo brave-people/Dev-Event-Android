@@ -59,7 +59,7 @@ class EventRepoImpl @Inject constructor(
     }
 
     override fun refresh(): Flow<EventRepoResult> {
-        database.clearAllTables()
+        if (Network.isNetworkAvailable(context)) database.clearAllTables()
         return load()
     }
 

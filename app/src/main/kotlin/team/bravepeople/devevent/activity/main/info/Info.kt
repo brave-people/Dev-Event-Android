@@ -61,6 +61,7 @@ import team.bravepeople.devevent.ui.glideimage.GlideImage
 import team.bravepeople.devevent.ui.licenser.License
 import team.bravepeople.devevent.ui.licenser.Licenser
 import team.bravepeople.devevent.ui.licenser.Project
+import team.bravepeople.devevent.util.Data
 import team.bravepeople.devevent.util.Web
 import team.bravepeople.devevent.util.extension.doDelay
 import team.bravepeople.devevent.util.extension.toast
@@ -159,12 +160,12 @@ private fun OpenSourceDialog(isOpen: MutableState<Boolean>) {
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalAnimationApi::class)
 @Composable
-fun Info(activity: Activity) {
+fun Info(database: EventDatabase, activity: Activity) {
     val context = LocalContext.current
 
     var lottieVisible by remember { mutableStateOf(true) }
-    val projectUrl = "https://github.com/brave-people/Dev-Event-Android"
     val organizationUrl = "https://github.com/brave-people"
+    val projectUrl = "https://github.com/brave-people/Dev-Event-Android"
     val logoUrl = "https://avatars.githubusercontent.com/u/68955947?s=200&v=4"
 
     var dbClearButtonLastClick = 0L
@@ -248,7 +249,8 @@ fun Info(activity: Activity) {
                             dbClearButtonLastClick = clickedTime
                         } else {
                             Thread {
-                                EventDatabase.instance.clearAllTables()
+                                Data.clear(context)
+                                database.clearAllTables()
                             }.start()
                             toast(context, activity.getString(R.string.info_button_cleared_db))
                             activity.finish()

@@ -55,7 +55,7 @@ class SplashActivity : ComponentActivity() {
     lateinit var eventDatabase: EventDatabase
 
     private var exception by mutableStateOf(Exception())
-    private var errorDialogVisible = mutableStateOf(false)
+    private val errorDialogVisible = mutableStateOf(false)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -56,12 +56,14 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 import team.bravepeople.devevent.R
 import team.bravepeople.devevent.activity.main.event.EventFilter
 import team.bravepeople.devevent.activity.main.event.EventViewModel
 import team.bravepeople.devevent.activity.main.event.LazyEvent
+import team.bravepeople.devevent.activity.main.event.database.EventDatabase
+import team.bravepeople.devevent.activity.main.event.repo.EventRepo
 import team.bravepeople.devevent.activity.main.info.Info
-import team.bravepeople.devevent.repo.RepositoryViewModel
 import team.bravepeople.devevent.theme.MaterialTheme
 import team.bravepeople.devevent.theme.SystemUiController
 import team.bravepeople.devevent.theme.colors
@@ -75,16 +77,21 @@ import team.bravepeople.devevent.ui.fancybottombar.FancyOptions
 import team.bravepeople.devevent.util.extension.toast
 
 private enum class Tab {
-    Event, Favorite, Info
+    Main, Favorite, Info
 }
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    private var tab by mutableStateOf(Tab.Event)
-    private val chipVm = ChipViewModel.instance
-    private val eventVm = EventViewModel.instance
-    private val repositoryVm: RepositoryViewModel by viewModels()
+    private var tab by mutableStateOf(Tab.Main)
+    private val chipVm: ChipViewModel by viewModels()
+    private val eventVm: EventViewModel by viewModels()
+
+    @Inject
+    lateinit var eventRepo: EventRepo
+
+    @Inject
+    lateinit var eventDatabase: EventDatabase
 
     private var searching by mutableStateOf(false)
     private var searchField by mutableStateOf(TextFieldValue())
@@ -224,13 +231,17 @@ class MainActivity : ComponentActivity() {
             Column(modifier = Modifier.padding(bottom = 60.dp)) {
                 Crossfade(tab) { target ->
                     when (target) {
-                        Tab.Event -> LazyEvent(repositoryVm, searchField.text, EventFilter.None)
-                        Tab.Favorite -> LazyEvent(
-                            repositoryVm,
-                            searchField.text,
-                            EventFilter.Favorite
+                        Tab.Info -> Info(
+                            database = eventDatabase,
+                            activity = this@MainActivity
                         )
-                        Tab.Info -> Info(this@MainActivity)
+                        else -> LazyEvent(
+                            eventRepo = eventRepo,
+                            eventVm = eventVm,
+                            chipVm = chipVm,
+                            search = searchField.text,
+                            eventFilter = if (target == Tab.Main) EventFilter.None else EventFilter.Favorite
+                        )
                     }
                 }
             }
@@ -241,7 +252,7 @@ class MainActivity : ComponentActivity() {
                     fancyOptions = FancyOptions(fontFamily = defaultFontFamily)
                 ) {
                     tab = when (id) {
-                        0 -> Tab.Event
+                        0 -> Tab.Main
                         1 -> Tab.Favorite
                         2 -> Tab.Info
                         else -> throw Error("Unknown FancyItem type.")
@@ -253,6 +264,9 @@ class MainActivity : ComponentActivity() {
 
     override fun onStop() {
         super.onStop()
-        repositoryVm.save(applicationContext)
+        eventRepo.save(
+            eventEntities = eventVm.eventEntityFlow.value,
+            endAction = {}
+        )
     }
 }

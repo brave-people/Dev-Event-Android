@@ -11,4 +11,5 @@ package team.bravepeople.devevent.util.config
 
 object PathConfig {
     const val DatabaseSaveTime = "events-database-save-time"
+    val TagColor = { tag: String -> "TagColorFor$tag" }
 }

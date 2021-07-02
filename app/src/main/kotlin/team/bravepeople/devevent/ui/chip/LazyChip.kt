@@ -25,20 +25,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.ColorUtils
 import team.bravepeople.devevent.ui.flowrow.FlowRow
-import team.bravepeople.devevent.util.ColorUtil
-
-private val vm = ChipViewModel.instance
+import team.bravepeople.devevent.util.TagColor
 
 @Composable
-private fun Chip(name: String, onClick: String.() -> Unit) {
+private fun Chip(chipVm: ChipViewModel, name: String, onClick: String.() -> Unit) {
+    val context = LocalContext.current
     val shape = RoundedCornerShape(5.dp)
-    val color = ColorUtil.getRandom()
+    val color = TagColor(context, name)
     val isDarkColor = ColorUtils.calculateLuminance(color) < 0.5
-    val selected = vm.isChipSelected(name).value
+    val selected = chipVm.isChipSelected(name).value
 
     Surface(
         shape = shape,
@@ -62,12 +62,13 @@ private fun Chip(name: String, onClick: String.() -> Unit) {
 @Composable
 fun FlowTag(
     modifier: Modifier,
+    chipVm: ChipViewModel,
     tags: List<String>,
     onClick: String.() -> Unit
 ) { // used in setting dialog -> chip clickable
     FlowRow(modifier = modifier, verticalGap = 4.dp, horizontalGap = 4.dp) {
         for (tag in tags) {
-            Chip(tag, onClick)
+            Chip(chipVm = chipVm, name = tag, onClick = onClick)
         }
     }
 }
@@ -75,6 +76,7 @@ fun FlowTag(
 @Composable
 fun LazyTag(
     modifier: Modifier,
+    chipVm: ChipViewModel,
     tags: List<String>
 ) { // used in event detail bottomsheet -> chip unclickable
     LazyRow(
@@ -84,7 +86,7 @@ fun LazyTag(
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(tags) { tagName ->
-            Chip(name = tagName, onClick = {})
+            Chip(chipVm = chipVm, name = tagName, onClick = {})
         }
     }
 }

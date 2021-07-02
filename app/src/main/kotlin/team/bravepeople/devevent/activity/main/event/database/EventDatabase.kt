@@ -17,7 +17,7 @@ import androidx.room.RoomDatabase
 @Database(entities = [EventEntity::class], version = 1)
 abstract class EventDatabase : RoomDatabase() {
     abstract fun dao(): EventDao
-    
+
     companion object {
         fun instance(context: Context) = synchronized(EventDatabase::class) {
             Room.databaseBuilder(
