@@ -24,40 +24,35 @@ import team.bravepeople.devevent.activity.main.event.database.EventDatabase
 import team.bravepeople.devevent.activity.main.event.database.EventEntity
 import team.bravepeople.devevent.repo.GithubService
 import team.bravepeople.devevent.util.Data
+import team.bravepeople.devevent.util.config.PathConfig
 import team.bravepeople.devevent.util.extension.parseOrNull
-import team.bravepeople.devevent.util.manage.PathManager
 import team.bravepeople.devevent.util.network.Network
 import team.bravepeople.devevent.util.network.NetworkNotConnected
 
-class EventRepositoryImpl @Inject constructor(
+class EventRepoImpl @Inject constructor(
     private val context: Context,
     private val client: GithubService,
     private val database: EventDatabase
-) : EventRepository {
+) : EventRepo {
 
     private val databaseDao = database.dao()
-    private val eventEntities get() = emptyList<EventEntity>() // todo: Caching Events
 
     @OptIn(ExperimentalCoroutinesApi::class)
     override fun load() = callbackFlow {
-        if (eventEntities.isEmpty()) {
-            val databaseEvents = databaseDao.getEvents()
-            if (databaseEvents.isEmpty()) {
-                if (Network.isNetworkAvailable(context)) {
-                    client.getEvents().await().use { _response ->
-                        val response = runCatching { parseAndSave(_response.string()) }
-                        val result =
-                            (response.getOrNull() ?: response.exceptionOrNull()).toEventRepoResult()
-                        trySend(result)
-                    }
-                } else {
-                    trySend(EventRepoResult.Error(NetworkNotConnected()))
+        val databaseEvents = databaseDao.getEvents()
+        if (databaseEvents.isEmpty()) {
+            if (Network.isNetworkAvailable(context)) {
+                client.getEvents().await().use { _response ->
+                    val response = runCatching { parseAndSave(_response.string()) }
+                    val result =
+                        (response.getOrNull() ?: response.exceptionOrNull()).toEventRepoResult()
+                    trySend(result)
                 }
             } else {
-                trySend(EventRepoResult.Success(databaseEvents))
+                trySend(EventRepoResult.Error(NetworkNotConnected()))
             }
         } else {
-            trySend(EventRepoResult.Success(eventEntities))
+            trySend(EventRepoResult.Success(databaseEvents))
         }
 
         awaitClose { close() }
@@ -65,22 +60,18 @@ class EventRepositoryImpl @Inject constructor(
 
     override fun refresh(): Flow<EventRepoResult> {
         database.clearAllTables()
-        // eventEntities.clear() todo
         return load()
     }
 
-    override fun save() {
+    override fun save(eventEntities: List<EventEntity>, endAction: suspend () -> Unit) {
         CoroutineScope(Dispatchers.IO).launch {
-            if (databaseDao.getEvents().isEmpty()) {
-                databaseDao.insertAll(eventEntities)
-                Data.save(context, PathManager.DatabaseSaveTime, Date().time.toString())
-            } else {
-                eventEntities.filterNot { event -> databaseDao.getEvents().contains(event) }
-                if (eventEntities.isNotEmpty()) {
-                    databaseDao.updateAll(eventEntities)
-                    Data.save(context, PathManager.DatabaseSaveTime, Date().time.toString())
-                }
+            val databaseEvents = databaseDao.getEvents()
+            eventEntities.filterNot { event -> databaseEvents.contains(event) }
+            if (eventEntities.isNotEmpty()) {
+                databaseDao.updateAll(eventEntities)
+                Data.save(context, PathConfig.DatabaseSaveTime, Date().time.toString())
             }
+            endAction()
         }
     }
 

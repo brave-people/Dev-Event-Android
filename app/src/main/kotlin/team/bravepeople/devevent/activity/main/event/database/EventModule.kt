@@ -18,9 +18,11 @@
 
 package team.bravepeople.devevent.activity.main.event.database
 
+import android.content.Context
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -30,5 +32,5 @@ object EventModule {
 
     @Provides
     @Singleton
-    fun provideDatabase() = EventDatabase.instance
+    fun provideDatabase(@ApplicationContext context: Context) = EventDatabase.instance(context)
 }

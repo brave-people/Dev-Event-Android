@@ -29,5 +29,5 @@ object EventRepoModule {
         @ApplicationContext context: Context,
         client: GithubService,
         database: EventDatabase,
-    ): EventRepository = EventRepositoryImpl(context, client, database)
+    ): EventRepo = EventRepoImpl(context, client, database)
 }

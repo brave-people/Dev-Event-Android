@@ -10,9 +10,10 @@
 package team.bravepeople.devevent.activity.main.event.repo
 
 import kotlinx.coroutines.flow.Flow
+import team.bravepeople.devevent.activity.main.event.database.EventEntity
 
-interface EventRepository {
+interface EventRepo {
     fun load(): Flow<EventRepoResult>
     fun refresh(): Flow<EventRepoResult>
-    fun save()
+    fun save(eventEntities: List<EventEntity>, endAction: suspend () -> Unit)
 }

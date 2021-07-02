@@ -7,8 +7,8 @@
  * Please see: https://github.com/brave-people/Dev-Event-Android/blob/master/LICENSE.
  */
 
-package team.bravepeople.devevent.util.manage
+package team.bravepeople.devevent.util.config
 
-object PathManager {
+object PathConfig {
     const val DatabaseSaveTime = "events-database-save-time"
 }

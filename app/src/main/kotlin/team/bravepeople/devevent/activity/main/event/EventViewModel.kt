@@ -10,14 +10,20 @@
 package team.bravepeople.devevent.activity.main.event
 
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import team.bravepeople.devevent.activity.main.event.database.EventDatabase
 import team.bravepeople.devevent.activity.main.event.database.EventEntity
 
-class EventViewModel private constructor() : ViewModel() {
+@HiltViewModel
+class EventViewModel @Inject constructor(
+    private val database: EventDatabase
+) : ViewModel() {
 
     private val _eventEntityList: MutableList<EventEntity> = mutableListOf()
-    val eventEntityList
+    private val eventEntityList
         get() = _eventEntityList
             .sortedByDescending { it.name }
             .sortedByDescending { it.headerDate }
@@ -27,6 +33,7 @@ class EventViewModel private constructor() : ViewModel() {
     private val _eventEntityFlow = MutableStateFlow<List<EventEntity>>(emptyList())
     val eventEntityFlow = _eventEntityFlow.asStateFlow() // flow; unnecessary getter
 
+
     fun getAllTags() =
         eventEntityFlow.value
             .mapNotNull { it.category }
@@ -34,28 +41,15 @@ class EventViewModel private constructor() : ViewModel() {
             .distinct()
             .sorted()
 
-    fun updateEventFlow() {
-        _eventEntityFlow.value = eventEntityList
-    }
+    fun updateEvent() {
 
-    fun updateEvent(eventEntity: EventEntity) {
-        _eventEntityList.removeIf { it.name == eventEntity.name }
-        _eventEntityList.add(eventEntity)
     }
 
     fun clearEvents() {
         _eventEntityList.clear()
     }
 
-    fun addEvent(eventEntity: EventEntity) {
-        _eventEntityList.add(eventEntity)
-    }
-
-    fun addEvents(eventEntities: List<EventEntity>) {
-        this._eventEntityList.addAll(eventEntities)
-    }
-
-    companion object {
-        val instance by lazy { EventViewModel() }
+    init {
+        
     }
 }

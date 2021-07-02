@@ -17,21 +17,15 @@ import androidx.room.RoomDatabase
 @Database(entities = [EventEntity::class], version = 1)
 abstract class EventDatabase : RoomDatabase() {
     abstract fun dao(): EventDao
-
+    
     companion object {
-        @Suppress("ObjectPropertyName")
-        private var _instance: EventDatabase? = null
-        val instance by lazy { _instance!! }
-
-        fun init(context: Context) {
-            _instance = synchronized(EventDatabase::class) {
-                Room.databaseBuilder(
-                    context,
-                    EventDatabase::class.java,
-                    "events.db"
-                ).fallbackToDestructiveMigration()
-                    .build()
-            }
+        fun instance(context: Context) = synchronized(EventDatabase::class) {
+            Room.databaseBuilder(
+                context,
+                EventDatabase::class.java,
+                "events.db"
+            ).fallbackToDestructiveMigration()
+                .build()
         }
     }
 }
