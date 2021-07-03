@@ -15,6 +15,7 @@ import android.app.NotificationChannelGroup
 import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
+import androidx.annotation.DrawableRes
 
 @Suppress("DEPRECATION")
 object NotificationUtil {
@@ -67,7 +68,7 @@ object NotificationUtil {
         title: String,
         content: String,
         boxText: List<String>,
-        icon: Int,
+        @DrawableRes icon: Int,
         isOnGoing: Boolean
     ) {
         val builder = builder(context, channelId)
@@ -95,7 +96,7 @@ object NotificationUtil {
         channelId: String,
         title: String,
         content: String,
-        icon: Int,
+        @DrawableRes icon: Int,
         isOnGoing: Boolean
     ) = builder(context, channelId)
         .setContentTitle(title)

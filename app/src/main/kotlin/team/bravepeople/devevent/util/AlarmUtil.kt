@@ -14,7 +14,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import java.util.Calendar
-import team.bravepeople.devevent.receiver.EventRefreshReceiver
+import team.bravepeople.devevent.receiver.EventReloadReceiver
 
 @Suppress("StaticFieldLeak")
 object AlarmUtil {
@@ -24,7 +24,7 @@ object AlarmUtil {
     private val context by lazy { _context!! }
 
     private val alarmManager by lazy { context.getSystemService(Context.ALARM_SERVICE) as AlarmManager }
-    private val intent by lazy { Intent(context, EventRefreshReceiver::class.java) }
+    private val intent by lazy { Intent(context, EventReloadReceiver::class.java) }
 
     @Suppress("UnspecifiedImmutableFlag")
     private val pendingIntent by lazy {

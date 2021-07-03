@@ -41,7 +41,7 @@
         <service android:name=".service.ForegroundService" />
 
         <receiver
-            android:name=".receiver.EventRefreshReceiver"
+            android:name=".receiver.EventReloadReceiver"
             android:exported="false" />
 
     </application>

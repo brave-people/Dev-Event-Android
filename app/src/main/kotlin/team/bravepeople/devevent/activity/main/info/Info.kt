@@ -136,6 +136,15 @@ fun ApplicationInfoDialog(isOpen: MutableState<Boolean>) {
                         color = colors.primary,
                         fontSize = 10.sp
                     )
+                    Text(
+                        text = "이렇게 작은 앱에 약 50개의 클레스가 쓰였다는게 놀랍네요",
+                        modifier = Modifier
+                            .padding(top = 15.dp)
+                            .fillMaxWidth(),
+                        textAlign = TextAlign.Center,
+                        color = colors.secondary,
+                        fontSize = 10.sp
+                    )
                 }
             }
         )

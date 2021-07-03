@@ -26,12 +26,12 @@ class ForegroundService : Service() {
     private val notificationId = 1000
     private val notification by lazy {
         NotificationUtil.getNormalNotification(
-            applicationContext,
-            applicationContext.getString(R.string.notification_channel_name),
-            getString(R.string.app_name),
-            getString(R.string.service_wait_receive_new_event),
-            R.drawable.ic_round_event_note_24,
-            true
+            context = applicationContext,
+            channelId = getString(R.string.notification_channel_name),
+            title = getString(R.string.app_name),
+            content = getString(R.string.service_wait_receive_new_event),
+            icon = R.drawable.ic_round_event_note_24,
+            isOnGoing = true
         )
     }
 
