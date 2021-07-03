@@ -122,8 +122,8 @@ fun ApplicationInfoDialog(isOpen: MutableState<Boolean>) {
                     )
                     Text(
                         text = """
-                            이 앱의 모든 이벤트 정보들은
-                            '용감한 친구들' 팀의'Dev-Event' 프로젝트에서 가져옵니다.
+                            이 앱의 모든 이벤트 정보들은 '용감한 친구들' 팀의
+                            'Dev-Event' 프로젝트에서 가져옵니다.
                             
                             이 앱을 제작할 수 있게 '용감한 친구들' 팀에 초대해주시고,
                             이벤트 정보들 사용을 허락해 주신

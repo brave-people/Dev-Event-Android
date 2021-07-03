@@ -9,6 +9,7 @@
 
 package team.bravepeople.devevent.activity.main
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -67,6 +68,7 @@ import team.bravepeople.devevent.activity.main.event.LazyEvent
 import team.bravepeople.devevent.activity.main.event.database.EventDatabase
 import team.bravepeople.devevent.activity.main.event.repo.EventRepo
 import team.bravepeople.devevent.activity.main.info.Info
+import team.bravepeople.devevent.service.ForegroundService
 import team.bravepeople.devevent.theme.MaterialTheme
 import team.bravepeople.devevent.theme.SystemUiController
 import team.bravepeople.devevent.theme.colors
@@ -78,6 +80,8 @@ import team.bravepeople.devevent.ui.fancybottombar.FancyColors
 import team.bravepeople.devevent.ui.fancybottombar.FancyItem
 import team.bravepeople.devevent.ui.fancybottombar.FancyOptions
 import team.bravepeople.devevent.util.AlarmUtil
+import team.bravepeople.devevent.util.Data
+import team.bravepeople.devevent.util.config.PathConfig
 import team.bravepeople.devevent.util.extension.toast
 
 private enum class Tab {
@@ -108,6 +112,17 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val autoEventReload = Data.read(
+            applicationContext,
+            PathConfig.AutoEventReload,
+            "false"
+        ).toBoolean()
+
+        if (autoEventReload) {
+            startService(Intent(this, ForegroundService::class.java))
+            AlarmUtil.addReloadTask()
+        }
 
         SystemUiController(window).run {
             setStatusBarColor(colors.primary)
