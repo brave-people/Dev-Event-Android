@@ -136,11 +136,16 @@ private fun EventBottomSheet(
                 )
                 Text(
                     text = with(event) {
+                        val nowTime by lazy {
+                            SimpleDateFormat("MM.dd(E) kk:mm", Locale.KOREA).format(Date())
+                                .replace("24:", "00:")
+                        }
+
                         """
                         주최: ${owner ?: unknown}
                         신청날짜: ${joinDate?.replace("~", " ~ ") ?: unknown}
                         시작날짜: ${startDate?.replace("~", " ~ ") ?: unknown}
-                        현재시각: ${SimpleDateFormat("MM.dd(E) kk:mm", Locale.KOREA).format(Date())}
+                        현재시각: $nowTime
                         """.trimIndent()
                     },
                     lineHeight = 20.sp,
