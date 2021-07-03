@@ -9,6 +9,7 @@
 
 <resources>
     <string name="app_name">Dev Event</string>
+    <string name="close">닫기</string>
     <string name="brave_people">용감한 친구들</string>
     <string name="copyright">© 2021 지성빈 by 용감한 친구들. all rights reserved.</string>
 

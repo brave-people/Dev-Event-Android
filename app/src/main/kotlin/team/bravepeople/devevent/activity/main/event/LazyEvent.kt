@@ -230,7 +230,7 @@ private fun EventItem(eventVm: EventViewModel, event: EventEntity, onClick: () -
             Text(
                 text = event.category?.split(",")?.takeIfSizeToCategory(3) ?: "",
                 fontSize = 13.sp,
-                color = Color.LightGray
+                color = Color.Gray
             )
         }
         Column(
@@ -255,7 +255,7 @@ private fun EventItem(eventVm: EventViewModel, event: EventEntity, onClick: () -
             Text(
                 text = (event.joinDate ?: event.startDate)?.takeIfLength(18) ?: event.headerDate,
                 fontSize = 13.sp,
-                color = Color.LightGray
+                color = Color.Gray
             )
         }
     }

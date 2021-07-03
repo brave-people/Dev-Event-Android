@@ -142,6 +142,11 @@ class MainActivity : ComponentActivity() {
             AlertDialog(
                 onDismissRequest = { openDialogVisible.value = false },
                 confirmButton = {
+                    OutlinedButton(onClick = { openDialogVisible.value = false }) {
+                        Text(text = stringResource(R.string.close))
+                    }
+                },
+                dismissButton = {
                     OutlinedButton(onClick = { chipVm.reset() }) {
                         Text(text = stringResource(R.string.main_dialog_reset_category))
                     }
