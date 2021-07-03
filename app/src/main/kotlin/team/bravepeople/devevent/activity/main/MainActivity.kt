@@ -56,6 +56,8 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.Dimension
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import team.bravepeople.devevent.R
@@ -106,7 +108,11 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        SystemUiController(window).setStatusBarColor(colors.primary)
+        SystemUiController(window).run {
+            setStatusBarColor(colors.primary)
+            setNavigationBarColor(Color.White)
+        }
+
         setContent {
             MaterialTheme {
                 Scaffold(topBar = { TopBar() }, content = { Main() })
@@ -236,8 +242,17 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     fun Main() {
-        Box(modifier = Modifier.fillMaxSize()) {
-            Column(modifier = Modifier.padding(bottom = 60.dp)) {
+        ConstraintLayout(modifier = Modifier.fillMaxSize()) {
+            val (events, bottomBar) = createRefs()
+
+            Column(modifier = Modifier
+                .constrainAs(events) {
+                    top.linkTo(parent.top)
+                    bottom.linkTo(bottomBar.top)
+                    height = Dimension.fillToConstraints
+                }
+                .fillMaxWidth()
+            ) {
                 Crossfade(tab) { target ->
                     when (target) {
                         Tab.Info -> Info(
@@ -254,18 +269,19 @@ class MainActivity : ComponentActivity() {
                     }
                 }
             }
-            Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Bottom) {
-                FancyBottomBar(
-                    items = bottomItems,
-                    fancyColors = FancyColors(primary = colors.primary),
-                    fancyOptions = FancyOptions(fontFamily = defaultFontFamily)
-                ) {
-                    tab = when (id) {
-                        0 -> Tab.Main
-                        1 -> Tab.Favorite
-                        2 -> Tab.Info
-                        else -> throw Error("Unknown FancyItem type.")
-                    }
+            FancyBottomBar(
+                modifier = Modifier.constrainAs(bottomBar) {
+                    bottom.linkTo(parent.bottom)
+                },
+                items = bottomItems,
+                fancyColors = FancyColors(primary = colors.primary),
+                fancyOptions = FancyOptions(fontFamily = defaultFontFamily)
+            ) {
+                tab = when (id) {
+                    0 -> Tab.Main
+                    1 -> Tab.Favorite
+                    2 -> Tab.Info
+                    else -> throw Error("Unknown FancyItem type.")
                 }
             }
         }

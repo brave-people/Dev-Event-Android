@@ -17,7 +17,6 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -51,6 +50,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
+import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.Dimension
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieAnimationSpec
 import com.airbnb.lottie.compose.rememberLottieAnimationState
@@ -183,7 +184,9 @@ fun Info(database: EventDatabase, activity: Activity) {
     doDelay(500) { animationState.toggleIsPlaying() }
     doDelay(3000) { lottieVisible = false }
 
-    Box(modifier = Modifier.fillMaxSize()) {
+    ConstraintLayout(modifier = Modifier.fillMaxSize()) {
+        val (main, copyright) = createRefs()
+
         AnimatedVisibility(
             visible = lottieVisible,
             modifier = Modifier
@@ -201,6 +204,11 @@ fun Info(database: EventDatabase, activity: Activity) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .constrainAs(main) {
+                    top.linkTo(parent.top)
+                    bottom.linkTo(copyright.top, 8.dp)
+                    height = Dimension.fillToConstraints
+                }
                 .padding(16.dp)
         ) {
             Row(
@@ -307,9 +315,10 @@ fun Info(database: EventDatabase, activity: Activity) {
         }
         Column(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.Bottom,
+                .fillMaxWidth()
+                .constrainAs(copyright) {
+                    bottom.linkTo(parent.bottom, 16.dp)
+                },
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(

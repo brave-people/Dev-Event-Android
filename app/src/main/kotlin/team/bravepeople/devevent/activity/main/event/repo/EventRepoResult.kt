@@ -17,12 +17,10 @@ sealed class EventRepoResult {
 }
 
 @Suppress("UNCHECKED_CAST")
-fun Any?.toEventRepoResult(): EventRepoResult {
-    return when (this) {
-        is Exception -> EventRepoResult.Error(this)
-        is List<*> -> EventRepoResult.Success(
-            this as? List<EventEntity> ?: throw Error("Miss type.")
-        )
-        else -> throw Error("Unknown type.")
-    }
+fun Any?.toEventRepoResult() = when (this) {
+    is Exception -> EventRepoResult.Error(this)
+    is List<*> -> EventRepoResult.Success(
+        this as? List<EventEntity> ?: throw Error("Miss type.")
+    )
+    else -> throw Error("Unknown type.")
 }
