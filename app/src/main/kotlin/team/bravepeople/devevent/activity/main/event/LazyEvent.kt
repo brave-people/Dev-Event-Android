@@ -324,7 +324,7 @@ fun LazyEvent(
                     onRefresh = {
                         coroutineScope.launch(Dispatchers.IO) {
                             refreshing = true
-                            eventRepo.refresh().collect { result ->
+                            eventRepo.reload().collect { result ->
                                 when (result) {
                                     is EventRepoResult.Success -> {
                                         eventRepo.save(

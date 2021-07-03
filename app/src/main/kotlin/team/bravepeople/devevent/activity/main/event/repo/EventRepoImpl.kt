@@ -58,7 +58,7 @@ class EventRepoImpl @Inject constructor(
         awaitClose { close() }
     }
 
-    override fun refresh() =
+    override fun reload() =
         if (!Network.isNetworkAvailable(context)) flow {
             emit(EventRepoResult.Error(NetworkNotConnected()))
         }

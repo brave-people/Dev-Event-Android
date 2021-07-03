@@ -39,15 +39,31 @@ object NotificationUtil {
     private fun getManager(context: Context) =
         context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
+    fun showNormalNotification(
+        context: Context,
+        id: Int,
+        channelId: String,
+        title: String,
+        content: String,
+        icon: Int,
+        isOnGoing: Boolean
+    ) {
+        getManager(context).notify(
+            id,
+            getNormalNotification(context, channelId, title, content, icon, isOnGoing).build()
+        )
+    }
+
     fun getNormalNotification(
         context: Context,
+        channelId: String,
         title: String,
         content: String,
         icon: Int,
         isOnGoing: Boolean
     ): Notification.Builder {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            Notification.Builder(context, title)
+            Notification.Builder(context, channelId)
                 .setContentTitle(title)
                 .setContentText(content)
                 .setSmallIcon(icon)

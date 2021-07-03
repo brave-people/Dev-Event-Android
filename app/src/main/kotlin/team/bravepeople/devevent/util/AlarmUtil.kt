@@ -14,37 +14,50 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import java.util.Calendar
-import team.bravepeople.devevent.receiver.EventReceiver
+import team.bravepeople.devevent.receiver.EventRefreshReceiver
 
+@Suppress("StaticFieldLeak")
 object AlarmUtil {
-    fun cancelTask() {} // todo: cancel task
 
-    fun addTask(
-        context: Context,
-        room: String,
-        message: String,
-        hour: Int,
-        minute: Int,
-        second: Int
-    ) {
-        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val intent = Intent(context, EventReceiver::class.java).apply {
-            putExtra("room", room)
-            putExtra("message", message)
-        }
-        val pendingIntent =
-            PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+    @Suppress("ObjectPropertyName")
+    private var _context: Context? = null
+    private val context by lazy { _context!! }
+
+    private val alarmManager by lazy { context.getSystemService(Context.ALARM_SERVICE) as AlarmManager }
+    private val intent by lazy { Intent(context, EventRefreshReceiver::class.java) }
+
+    @Suppress("UnspecifiedImmutableFlag")
+    private val pendingIntent by lazy {
+        PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+    }
+
+    fun cancelTask() {
+        alarmManager.cancel(pendingIntent)
+    }
+
+    fun addReloadTask() {
+        println("task added")
         val calender = Calendar.getInstance().apply {
             timeInMillis = System.currentTimeMillis()
-            set(Calendar.HOUR_OF_DAY, hour)
-            set(Calendar.MINUTE, minute)
-            set(Calendar.SECOND, second)
+            // set(Calendar.HOUR_OF_DAY, 13)
+            set(Calendar.HOUR_OF_DAY, 2)
+            set(Calendar.MINUTE, 17)
+            set(Calendar.SECOND, 30)
         }
         alarmManager.setInexactRepeating(
             AlarmManager.RTC_WAKEUP,
             calender.timeInMillis,
             AlarmManager.INTERVAL_DAY,
+            // AlarmManager.INTERVAL_FIFTEEN_MINUTES,
             pendingIntent
         )
+    }
+
+    fun init(context: Context) {
+        this._context = context
+    }
+
+    fun destroy() {
+        _context = null
     }
 }

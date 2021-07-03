@@ -12,9 +12,21 @@ package team.bravepeople.devevent.receiver
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import kotlin.random.Random
+import team.bravepeople.devevent.R
+import team.bravepeople.devevent.util.NotificationUtil
 
-class EventReceiver : BroadcastReceiver() {
+class EventRefreshReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
-
+        println("event reload receive")
+        NotificationUtil.showNormalNotification(
+            context!!,
+            Random.nextInt(),
+            context.getString(R.string.notification_channel_name),
+            "1",
+            "1",
+            R.mipmap.ic_launcher,
+            false
+        )
     }
 }

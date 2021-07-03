@@ -10,17 +10,35 @@
 package team.bravepeople.devevent
 
 import android.app.Application
+import android.content.Intent
 import dagger.hilt.android.HiltAndroidApp
+import team.bravepeople.devevent.service.ForegroundService
+import team.bravepeople.devevent.util.AlarmUtil
+import team.bravepeople.devevent.util.Data
 import team.bravepeople.devevent.util.NotificationUtil
+import team.bravepeople.devevent.util.config.PathConfig
 
 @HiltAndroidApp
 class DevEventAndroid : Application() {
     override fun onCreate() {
         super.onCreate()
+        val context = applicationContext
+        AlarmUtil.init(context)
+
         NotificationUtil.createChannel( // todo: Check channel already created
-            applicationContext,
+            context,
             getString(R.string.notification_channel_name),
             getString(R.string.notification_channel_description)
         )
+
+        startService(Intent(this, ForegroundService::class.java))
+        AlarmUtil.addReloadTask()
+
+        if (Data.read(context, PathConfig.EventRefreshDay, null) == null) {
+            Data.save(context, PathConfig.EventRefreshDay, "0")
+        }
+        if (Data.read(context, PathConfig.NewEventNotification, null) == null) {
+            Data.save(context, PathConfig.NewEventNotification, "false")
+        }
     }
 }

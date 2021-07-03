@@ -14,6 +14,6 @@ import team.bravepeople.devevent.activity.main.event.database.EventEntity
 
 interface EventRepo {
     fun load(): Flow<EventRepoResult>
-    fun refresh(): Flow<EventRepoResult>
+    fun reload(): Flow<EventRepoResult>
     fun save(eventEntities: List<EventEntity>, endAction: suspend () -> Unit)
 }

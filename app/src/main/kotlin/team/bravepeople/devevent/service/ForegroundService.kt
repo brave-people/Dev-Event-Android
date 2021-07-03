@@ -27,6 +27,7 @@ class ForegroundService : Service() {
     private val notification by lazy {
         NotificationUtil.getNormalNotification(
             applicationContext,
+            applicationContext.getString(R.string.notification_channel_name),
             getString(R.string.app_name),
             getString(R.string.service_wait_receive_new_event),
             R.mipmap.ic_launcher,

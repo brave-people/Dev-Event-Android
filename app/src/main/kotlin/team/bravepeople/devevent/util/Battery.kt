@@ -9,7 +9,6 @@
 
 package team.bravepeople.devevent.util
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -22,7 +21,7 @@ object Battery {
         return pm.isIgnoringBatteryOptimizations(context.packageName)
     }
 
-    @SuppressLint("BatteryLife")
+    @Suppress("BatteryLife")
     fun requestIgnoreOptimization(context: Context) {
         val intent = Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS)
         intent.data = Uri.parse("package:" + context.packageName)

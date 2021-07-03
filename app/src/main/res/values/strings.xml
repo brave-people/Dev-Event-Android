@@ -26,8 +26,8 @@
 
     <string name="service_wait_receive_new_event">새로운 이벤트 수신 대기중…</string>
 
-    <string name="notification_channel_description">새로운 이벤트를 매 시간마다 알림으로 표시합니다.</string>
     <string name="notification_channel_name">이벤트 알림</string>
+    <string name="notification_channel_description">새로운 이벤트를 매 시간마다 알림으로 표시합니다.</string>
 
     <string name="web_non_install_browser">브라우저가 설치되어있지 않습니다.</string>
 

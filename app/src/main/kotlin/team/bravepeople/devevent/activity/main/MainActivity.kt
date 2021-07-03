@@ -77,6 +77,8 @@ import team.bravepeople.devevent.ui.fancybottombar.FancyBottomBar
 import team.bravepeople.devevent.ui.fancybottombar.FancyColors
 import team.bravepeople.devevent.ui.fancybottombar.FancyItem
 import team.bravepeople.devevent.ui.fancybottombar.FancyOptions
+import team.bravepeople.devevent.util.AlarmUtil
+import team.bravepeople.devevent.util.Battery
 import team.bravepeople.devevent.util.extension.toast
 
 private enum class Tab {
@@ -108,6 +110,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        Battery.requestIgnoreOptimization(applicationContext)
         SystemUiController(window).run {
             setStatusBarColor(colors.primary)
             setNavigationBarColor(Color.White)
@@ -289,6 +292,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onStop() {
         super.onStop()
+        AlarmUtil.destroy()
         eventRepo.save(
             eventEntities = eventVm.eventEntityFlow.value,
             endAction = {}
