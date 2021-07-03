@@ -7,7 +7,7 @@
  * Please see: https://github.com/brave-people/Dev-Event-Android/blob/master/LICENSE.
  */
 
-package team.bravepeople.devevent.activity
+package team.bravepeople.devevent.activity.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -31,6 +31,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Icon
+import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
@@ -118,8 +119,12 @@ class MainActivity : ComponentActivity() {
         if (openDialogVisible.value) {
             AlertDialog(
                 onDismissRequest = { openDialogVisible.value = false },
-                buttons = {},
-                title = { Text(text = stringResource(R.string.main_dialog_event_option)) },
+                confirmButton = {
+                    OutlinedButton(onClick = { chipVm.reset() }) {
+                        Text(text = stringResource(R.string.main_dialog_reset_category))
+                    }
+                },
+                title = { Text(text = stringResource(R.string.main_dialog_choose_category)) },
                 text = {
                     FlowTag(
                         modifier = Modifier
@@ -156,7 +161,7 @@ class MainActivity : ComponentActivity() {
                             searchField = TextFieldValue()
                             searching = false
                         } else {
-                            toast(context, "검색어를 입력해 주세요.")
+                            toast(context, getString(R.string.main_toast_input_search))
                         }
                     }),
                     modifier = Modifier.fillMaxSize(),

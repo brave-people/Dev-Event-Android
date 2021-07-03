@@ -30,4 +30,8 @@ class ChipViewModel : ViewModel() {
     fun isChipSelected(name: String): State<Boolean> {
         return mutableStateOf(_selectedChip.contains(name))
     }
+
+    fun reset() {
+        _selectedChip.clear()
+    }
 }

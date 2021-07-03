@@ -36,7 +36,7 @@ import javax.inject.Inject
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import team.bravepeople.devevent.R
-import team.bravepeople.devevent.activity.MainActivity
+import team.bravepeople.devevent.activity.main.MainActivity
 import team.bravepeople.devevent.activity.main.event.database.EventDatabase
 import team.bravepeople.devevent.activity.main.event.repo.EventRepo
 import team.bravepeople.devevent.activity.main.event.repo.EventRepoResult

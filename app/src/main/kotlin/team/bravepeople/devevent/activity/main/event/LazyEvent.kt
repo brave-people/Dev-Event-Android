@@ -99,7 +99,6 @@ private fun EmptyEvent() {
 
 @Composable
 private fun EventBottomSheet(
-    chipVm: ChipViewModel,
     event: EventEntity?,
     sheetVisible: MutableState<Boolean>
 ) {
@@ -159,10 +158,7 @@ private fun EventBottomSheet(
                     if (event.site != null) {
                         Web.open(context, event.site)
                     } else {
-                        toast(
-                            context,
-                            context.getString(R.string.event_toast_unknown_site)
-                        )
+                        toast(context, context.getString(R.string.event_toast_unknown_site))
                     }
                 }) {
                     Icon(
@@ -286,6 +282,7 @@ fun LazyEvent(
         else true
     }
     eventEntities = eventEntities.filter { it.contains(search.lowercase()) }
+
     if (chipVm.selectedChip.isNotEmpty()) {
         eventEntities = eventEntities.filter { event ->
             if (event.category == null) false
@@ -299,7 +296,6 @@ fun LazyEvent(
         BottomSheet(
             bottomSheetContent = {
                 EventBottomSheet(
-                    chipVm = chipVm,
                     event = selectedEvent,
                     sheetVisible = bottomSheetVisible
                 )
