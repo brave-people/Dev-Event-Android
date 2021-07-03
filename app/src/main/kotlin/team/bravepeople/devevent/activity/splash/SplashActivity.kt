@@ -107,7 +107,6 @@ class SplashActivity : ComponentActivity() {
                             end.linkTo(parent.end)
                         }
                     )
-
                     Text(
                         text = stringResource(R.string.copyright),
                         color = Color.White,

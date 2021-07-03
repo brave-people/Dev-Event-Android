@@ -17,12 +17,19 @@ import team.bravepeople.devevent.R
 import team.bravepeople.devevent.util.extension.toast
 
 object Web {
+
+    object Link {
+        const val Organization = "https://github.com/brave-people"
+        const val Project = "https://github.com/brave-people/Dev-Event-Android"
+        const val Issue = "https://github.com/brave-people/Dev-Event-Android/issues"
+    }
+
     fun open(context: Context, url: String) {
         try {
             val builder = CustomTabsIntent.Builder()
 
             val organization = builder.build().intent
-            organization.data = "https://github.com/brave-people".toUri()
+            organization.data = Link.Organization.toUri()
 
             val projectGithubIntent = PendingIntent.getActivity(
                 context,

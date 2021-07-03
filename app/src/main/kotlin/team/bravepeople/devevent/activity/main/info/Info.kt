@@ -10,6 +10,7 @@
 package team.bravepeople.devevent.activity.main.info
 
 import android.app.Activity
+import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -57,6 +58,7 @@ import com.airbnb.lottie.compose.LottieAnimationSpec
 import com.airbnb.lottie.compose.rememberLottieAnimationState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import team.bravepeople.devevent.BuildConfig
 import team.bravepeople.devevent.R
 import team.bravepeople.devevent.activity.main.event.database.EventDatabase
 import team.bravepeople.devevent.theme.ColorOrange
@@ -68,7 +70,65 @@ import team.bravepeople.devevent.ui.licenser.Project
 import team.bravepeople.devevent.util.Data
 import team.bravepeople.devevent.util.Web
 import team.bravepeople.devevent.util.extension.doDelay
+import team.bravepeople.devevent.util.extension.noRippleClickable
+import team.bravepeople.devevent.util.extension.noRippleLongClickable
 import team.bravepeople.devevent.util.extension.toast
+
+
+@Composable
+fun ApplicationInfoDialog(isOpen: MutableState<Boolean>) {
+    if (isOpen.value) {
+        val context = LocalContext.current
+
+        AlertDialog(
+            onDismissRequest = { isOpen.value = false },
+            buttons = {},
+            text = {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight()
+                ) {
+                    Text(
+                        text = "알려진 문제 및 버그 제보",
+                        color = Color.Black,
+                        fontSize = 18.sp
+                    )
+                    Text(
+                        text = "프로젝트 이슈에서 진행하실 수 있습니다.\n(클릭)",
+                        modifier = Modifier
+                            .clickable { Web.open(context, Web.Link.Issue) }
+                            .padding(top = 4.dp),
+                        fontSize = 13.sp
+                    )
+                    Text(
+                        text = "앱 버전: ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})",
+                        modifier = Modifier
+                            .padding(top = 30.dp)
+                            .fillMaxWidth(),
+                        textAlign = TextAlign.Center,
+                        fontSize = 11.sp
+                    )
+                    Text(
+                        text = """
+                            이 앱의 모든 이벤트 정보들은 '용감한 친구들' 팀의 'Dev-Event' 프로젝트에서 가져옵니다.
+                            
+                            이 앱을 제작할 수 있게 '용감한 친구들' 팀에 초대해주시고,
+                            이벤트 정보들 사용을 허락해 주신
+                            Covenant님께 감사드립니다.
+                            """.trimIndent(),
+                        modifier = Modifier
+                            .padding(top = 15.dp)
+                            .fillMaxWidth(),
+                        textAlign = TextAlign.Center,
+                        color = colors.primary,
+                        fontSize = 10.sp
+                    )
+                }
+            }
+        )
+    }
+}
 
 @Composable
 private fun OpenSourceDialog(isOpen: MutableState<Boolean>) {
@@ -155,10 +215,16 @@ private fun OpenSourceDialog(isOpen: MutableState<Boolean>) {
                                 "https://help.naver.com/support/contents/contents.help?serviceNo=1074&categoryNo=3497",
                                 License.CUSTOM("SIL")
                             ),
+                            Project(
+                                "ConstraintLayout",
+                                "https://developer.android.com/jetpack/compose/layouts/constraintlayout",
+                                License.Apache2
+                            )
                         )
                     )
                 }
-            })
+            }
+        )
     }
 }
 
@@ -169,18 +235,18 @@ fun Info(database: EventDatabase, activity: Activity) {
     val coroutineScope = rememberCoroutineScope()
 
     var lottieVisible by remember { mutableStateOf(true) }
-    val organizationUrl = "https://github.com/brave-people"
-    val projectUrl = "https://github.com/brave-people/Dev-Event-Android"
     val logoUrl = "https://avatars.githubusercontent.com/u/68955947?s=200&v=4"
 
     var dbClearButtonLastClick = 0L
     val isOpensourceDialogOpen = remember { mutableStateOf(false) }
+    val isApplicationInfoDialogOpen = remember { mutableStateOf(false) }
 
     val animationSpec = remember { LottieAnimationSpec.RawRes(R.raw.confetti) }
     val animationState =
         rememberLottieAnimationState(autoPlay = false).apply { speed = .8f }
 
     OpenSourceDialog(isOpensourceDialogOpen)
+    ApplicationInfoDialog(isApplicationInfoDialogOpen)
     doDelay(500) { animationState.toggleIsPlaying() }
     doDelay(3000) { lottieVisible = false }
 
@@ -220,7 +286,7 @@ fun Info(database: EventDatabase, activity: Activity) {
                 GlideImage(
                     modifier = Modifier
                         .size(100.dp)
-                        .clickable { Web.open(activity, organizationUrl) }
+                        .noRippleClickable { Web.open(activity, Web.Link.Organization) }
                         .clip(RoundedCornerShape(10.dp)),
                     src = logoUrl
                 )
@@ -233,7 +299,12 @@ fun Info(database: EventDatabase, activity: Activity) {
                         text = stringResource(R.string.app_name),
                         color = Color.Black,
                         fontSize = 25.sp,
-                        modifier = Modifier.clickable { Web.open(activity, projectUrl) }
+                        modifier = Modifier.noRippleClickable {
+                            Web.open(
+                                activity,
+                                Web.Link.Project
+                            )
+                        }
                     )
                     Text(
                         text = stringResource(R.string.info_description_app),
@@ -257,7 +328,8 @@ fun Info(database: EventDatabase, activity: Activity) {
                         if (clickedTime - dbClearButtonLastClick > 2000) {
                             toast(
                                 context,
-                                activity.getString(R.string.info_button_confirm_clear_db)
+                                activity.getString(R.string.info_button_confirm_clear_db),
+                                Toast.LENGTH_LONG
                             )
                             dbClearButtonLastClick = clickedTime
                         } else {
@@ -283,7 +355,7 @@ fun Info(database: EventDatabase, activity: Activity) {
                     )
                 }
                 Button(
-                    onClick = { },
+                    onClick = { isApplicationInfoDialogOpen.value = true },
                     colors = ButtonDefaults.buttonColors(backgroundColor = colors.secondary)
                 ) {
                     Text(
@@ -324,7 +396,8 @@ fun Info(database: EventDatabase, activity: Activity) {
             Text(
                 text = stringResource(R.string.copyright),
                 color = Color.Black,
-                fontSize = 10.sp
+                fontSize = 10.sp,
+                modifier = Modifier.noRippleLongClickable { toast(context, "\uD83D\uDE1B") }
             )
         }
     }

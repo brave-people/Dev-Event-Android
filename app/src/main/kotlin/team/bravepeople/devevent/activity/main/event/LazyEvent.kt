@@ -54,6 +54,9 @@ import com.airbnb.lottie.compose.rememberLottieAnimationState
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshIndicator
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.delay
@@ -137,6 +140,7 @@ private fun EventBottomSheet(
                         주최: ${owner ?: unknown}
                         신청날짜: ${joinDate?.replace("~", " ~ ") ?: unknown}
                         시작날짜: ${startDate?.replace("~", " ~ ") ?: unknown}
+                        현재시각: ${SimpleDateFormat("MM.dd(E) kk:mm", Locale.KOREA).format(Date())}
                         """.trimIndent()
                     },
                     lineHeight = 20.sp,

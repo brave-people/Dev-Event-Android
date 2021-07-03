@@ -18,7 +18,7 @@
     <string name="main_dialog_choose_category">카테고리 선택</string>
 
     <string name="info_description_app">🎉🎈 개발자 {웨비나, 컨퍼런스, 해커톤}\n행사를 알려드립니다.</string>
-    <string name="info_button_confirm_clear_db">앱 데이터를 정말 초기화 하시려면 버튼을 한 번 더 눌러주세요.</string>
+    <string name="info_button_confirm_clear_db">앱 데이터를 정말 초기화 하시려면 버튼을 한 번 더 눌러주세요.\n\n데이터가 초기화 되면, 이벤트 정보와 카테고리별 색깔을 다시 불러옵니다.</string>
     <string name="info_button_cleared_db">앱 데이터가 모두 초기화 되었습니다.\n앱이 종료됩니다.</string>
     <string name="info_button_clear_all_db">앱 전체 데이터 초기화</string>
     <string name="info_button_app_information">앱 정보</string>
