@@ -16,7 +16,6 @@ import androidx.core.net.toUri
 import team.bravepeople.devevent.R
 import team.bravepeople.devevent.util.extension.toast
 
-
 object Web {
     fun open(context: Context, url: String) {
         try {

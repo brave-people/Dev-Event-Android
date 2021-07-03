@@ -14,22 +14,19 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -90,35 +87,37 @@ class SplashActivity : ComponentActivity() {
                     onDismiss = { finish() }
                 )
 
-                Box(
+                ConstraintLayout(
                     modifier = Modifier
                         .fillMaxSize()
                         .background(color = colors.primary)
                         .padding(16.dp)
                 ) {
-                    Column(
-                        modifier = Modifier.fillMaxSize(),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center
-                    ) {
-                        Text(
-                            text = stringResource(R.string.app_name),
-                            color = Color.White,
-                            fontSize = 50.sp,
-                            fontWeight = FontWeight.Bold
-                        )
-                    }
-                    Column(
-                        modifier = Modifier.fillMaxSize(),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Bottom
-                    ) {
-                        Text(
-                            text = stringResource(R.string.copyright),
-                            color = Color.White,
-                            fontSize = 10.sp
-                        )
-                    }
+                    val (title, copyright) = createRefs()
+
+                    Text(
+                        text = stringResource(R.string.app_name),
+                        color = Color.White,
+                        fontSize = 50.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.constrainAs(title) {
+                            top.linkTo(parent.top)
+                            bottom.linkTo(parent.bottom)
+                            start.linkTo(parent.start)
+                            end.linkTo(parent.end)
+                        }
+                    )
+
+                    Text(
+                        text = stringResource(R.string.copyright),
+                        color = Color.White,
+                        fontSize = 10.sp,
+                        modifier = Modifier.constrainAs(copyright) {
+                            bottom.linkTo(parent.bottom)
+                            start.linkTo(parent.start)
+                            end.linkTo(parent.end)
+                        }
+                    )
                 }
             }
         }

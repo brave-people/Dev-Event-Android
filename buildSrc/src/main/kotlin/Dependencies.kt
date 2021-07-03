@@ -34,6 +34,7 @@ object Versions {
         const val LottieCompose = "1.0.0-beta07-2-SNAPSHOT"
         const val Glide = "4.12.0"
         const val Browser = "1.3.0"
+        const val ConstraintLayout = "1.0.0-alpha08"
     }
 
     object Util {
@@ -91,6 +92,7 @@ object Dependencies {
         "androidx.browser:browser:${Versions.Ui.Browser}",
         "com.github.bumptech.glide:glide:${Versions.Ui.Glide}",
         "com.airbnb.android:lottie-compose:${Versions.Ui.LottieCompose}",
+        "androidx.constraintlayout:constraintlayout-compose:${Versions.Ui.ConstraintLayout}",
         "com.google.accompanist:accompanist-swiperefresh:${Versions.Ui.SwipeToRefresh}"
     )
 
