@@ -10,6 +10,7 @@
 package team.bravepeople.devevent.activity.main.info
 
 import android.app.Activity
+import android.content.Intent
 import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.EnterTransition
@@ -32,6 +33,8 @@ import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
+import androidx.compose.material.Switch
+import androidx.compose.material.SwitchDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -61,14 +64,18 @@ import kotlinx.coroutines.launch
 import team.bravepeople.devevent.BuildConfig
 import team.bravepeople.devevent.R
 import team.bravepeople.devevent.activity.main.event.database.EventDatabase
+import team.bravepeople.devevent.service.ForegroundService
 import team.bravepeople.devevent.theme.ColorOrange
 import team.bravepeople.devevent.theme.colors
 import team.bravepeople.devevent.ui.glideimage.GlideImage
 import team.bravepeople.devevent.ui.licenser.License
 import team.bravepeople.devevent.ui.licenser.Licenser
 import team.bravepeople.devevent.ui.licenser.Project
+import team.bravepeople.devevent.util.AlarmUtil
+import team.bravepeople.devevent.util.Battery
 import team.bravepeople.devevent.util.Data
 import team.bravepeople.devevent.util.Web
+import team.bravepeople.devevent.util.config.PathConfig
 import team.bravepeople.devevent.util.extension.doDelay
 import team.bravepeople.devevent.util.extension.noRippleClickable
 import team.bravepeople.devevent.util.extension.noRippleLongClickable
@@ -101,17 +108,22 @@ fun ApplicationInfoDialog(isOpen: MutableState<Boolean>) {
                             .padding(top = 4.dp),
                         fontSize = 13.sp
                     )
+                    GlideImage( // todo: 이거 왜 이미지가 안 뜰까요?
+                        modifier = Modifier.padding(top = 30.dp),
+                        src = "https://img.shields.io/github/stars/brave-people/Dev-Event-Android?style=flat-square"
+                    )
                     Text(
                         text = "앱 버전: ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})",
                         modifier = Modifier
-                            .padding(top = 30.dp)
+                            .padding(top = 15.dp)
                             .fillMaxWidth(),
                         textAlign = TextAlign.Center,
                         fontSize = 11.sp
                     )
                     Text(
                         text = """
-                            이 앱의 모든 이벤트 정보들은 '용감한 친구들' 팀의 'Dev-Event' 프로젝트에서 가져옵니다.
+                            이 앱의 모든 이벤트 정보들은
+                            '용감한 친구들' 팀의'Dev-Event' 프로젝트에서 가져옵니다.
                             
                             이 앱을 제작할 수 있게 '용감한 친구들' 팀에 초대해주시고,
                             이벤트 정보들 사용을 허락해 주신
@@ -240,6 +252,24 @@ fun Info(database: EventDatabase, activity: Activity) {
     var dbClearButtonLastClick = 0L
     val isOpensourceDialogOpen = remember { mutableStateOf(false) }
     val isApplicationInfoDialogOpen = remember { mutableStateOf(false) }
+    var newEventsNotification by remember {
+        mutableStateOf(
+            Data.read(
+                context,
+                PathConfig.NewEventNotification,
+                "false"
+            ).toBoolean()
+        )
+    }
+    var autoEventReload by remember {
+        mutableStateOf(
+            Data.read(
+                context,
+                PathConfig.AutoEventReload,
+                "false"
+            ).toBoolean()
+        )
+    }
 
     val animationSpec = remember { LottieAnimationSpec.RawRes(R.raw.confetti) }
     val animationState =
@@ -383,6 +413,58 @@ fun Info(database: EventDatabase, activity: Activity) {
                         modifier = Modifier.padding(start = 8.dp)
                     )
                 }
+            }
+            Row(
+                modifier = Modifier
+                    .padding(top = 30.dp)
+                    .wrapContentHeight()
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(text = stringResource(R.string.info_event_auto_reload))
+                Switch(
+                    checked = autoEventReload,
+                    colors = SwitchDefaults.colors(
+                        checkedThumbColor = colors.primary,
+                        checkedTrackColor = colors.secondary
+                    ),
+                    onCheckedChange = {
+                        if (it) {
+                            toast(context, context.getString(R.string.info_toast_battery_life))
+                            Battery.requestIgnoreOptimization(context)
+                            context.startService(Intent(context, ForegroundService::class.java))
+                            AlarmUtil.addReloadTask()
+                        }
+                        autoEventReload = it
+                        Data.save(context, PathConfig.AutoEventReload, it.toString())
+                    }
+                )
+            }
+            Row(
+                modifier = Modifier
+                    .padding(top = 4.dp)
+                    .wrapContentHeight()
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(text = stringResource(R.string.info_notification_new_event))
+                Switch(
+                    checked = newEventsNotification,
+                    colors = SwitchDefaults.colors(
+                        checkedThumbColor = colors.primary,
+                        checkedTrackColor = colors.secondary
+                    ),
+                    onCheckedChange = {
+                        if (it && !autoEventReload) {
+                            toast(
+                                context,
+                                context.getString(R.string.info_toast_must_on_event_auto_reload)
+                            )
+                        }
+                        newEventsNotification = it
+                        Data.save(context, PathConfig.NewEventNotification, it.toString())
+                    }
+                )
             }
         }
         Column(

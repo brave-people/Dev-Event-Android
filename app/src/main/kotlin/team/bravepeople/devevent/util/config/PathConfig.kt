@@ -12,7 +12,7 @@ package team.bravepeople.devevent.util.config
 object PathConfig {
     const val DatabaseSaveTime = "events-database-save-time"
     const val NewEventNotification = "new-event-notification"
-    const val EventRefreshDay = "events-refresh-day"
+    const val AutoEventReload = "events-reload-auto"
 
-    val TagColor = { tag: String -> "TagColorFor$tag" }
+    val TagColor = { tag: String -> "tag-color-for-$tag" }
 }

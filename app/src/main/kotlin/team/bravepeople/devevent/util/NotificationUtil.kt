@@ -18,6 +18,11 @@ import android.os.Build
 
 @Suppress("DEPRECATION")
 object NotificationUtil {
+    private fun builder(context: Context, channelId: String) =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            Notification.Builder(context, channelId)
+        } else Notification.Builder(context)
+
     fun createChannel(context: Context, name: String, description: String) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             getManager(context).createNotificationChannelGroup(
@@ -28,10 +33,11 @@ object NotificationUtil {
             )
 
             val channelMessage =
-                NotificationChannel(name, name, NotificationManager.IMPORTANCE_DEFAULT)
-            channelMessage.description = description
-            channelMessage.group = name
-            channelMessage.enableVibration(false)
+                NotificationChannel(name, name, NotificationManager.IMPORTANCE_DEFAULT).apply {
+                    this.description = description
+                    group = name
+                    enableVibration(false)
+                }
             getManager(context).createNotificationChannel(channelMessage)
         }
     }
@@ -54,6 +60,36 @@ object NotificationUtil {
         )
     }
 
+    fun showInboxStyleNotification(
+        context: Context,
+        id: Int,
+        channelId: String,
+        title: String,
+        content: String,
+        boxText: List<String>,
+        icon: Int,
+        isOnGoing: Boolean
+    ) {
+        val builder = builder(context, channelId)
+            .setContentTitle(title)
+            .setContentText(content)
+            .setSmallIcon(icon)
+            .setAutoCancel(true)
+            .setOngoing(isOnGoing)
+
+        val inboxStyle = Notification.InboxStyle()
+        inboxStyle.setBigContentTitle(title)
+        inboxStyle.setSummaryText(content)
+
+        for (element in boxText) {
+            inboxStyle.addLine(element)
+        }
+
+        builder.style = inboxStyle
+
+        getManager(context).notify(id, builder.build())
+    }
+
     fun getNormalNotification(
         context: Context,
         channelId: String,
@@ -61,21 +97,10 @@ object NotificationUtil {
         content: String,
         icon: Int,
         isOnGoing: Boolean
-    ): Notification.Builder {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            Notification.Builder(context, channelId)
-                .setContentTitle(title)
-                .setContentText(content)
-                .setSmallIcon(icon)
-                .setAutoCancel(true)
-                .setOngoing(isOnGoing)
-        } else {
-            Notification.Builder(context)
-                .setContentTitle(title)
-                .setContentText(content)
-                .setSmallIcon(icon)
-                .setAutoCancel(true)
-                .setOngoing(isOnGoing)
-        }
-    }
+    ) = builder(context, channelId)
+        .setContentTitle(title)
+        .setContentText(content)
+        .setSmallIcon(icon)
+        .setAutoCancel(true)
+        .setOngoing(isOnGoing)
 }

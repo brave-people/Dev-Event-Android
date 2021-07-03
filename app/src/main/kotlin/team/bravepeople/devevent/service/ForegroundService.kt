@@ -30,7 +30,7 @@ class ForegroundService : Service() {
             applicationContext.getString(R.string.notification_channel_name),
             getString(R.string.app_name),
             getString(R.string.service_wait_receive_new_event),
-            R.mipmap.ic_launcher,
+            R.drawable.ic_round_event_note_24,
             true
         )
     }
