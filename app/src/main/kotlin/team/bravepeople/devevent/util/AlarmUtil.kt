@@ -31,7 +31,7 @@ object AlarmUtil {
         PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
     }
 
-    fun cancelTask() {
+    fun cancelReloadTask() {
         alarmManager.cancel(pendingIntent)
     }
 

@@ -77,6 +77,7 @@ import team.bravepeople.devevent.util.Data
 import team.bravepeople.devevent.util.Web
 import team.bravepeople.devevent.util.config.PathConfig
 import team.bravepeople.devevent.util.extension.doDelay
+import team.bravepeople.devevent.util.extension.isServiceRunning
 import team.bravepeople.devevent.util.extension.noRippleClickable
 import team.bravepeople.devevent.util.extension.noRippleLongClickable
 import team.bravepeople.devevent.util.extension.toast
@@ -437,15 +438,22 @@ fun Info(database: EventDatabase, activity: Activity) {
                         checkedThumbColor = colors.primary,
                         checkedTrackColor = colors.secondary
                     ),
-                    onCheckedChange = {
-                        if (it) {
+                    onCheckedChange = { checked ->
+                        if (checked) {
                             toast(context, context.getString(R.string.info_toast_battery_life))
                             Battery.requestIgnoreOptimization(context)
-                            context.startService(Intent(context, ForegroundService::class.java))
-                            AlarmUtil.addReloadTask()
+                            if (!context.isServiceRunning(ForegroundService::class.java)) {
+                                context.startService(Intent(context, ForegroundService::class.java))
+                                AlarmUtil.addReloadTask()
+                            }
+                        } else {
+                            if (context.isServiceRunning(ForegroundService::class.java)) {
+                                context.stopService(Intent(context, ForegroundService::class.java))
+                                AlarmUtil.cancelReloadTask()
+                            }
                         }
-                        autoEventReload = it
-                        Data.save(context, PathConfig.AutoEventReload, it.toString())
+                        autoEventReload = checked
+                        Data.save(context, PathConfig.AutoEventReload, checked.toString())
                     }
                 )
             }
@@ -463,15 +471,15 @@ fun Info(database: EventDatabase, activity: Activity) {
                         checkedThumbColor = colors.primary,
                         checkedTrackColor = colors.secondary
                     ),
-                    onCheckedChange = {
-                        if (it && !autoEventReload) {
+                    onCheckedChange = { checked ->
+                        if (checked && !autoEventReload) {
                             toast(
                                 context,
                                 context.getString(R.string.info_toast_must_on_event_auto_reload)
                             )
                         }
-                        newEventsNotification = it
-                        Data.save(context, PathConfig.NewEventNotification, it.toString())
+                        newEventsNotification = checked
+                        Data.save(context, PathConfig.NewEventNotification, checked.toString())
                     }
                 )
             }

@@ -82,6 +82,7 @@ import team.bravepeople.devevent.ui.fancybottombar.FancyOptions
 import team.bravepeople.devevent.util.AlarmUtil
 import team.bravepeople.devevent.util.Data
 import team.bravepeople.devevent.util.config.PathConfig
+import team.bravepeople.devevent.util.extension.isServiceRunning
 import team.bravepeople.devevent.util.extension.toast
 
 private enum class Tab {
@@ -119,7 +120,7 @@ class MainActivity : ComponentActivity() {
             "false"
         ).toBoolean()
 
-        if (autoEventReload) {
+        if (autoEventReload && !isServiceRunning(ForegroundService::class.java)) {
             startService(Intent(this, ForegroundService::class.java))
             AlarmUtil.addReloadTask()
         }
