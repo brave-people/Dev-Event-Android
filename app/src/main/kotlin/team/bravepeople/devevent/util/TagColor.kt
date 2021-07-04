@@ -2,24 +2,6 @@
  * DevEventAndroid © 2021 용감한 친구들. all rights reserved.
  * DevEventAndroid license is under the MIT.
  *
- * [TagColor.kt] created by Ji Sungbin on 21. 7. 2. 오후 11:27.
- *
- * Please see: https://github.com/brave-people/Dev-Event-Android/blob/master/LICENSE.
- */
-
-/*
- * DevEventAndroid © 2021 용감한 친구들. all rights reserved.
- * DevEventAndroid license is under the MIT.
- *
- * [ColorUtil.kt] created by Ji Sungbin on 21. 7. 2. 오후 11:18.
- *
- * Please see: https://github.com/brave-people/Dev-Event-Android/blob/master/LICENSE.
- */
-
-/*
- * DevEventAndroid © 2021 용감한 친구들. all rights reserved.
- * DevEventAndroid license is under the MIT.
- *
  * [Color.kt] created by Ji Sungbin on 21. 6. 29. 오전 4:40.
  *
  * Please see: https://github.com/brave-people/Dev-Event-Android/blob/master/LICENSE.

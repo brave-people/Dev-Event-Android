@@ -14,7 +14,7 @@ object Application {
     const val targetSdk = 30
     const val compileSdk = 30
     const val jvmTarget = "1.8"
-    const val versionCode = 4
+    const val versionCode = 5
     const val versionName = "1.0.0"
 
     val targetCompat = JavaVersion.VERSION_11
@@ -42,7 +42,7 @@ object Versions {
 
         // const val Gson = "2.8.7"
         // const val SerializationJson = "1.2.1"
-            const val CheckDependencyUpdates = "1.4.0"
+        const val CheckDependencyUpdates = "1.4.0"
         // const val SerializationConverter = "0.8.0"
     }
 
