@@ -9,7 +9,6 @@
 
 package team.bravepeople.devevent.activity.main
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -121,8 +120,7 @@ class MainActivity : ComponentActivity() {
         ).toBoolean()
 
         if (autoEventReload && !isServiceRunning(ForegroundService::class.java)) {
-            startService(Intent(this, ForegroundService::class.java))
-            AlarmUtil.addReloadTask(applicationContext)
+            AlarmUtil.startReloadService(applicationContext, false)
         }
 
         SystemUiController(window).run {

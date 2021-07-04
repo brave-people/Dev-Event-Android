@@ -10,7 +10,6 @@
 package team.bravepeople.devevent.activity.main.info
 
 import android.app.Activity
-import android.content.Intent
 import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.EnterTransition
@@ -64,7 +63,6 @@ import kotlinx.coroutines.launch
 import team.bravepeople.devevent.BuildConfig
 import team.bravepeople.devevent.R
 import team.bravepeople.devevent.activity.main.event.database.EventDatabase
-import team.bravepeople.devevent.service.ForegroundService
 import team.bravepeople.devevent.theme.ColorOrange
 import team.bravepeople.devevent.theme.colors
 import team.bravepeople.devevent.ui.glideimage.GlideImage
@@ -77,7 +75,6 @@ import team.bravepeople.devevent.util.Data
 import team.bravepeople.devevent.util.Web
 import team.bravepeople.devevent.util.config.PathConfig
 import team.bravepeople.devevent.util.extension.doDelay
-import team.bravepeople.devevent.util.extension.isServiceRunning
 import team.bravepeople.devevent.util.extension.noRippleClickable
 import team.bravepeople.devevent.util.extension.noRippleLongClickable
 import team.bravepeople.devevent.util.extension.toast
@@ -383,6 +380,7 @@ fun Info(database: EventDatabase, activity: Activity) {
                             coroutineScope.launch(Dispatchers.IO) {
                                 Data.clear(context)
                                 database.clearAllTables()
+                                AlarmUtil.stopReloadService(context)
                             }
                             toast(context, activity.getString(R.string.info_button_cleared_db))
                             activity.finish()
@@ -458,15 +456,9 @@ fun Info(database: EventDatabase, activity: Activity) {
                         if (checked) {
                             toast(context, context.getString(R.string.info_toast_battery_life))
                             Battery.requestIgnoreOptimization(context)
-                            if (!context.isServiceRunning(ForegroundService::class.java)) {
-                                context.startService(Intent(context, ForegroundService::class.java))
-                                AlarmUtil.addReloadTask(context)
-                            }
+                            AlarmUtil.startReloadService(context)
                         } else {
-                            if (context.isServiceRunning(ForegroundService::class.java)) {
-                                context.stopService(Intent(context, ForegroundService::class.java))
-                                AlarmUtil.cancelReloadTask(context)
-                            }
+                            AlarmUtil.stopReloadService(context)
                         }
                         autoEventReload = checked
                         Data.save(context, PathConfig.AutoEventReload, checked.toString())
