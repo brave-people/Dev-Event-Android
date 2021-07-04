@@ -17,7 +17,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import retrofit2.await
 import team.bravepeople.devevent.activity.main.event.database.EventDatabase
@@ -44,9 +43,8 @@ class EventRepoImpl @Inject constructor(
             if (Network.isNetworkAvailable(context)) {
                 client.getEvents().await().use { _response ->
                     val response = runCatching { parseAndSave(_response.string()) }
-                    val result =
-                        (response.getOrNull() ?: response.exceptionOrNull()).toEventRepoResult()
-                    trySend(result)
+                    val result = response.getOrDefault(listOf())
+                    trySend(EventRepoResult.Success(result))
                 }
             } else {
                 trySend(EventRepoResult.Error(NetworkNotConnected()))
@@ -54,18 +52,30 @@ class EventRepoImpl @Inject constructor(
         } else {
             trySend(EventRepoResult.Success(databaseEvents))
         }
-
         awaitClose { close() }
     }
 
-    override fun reload() =
-        if (!Network.isNetworkAvailable(context)) flow {
-            emit(EventRepoResult.Error(NetworkNotConnected()))
-        }
-        else {
+    @OptIn(ExperimentalCoroutinesApi::class)
+    override fun reload() = callbackFlow {
+        if (!Network.isNetworkAvailable(context)) {
+            trySend(EventRepoResult.Error(NetworkNotConnected()))
+        } else {
+            val favoriteEvnets = databaseDao.getEvents().filter { it.favorite }
             database.clearAllTables()
-            load()
+            client.getEvents().await().use { _response ->
+                val response = runCatching { parseAndSave(_response.string()) }
+                val result = response.getOrDefault(listOf()).toMutableList()
+                result.replaceAll { event ->
+                    fun statement(it: EventEntity) = it.name == event.name
+                    return@replaceAll if (favoriteEvnets.any(::statement)) {
+                        favoriteEvnets.first(::statement)
+                    } else event
+                }
+                trySend(EventRepoResult.Success(result))
+            }
         }
+        awaitClose { close() }
+    }
 
     override fun save(eventEntities: List<EventEntity>, endAction: suspend () -> Unit) {
         CoroutineScope(Dispatchers.IO).launch {

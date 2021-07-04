@@ -15,12 +15,3 @@ sealed class EventRepoResult {
     data class Error(val exception: Exception) : EventRepoResult()
     data class Success(val events: List<EventEntity>) : EventRepoResult()
 }
-
-@Suppress("UNCHECKED_CAST")
-fun Any?.toEventRepoResult() = when (this) {
-    is Exception -> EventRepoResult.Error(this)
-    is List<*> -> EventRepoResult.Success(
-        this as? List<EventEntity> ?: throw Error("Miss type.")
-    )
-    else -> throw Error("Unknown type.")
-}
