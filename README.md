@@ -6,8 +6,14 @@
 ---
 
 # 다운로드 👉 [[구글 플레이스토어]](https://play.google.com/store/apps/details?id=team.bravepeople.devevent)
-아직 베타 버전이므로 앱이 불안정 할 수 있습니다. <br/>
-또한 작동 안하는 기능이 있을 수 있습니다. <br/>  
+https://github.com/brave-people/Dev-Event 의 안드로이드 앱 버전 입니다.<br/>
+모든 정보는 위 사이트에서 가져옵니다.
+<br/>
+<br/>
+- 오프라인 모드 지원
+- 이벤트 즐겨찾기 지원
+<br/>
+엡 UI 제작에 베타 기술(jetpack compose)을 사용하여 UI 퍼포먼스가 저하될 수 있습니다.
 
 ## 스크린샷
 <p align="center">
