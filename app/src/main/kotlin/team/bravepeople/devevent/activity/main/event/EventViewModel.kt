@@ -19,10 +19,12 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import team.bravepeople.devevent.activity.main.event.database.EventDatabase
 import team.bravepeople.devevent.activity.main.event.database.EventEntity
+import team.bravepeople.devevent.activity.main.event.repo.EventRepo
 
 @HiltViewModel
 class EventViewModel @Inject constructor(
-    private val database: EventDatabase
+    private val database: EventDatabase,
+    private val eventRepo: EventRepo
 ) : ViewModel() {
 
     private val _eventEntityList: MutableList<EventEntity> = mutableListOf()
@@ -50,6 +52,10 @@ class EventViewModel @Inject constructor(
     fun update(event: EventEntity) {
         _eventEntityList.removeIf { it.name == event.name }
         _eventEntityList.add(event)
+        eventRepo.save(
+            eventEntities = listOf(event),
+            endAction = {}
+        )
         updateFlow()
     }
 

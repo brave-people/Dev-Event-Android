@@ -40,12 +40,16 @@ class ForegroundService : Service() {
     @SuppressLint("WakelockTimeout")
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         startForeground(notificationId, notification.build())
-        wakeLock.acquire()
+        if (!wakeLock.isHeld) {
+            wakeLock.acquire()
+        }
         return START_STICKY
     }
 
     override fun onDestroy() {
         stopForeground(true)
-        wakeLock.release()
+        if (wakeLock.isHeld) {
+            wakeLock.release()
+        }
     }
 }

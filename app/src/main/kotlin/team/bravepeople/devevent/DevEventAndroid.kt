@@ -11,14 +11,12 @@ package team.bravepeople.devevent
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
-import team.bravepeople.devevent.util.AlarmUtil
 import team.bravepeople.devevent.util.NotificationUtil
 
 @HiltAndroidApp
 class DevEventAndroid : Application() {
     override fun onCreate() {
         super.onCreate()
-        AlarmUtil.init(applicationContext)
         NotificationUtil.createChannel(
             applicationContext,
             getString(R.string.notification_channel_name),

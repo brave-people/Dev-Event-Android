@@ -98,25 +98,32 @@ fun ApplicationInfoDialog(isOpen: MutableState<Boolean>) {
                         .wrapContentHeight()
                 ) {
                     Text(
-                        text = "알려진 문제 및 버그 제보",
+                        text = stringResource(R.string.info_dialog_notice_issue_and_bug),
                         color = Color.Black,
                         fontSize = 18.sp
                     )
                     Text(
-                        text = "프로젝트 이슈에서 진행하실 수 있습니다.\n(클릭)",
+                        text = stringResource(R.string.info_dialog_you_can_do_at_issue),
                         modifier = Modifier
                             .clickable { Web.open(context, Web.Link.Issue) }
-                            .padding(top = 4.dp),
+                            .padding(top = 2.dp),
                         fontSize = 13.sp
                     )
-                    GlideImage( // todo: 이거 왜 이미지가 안 뜰까요?
-                        modifier = Modifier.padding(top = 30.dp),
-                        src = "https://img.shields.io/github/stars/brave-people/Dev-Event-Android?style=flat-square"
+                    Text(
+                        text = stringResource(R.string.info_dialog_betatester),
+                        color = Color.Black,
+                        fontSize = 18.sp,
+                        modifier = Modifier.padding(top = 15.dp)
+                    )
+                    Text(
+                        text = stringResource(R.string.info_dialog_thanking_for_contribute_bug),
+                        modifier = Modifier.padding(top = 2.dp),
+                        fontSize = 13.sp
                     )
                     Text(
                         text = "앱 버전: ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})",
                         modifier = Modifier
-                            .padding(top = 15.dp)
+                            .padding(top = 30.dp)
                             .fillMaxWidth(),
                         textAlign = TextAlign.Center,
                         fontSize = 11.sp
@@ -138,7 +145,7 @@ fun ApplicationInfoDialog(isOpen: MutableState<Boolean>) {
                         fontSize = 10.sp
                     )
                     Text(
-                        text = "이렇게 작은 앱에 약 50개의 클레스가 쓰였다는게 놀랍네요",
+                        text = stringResource(R.string.info_dialog_amazing_fact),
                         modifier = Modifier
                             .padding(top = 15.dp)
                             .fillMaxWidth(),
@@ -424,9 +431,18 @@ fun Info(database: EventDatabase, activity: Activity) {
                     )
                 }
             }
-            Row(
+            Text(
+                text = stringResource(R.string.info_notice_events_reload_time),
                 modifier = Modifier
                     .padding(top = 30.dp)
+                    .wrapContentHeight()
+                    .fillMaxWidth(),
+                fontSize = 13.sp,
+                color = Color.Gray
+            )
+            Row(
+                modifier = Modifier
+                    .padding(top = 8.dp)
                     .wrapContentHeight()
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
@@ -444,12 +460,12 @@ fun Info(database: EventDatabase, activity: Activity) {
                             Battery.requestIgnoreOptimization(context)
                             if (!context.isServiceRunning(ForegroundService::class.java)) {
                                 context.startService(Intent(context, ForegroundService::class.java))
-                                AlarmUtil.addReloadTask()
+                                AlarmUtil.addReloadTask(context)
                             }
                         } else {
                             if (context.isServiceRunning(ForegroundService::class.java)) {
                                 context.stopService(Intent(context, ForegroundService::class.java))
-                                AlarmUtil.cancelReloadTask()
+                                AlarmUtil.cancelReloadTask(context)
                             }
                         }
                         autoEventReload = checked
@@ -459,7 +475,7 @@ fun Info(database: EventDatabase, activity: Activity) {
             }
             Row(
                 modifier = Modifier
-                    .padding(top = 4.dp)
+                    .padding(top = 2.dp)
                     .wrapContentHeight()
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween

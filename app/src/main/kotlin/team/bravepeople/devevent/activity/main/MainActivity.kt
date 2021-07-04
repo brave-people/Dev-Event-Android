@@ -122,7 +122,7 @@ class MainActivity : ComponentActivity() {
 
         if (autoEventReload && !isServiceRunning(ForegroundService::class.java)) {
             startService(Intent(this, ForegroundService::class.java))
-            AlarmUtil.addReloadTask()
+            AlarmUtil.addReloadTask(applicationContext)
         }
 
         SystemUiController(window).run {
@@ -307,14 +307,5 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-    }
-
-    override fun onStop() {
-        super.onStop()
-        AlarmUtil.destroy()
-        eventRepo.save(
-            eventEntities = eventVm.eventEntityFlow.value,
-            endAction = {}
-        )
     }
 }

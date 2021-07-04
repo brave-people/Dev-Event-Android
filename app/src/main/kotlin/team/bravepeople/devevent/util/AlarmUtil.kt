@@ -16,45 +16,33 @@ import android.content.Intent
 import java.util.Calendar
 import team.bravepeople.devevent.receiver.EventReloadReceiver
 
-@Suppress("StaticFieldLeak")
 object AlarmUtil {
 
-    @Suppress("ObjectPropertyName")
-    private var _context: Context? = null
-    private val context by lazy { _context!! }
-
-    private val alarmManager by lazy { context.getSystemService(Context.ALARM_SERVICE) as AlarmManager }
-    private val intent by lazy { Intent(context, EventReloadReceiver::class.java) }
-
     @Suppress("UnspecifiedImmutableFlag")
-    private val pendingIntent by lazy {
-        PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+    private fun pendingIntent(context: Context): PendingIntent {
+        val intent = Intent(context, EventReloadReceiver::class.java)
+        return PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
     }
 
-    fun cancelReloadTask() {
-        alarmManager.cancel(pendingIntent)
+    private fun alarmManager(context: Context) =
+        context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+    fun cancelReloadTask(context: Context) {
+        alarmManager(context).cancel(pendingIntent(context))
     }
 
-    fun addReloadTask() {
+    fun addReloadTask(context: Context) {
         val calender = Calendar.getInstance().apply {
             timeInMillis = System.currentTimeMillis()
             set(Calendar.HOUR_OF_DAY, 13)
             set(Calendar.MINUTE, 0)
             set(Calendar.SECOND, 0)
         }
-        alarmManager.setInexactRepeating(
+        alarmManager(context).setInexactRepeating(
             AlarmManager.RTC_WAKEUP,
             calender.timeInMillis,
             AlarmManager.INTERVAL_DAY,
-            pendingIntent
+            pendingIntent(context)
         )
-    }
-
-    fun init(context: Context) {
-        this._context = context
-    }
-
-    fun destroy() {
-        _context = null
     }
 }

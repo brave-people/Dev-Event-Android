@@ -351,7 +351,7 @@ fun LazyEvent(
 
                     LazyColumn(
                         modifier = Modifier.fillMaxSize(),
-                        contentPadding = PaddingValues(top = 16.dp, bottom = 16.dp),
+                        contentPadding = PaddingValues(bottom = 16.dp),
                         state = listState,
                         verticalArrangement = Arrangement.spacedBy(16.dp)
                     ) { // todo: events change animation; https://stackoverflow.com/a/64922966/14299073
