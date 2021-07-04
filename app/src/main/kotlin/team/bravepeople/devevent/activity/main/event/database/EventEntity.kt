@@ -28,5 +28,4 @@ data class EventEntity(
         name.lowercase().contains(value) ||
                 category?.lowercase()?.contains(value) == true
                 || owner?.lowercase()?.contains(value) == true
-                || site?.lowercase()?.contains(value) == true
 }
