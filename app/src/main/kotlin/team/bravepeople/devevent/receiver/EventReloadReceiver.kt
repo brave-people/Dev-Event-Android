@@ -27,6 +27,7 @@ import team.bravepeople.devevent.activity.main.event.repo.EventRepoResult
 import team.bravepeople.devevent.util.Data
 import team.bravepeople.devevent.util.NotificationUtil
 import team.bravepeople.devevent.util.config.PathConfig
+import team.bravepeople.devevent.util.extension.filterNewEventByName
 
 @AndroidEntryPoint
 class EventReloadReceiver : BroadcastReceiver() {
@@ -38,11 +39,8 @@ class EventReloadReceiver : BroadcastReceiver() {
     lateinit var database: EventDatabase
 
     override fun onReceive(context: Context?, intent: Intent?) {
-        // if (Calendar.getInstance().get(Calendar.HOUR_OF_DAY) != 13) return
-        println("receive")
         CoroutineScope(Dispatchers.IO).launch {
             val preEvents = database.dao().getEvents()
-            println(preEvents.map { it.name })
             val receiveNewEventNotification =
                 Data.read(context!!, PathConfig.NewEventNotification, "false").toBoolean()
 
@@ -57,9 +55,8 @@ class EventReloadReceiver : BroadcastReceiver() {
                             endAction = {}
                         )
                         if (receiveNewEventNotification) {
-                            val diffEvents = newEvents.filterNot { preEvents.contains(it) }
+                            val diffEvents = newEvents.filterNewEventByName(preEvents)
                             val diffEventNames = diffEvents.map { it.name }
-                            println(diffEventNames)
                             NotificationUtil.showInboxStyleNotification(
                                 context = context,
                                 id = Random.nextInt(),

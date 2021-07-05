@@ -24,6 +24,7 @@ import team.bravepeople.devevent.activity.main.event.database.EventEntity
 import team.bravepeople.devevent.repo.GithubService
 import team.bravepeople.devevent.util.Data
 import team.bravepeople.devevent.util.config.PathConfig
+import team.bravepeople.devevent.util.extension.filterChangedEventByFavorite
 import team.bravepeople.devevent.util.extension.parseOrNull
 import team.bravepeople.devevent.util.network.Network
 import team.bravepeople.devevent.util.network.NetworkNotConnected
@@ -80,12 +81,12 @@ class EventRepoImpl @Inject constructor(
     override fun save(eventEntities: List<EventEntity>, endAction: suspend () -> Unit) {
         CoroutineScope(Dispatchers.IO).launch {
             val databaseEvents = databaseDao.getEvents()
-            if (databaseEvents.isEmpty()) {
+            if (databaseEvents.isEmpty()) { // 데이터베이스 초기화 상태
                 databaseDao.insertAll(eventEntities)
                 Data.save(context, PathConfig.DatabaseSaveTime, Date().time.toString())
                 endAction()
-            } else {
-                val events = eventEntities.filterNot { event -> databaseEvents.contains(event) }
+            } else { // 데이터베이스 업데이트 -> `favorite`만 달라짐
+                val events = eventEntities.filterChangedEventByFavorite(databaseEvents)
                 if (events.isNotEmpty()) {
                     databaseDao.updateAll(events)
                     Data.save(context, PathConfig.DatabaseSaveTime, Date().time.toString())
