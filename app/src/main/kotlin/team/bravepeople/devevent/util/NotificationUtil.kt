@@ -13,9 +13,12 @@ import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationChannelGroup
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import androidx.annotation.DrawableRes
+import team.bravepeople.devevent.activity.splash.SplashActivity
 
 @Suppress("DEPRECATION")
 object NotificationUtil {
@@ -41,6 +44,11 @@ object NotificationUtil {
                 }
             getManager(context).createNotificationChannel(channelMessage)
         }
+    }
+
+    private fun pendingIntent(context: Context): PendingIntent {
+        val intent = Intent(context, SplashActivity::class.java)
+        return PendingIntent.getActivity(context, 500, intent, PendingIntent.FLAG_IMMUTABLE)
     }
 
     private fun getManager(context: Context) =
@@ -77,6 +85,7 @@ object NotificationUtil {
             .setSmallIcon(icon)
             .setAutoCancel(true)
             .setOngoing(isOnGoing)
+            .setContentIntent(pendingIntent(context))
 
         val inboxStyle = Notification.InboxStyle()
         inboxStyle.setBigContentTitle(title)
@@ -104,4 +113,5 @@ object NotificationUtil {
         .setSmallIcon(icon)
         .setAutoCancel(true)
         .setOngoing(isOnGoing)
+        .setContentIntent(pendingIntent(context))
 }
