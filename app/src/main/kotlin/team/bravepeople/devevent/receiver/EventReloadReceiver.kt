@@ -14,6 +14,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.annotation.StringRes
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.Calendar
 import javax.inject.Inject
 import kotlin.random.Random
 import kotlinx.coroutines.CoroutineScope
@@ -39,6 +40,7 @@ class EventReloadReceiver : BroadcastReceiver() {
     lateinit var database: EventDatabase
 
     override fun onReceive(context: Context?, intent: Intent?) {
+        if (Calendar.getInstance().get(Calendar.HOUR_OF_DAY) != 13) return
         CoroutineScope(Dispatchers.IO).launch {
             val preEvents = database.dao().getEvents()
             val receiveNewEventNotification =
