@@ -39,6 +39,7 @@ class EventReloadReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context?, intent: Intent?) {
         // if (Calendar.getInstance().get(Calendar.HOUR_OF_DAY) != 13) return
+        println("receive")
         CoroutineScope(Dispatchers.IO).launch {
             val preEvents = database.dao().getEvents()
             println(preEvents.map { it.name })
