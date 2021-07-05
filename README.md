@@ -19,7 +19,7 @@ https://github.com/brave-people/Dev-Event 의 안드로이드 앱 버전 입니�
 <p align="center">
   <img alt="splash" src="/images/splash.png?raw=true" width="25%"/>
   <img alt="main" src="/images/main.png?raw=true" width="25%" />
-  <img alt="info" src="/images/info.png?raw=true" width="25%" />
+  <img alt="info" src="/images/info_v2.png?raw=true" width="25%" />
 </p>
 
 ## [MAD Score](https://madscorecard.withgoogle.com/scorecard/share/1492290925/)
