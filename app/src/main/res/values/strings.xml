@@ -33,9 +33,9 @@
     <string name="info_toast_must_on_event_auto_reload">이벤트 자동 갱신이 켜져있을때만 작동됩니다.</string>
     <string name="info_dialog_notice_issue_and_bug">알려진 문제 및 버그 제보</string>
     <string name="info_dialog_you_can_do_at_issue">프로젝트 이슈에서 진행하실 수 있습니다.\n(클릭)</string>
-    <string name="info_dialog_amazing_fact">이렇게 작은 앱에 약 50개의 클래스가 쓰였다는게 놀랍네요.</string>
+    <string name="info_dialog_amazing_fact">이렇게 작은 앱에\n약 50개의 클래스가 쓰였다는게 놀랍네요.</string>
     <string name="info_dialog_betatester">베타테스터</string>
-    <string name="info_dialog_thanking_for_contribute_bug">gunyu1019, 헤히, hibot 님 외 4분\n모두 버그 찾기에 기여해주셔서 감사합니다.</string>
+    <string name="info_dialog_thanking_for_contribute_bug">gunyu1019, 헤히, hibot 님 외 네 분\n모두 버그 찾기에 기여해주셔서 감사합니다.</string>
 
     <string name="service_wait_receive_new_event">새로운 이벤트 수신 대기중…</string>
 

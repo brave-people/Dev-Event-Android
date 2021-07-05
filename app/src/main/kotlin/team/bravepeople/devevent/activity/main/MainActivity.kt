@@ -26,6 +26,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.AlertDialog
@@ -134,6 +135,7 @@ class MainActivity : ComponentActivity() {
     fun EventOptionDialog(openDialogVisible: MutableState<Boolean>, tags: List<String>) {
         if (openDialogVisible.value) {
             AlertDialog(
+                modifier = Modifier.width(300.dp),
                 onDismissRequest = { openDialogVisible.value = false },
                 confirmButton = {
                     OutlinedButton(onClick = { openDialogVisible.value = false }) {

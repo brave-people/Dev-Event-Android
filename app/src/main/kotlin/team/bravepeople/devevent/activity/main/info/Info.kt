@@ -25,6 +25,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -86,6 +87,7 @@ fun ApplicationInfoDialog(isOpen: MutableState<Boolean>) {
         val context = LocalContext.current
 
         AlertDialog(
+            modifier = Modifier.width(300.dp),
             onDismissRequest = { isOpen.value = false },
             buttons = {},
             text = {
@@ -130,7 +132,8 @@ fun ApplicationInfoDialog(isOpen: MutableState<Boolean>) {
                             이 앱의 모든 이벤트 정보들은 '용감한 친구들' 팀의
                             'Dev-Event' 프로젝트에서 가져옵니다.
                             
-                            이 앱을 제작할 수 있게 '용감한 친구들' 팀에 초대해주시고,
+                            이 앱을 제작할 수 있게 
+                            '용감한 친구들' 팀에 초대해주시고,
                             이벤트 정보들 사용을 허락해 주신
                             Covenant님께 감사드립니다.
                             """.trimIndent(),
@@ -160,6 +163,7 @@ fun ApplicationInfoDialog(isOpen: MutableState<Boolean>) {
 private fun OpenSourceDialog(isOpen: MutableState<Boolean>) {
     if (isOpen.value) {
         AlertDialog(
+            modifier = Modifier.width(300.dp),
             onDismissRequest = { isOpen.value = false },
             buttons = {},
             title = {
