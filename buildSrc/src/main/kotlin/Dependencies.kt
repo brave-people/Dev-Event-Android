@@ -39,7 +39,6 @@ object Versions {
 
     object Util {
         const val CrashReporter = "1.1.0"
-
         // const val Gson = "2.8.7"
         // const val SerializationJson = "1.2.1"
         const val CheckDependencyUpdates = "1.4.0"
@@ -62,8 +61,8 @@ object Versions {
     }
 
     object Compose {
-        const val Master = "1.0.0-beta09"
-        const val Activity = "1.3.0-beta01"
+        const val Master = "1.0.0-rc01"
+        const val Activity = "1.3.0-rc01"
     }
 
     object Debug {
