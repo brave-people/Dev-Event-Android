@@ -504,7 +504,9 @@ fun Info(database: EventDatabase, activity: Activity) {
                 text = stringResource(R.string.copyright),
                 color = Color.Black,
                 fontSize = 10.sp,
-                modifier = Modifier.noRippleLongClickable { toast(context, "\uD83D\uDE1B") }
+                modifier = Modifier.noRippleLongClickable {
+                    toast(context, "\uD83D\uDE1B")
+                }
             )
         }
     }

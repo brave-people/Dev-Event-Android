@@ -12,6 +12,7 @@ package team.bravepeople.devevent.activity.main.event
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import java.util.Calendar
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -33,7 +34,23 @@ class EventViewModel @Inject constructor(
             .sortedByDescending { it.name }
             .sortedByDescending { it.headerDate }
             .asReversed()
-            .distinct() // List
+            .distinct()
+            .filter { event ->
+                val nowDate = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
+                (event.joinDate ?: event.startDate)?.let { _eventDate ->
+                    fun String.polish() = split(".")[1].split("(")[0].toInt()
+
+                    return@filter if (_eventDate.contains("~") && _eventDate.count { it == '.' } == 2) {
+                        val eventDate = _eventDate.split("~")[1].polish()
+                        eventDate >= nowDate
+                    } else {
+                        val eventDate = _eventDate.polish()
+                        eventDate >= nowDate
+                    }
+                }
+
+                return@filter true
+            }
 
     private val _eventEntityFlow = MutableStateFlow<List<EventEntity>>(emptyList())
     val eventEntityFlow = _eventEntityFlow.asStateFlow() // flow; unnecessary getter

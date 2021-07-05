@@ -27,7 +27,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Icon
@@ -37,9 +36,6 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.TopAppBar
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Search
-import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
@@ -49,7 +45,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -82,7 +77,6 @@ import team.bravepeople.devevent.util.AlarmUtil
 import team.bravepeople.devevent.util.Data
 import team.bravepeople.devevent.util.config.PathConfig
 import team.bravepeople.devevent.util.extension.isServiceRunning
-import team.bravepeople.devevent.util.extension.toast
 
 private enum class Tab {
     Main, Favorite, Info
@@ -107,7 +101,7 @@ class MainActivity : ComponentActivity() {
     private val bottomItems = listOf(
         FancyItem(icon = R.drawable.ic_round_event_note_24, id = 0),
         FancyItem(icon = R.drawable.ic_round_favorite_24, id = 1),
-        FancyItem(icon = R.drawable.ic_round_info_24, id = 2)
+        FancyItem(icon = R.drawable.ic_round_settings_24, id = 2)
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -170,8 +164,6 @@ class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalAnimationApi::class)
     @Composable
     fun TopBar() {
-        val context = LocalContext.current
-
         val eventOptionDialogVisible = remember { mutableStateOf(false) }
         var tags by remember { mutableStateOf(eventVm.getAllTags()) }
 
@@ -180,16 +172,7 @@ class MainActivity : ComponentActivity() {
         TopAppBar {
             AnimatedVisibility(visible = searching, exit = fadeOut()) {
                 TextField(
-                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
-                    keyboardActions = KeyboardActions(onSearch = {
-                        val search = searchField.text
-                        if (search.isNotBlank()) {
-                            searchField = TextFieldValue()
-                            searching = false
-                        } else {
-                            toast(context, getString(R.string.main_toast_input_search))
-                        }
-                    }),
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                     modifier = Modifier.fillMaxSize(),
                     singleLine = true,
                     value = searchField,
@@ -235,7 +218,7 @@ class MainActivity : ComponentActivity() {
                             horizontalArrangement = Arrangement.End
                         ) {
                             Icon(
-                                imageVector = Icons.Rounded.Settings,
+                                painter = painterResource(R.drawable.ic_round_filter_list_24),
                                 contentDescription = null,
                                 modifier = Modifier
                                     .padding(end = 8.dp)
@@ -246,7 +229,7 @@ class MainActivity : ComponentActivity() {
                                 tint = Color.White
                             )
                             Icon(
-                                imageVector = Icons.Rounded.Search,
+                                painter = painterResource(R.drawable.ic_round_search_24),
                                 contentDescription = null,
                                 tint = Color.White,
                                 modifier = Modifier.clickable {
