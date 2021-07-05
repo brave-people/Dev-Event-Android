@@ -12,8 +12,8 @@ package team.bravepeople.devevent.receiver
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import androidx.annotation.StringRes
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.Calendar
 import javax.inject.Inject
 import kotlin.random.Random
 import kotlinx.coroutines.CoroutineScope
@@ -38,11 +38,15 @@ class EventReloadReceiver : BroadcastReceiver() {
     lateinit var database: EventDatabase
 
     override fun onReceive(context: Context?, intent: Intent?) {
-        if (Calendar.getInstance().get(Calendar.HOUR_OF_DAY) != 13) return
+        // if (Calendar.getInstance().get(Calendar.HOUR_OF_DAY) != 13) return
         CoroutineScope(Dispatchers.IO).launch {
             val preEvents = database.dao().getEvents()
+            println(preEvents.map { it.name })
             val receiveNewEventNotification =
                 Data.read(context!!, PathConfig.NewEventNotification, "false").toBoolean()
+
+            fun getString(@StringRes res: Int, vararg args: Any) = context.getString(res, *args)
+
             eventRepo.reload().collect { result ->
                 when (result) {
                     is EventRepoResult.Success -> {
@@ -54,12 +58,13 @@ class EventReloadReceiver : BroadcastReceiver() {
                         if (receiveNewEventNotification) {
                             val diffEvents = newEvents.filterNot { preEvents.contains(it) }
                             val diffEventNames = diffEvents.map { it.name }
+                            println(diffEventNames)
                             NotificationUtil.showInboxStyleNotification(
                                 context = context,
                                 id = Random.nextInt(),
-                                channelId = context.getString(R.string.notification_channel_name),
-                                title = context.getString(R.string.receiver_notification_title_new_event),
-                                content = context.getString(
+                                channelId = getString(R.string.notification_channel_name),
+                                title = getString(R.string.receiver_notification_title_new_event),
+                                content = getString(
                                     R.string.receiver_notification_new_events_size,
                                     diffEventNames.size
                                 ),
@@ -74,8 +79,8 @@ class EventReloadReceiver : BroadcastReceiver() {
                         NotificationUtil.showNormalNotification(
                             context = context,
                             id = Random.nextInt(),
-                            channelId = context.getString(R.string.notification_channel_name),
-                            title = context.getString(R.string.receiver_notification_error_when_reload_events),
+                            channelId = getString(R.string.notification_channel_name),
+                            title = getString(R.string.receiver_notification_error_when_reload_events),
                             content = exception,
                             icon = R.drawable.ic_round_event_note_24,
                             isOnGoing = false

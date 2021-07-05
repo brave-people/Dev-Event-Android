@@ -50,8 +50,8 @@ object AlarmUtil {
     private fun addReloadTask(context: Context) {
         val calender = Calendar.getInstance().apply {
             timeInMillis = System.currentTimeMillis()
-            set(Calendar.HOUR_OF_DAY, 13)
-            set(Calendar.MINUTE, 0)
+            set(Calendar.HOUR_OF_DAY, 24)
+            set(Calendar.MINUTE, 51)
             set(Calendar.SECOND, 0)
         }
         alarmManager(context).setInexactRepeating(

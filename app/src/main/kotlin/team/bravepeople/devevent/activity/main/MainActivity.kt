@@ -122,6 +122,7 @@ class MainActivity : ComponentActivity() {
             setNavigationBarColor(Color.White)
         }
 
+        println("start")
         setContent {
             MaterialTheme {
                 Scaffold(topBar = { TopBar() }, content = { Main() })

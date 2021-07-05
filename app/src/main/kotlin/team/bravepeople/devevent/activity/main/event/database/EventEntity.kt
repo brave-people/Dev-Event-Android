@@ -24,8 +24,10 @@ data class EventEntity(
     val startDate: String? = "", // 시작 날짜
     val owner: String? = "" // 주최
 ) {
-    fun contains(value: String) =
-        name.lowercase().contains(value) ||
+    fun contains(_value: String): Boolean {
+        val value = _value.lowercase()
+        return name.lowercase().contains(value) ||
                 category?.lowercase()?.contains(value) == true
                 || owner?.lowercase()?.contains(value) == true
+    }
 }

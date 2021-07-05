@@ -290,7 +290,7 @@ fun LazyEvent(
         if (eventFilter == EventFilter.Favorite) it.favorite
         else true
     }
-    eventEntities = eventEntities.filter { it.contains(search.lowercase()) }
+    eventEntities = eventEntities.filter { it.contains(search) }
 
     if (chipVm.selectedChip.isNotEmpty()) {
         eventEntities = eventEntities.filter { event ->
