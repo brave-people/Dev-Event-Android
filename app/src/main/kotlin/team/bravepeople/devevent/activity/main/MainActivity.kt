@@ -305,7 +305,6 @@ class MainActivity : ComponentActivity() {
     }
 
     override fun onBackPressed() {
-        super.onBackPressed()
         if (bottomSheetVisible.value) {
             bottomSheetVisible.value = false
         } else {
@@ -314,7 +313,7 @@ class MainActivity : ComponentActivity() {
                 toast(getString(R.string.main_toast_confirm_app_finish))
                 backButtonPressedTime = clickedTime
             } else {
-                finish()
+                super.onBackPressed()
             }
         }
     }
