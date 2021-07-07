@@ -269,6 +269,7 @@ private fun EventItem(eventVm: EventViewModel, event: EventEntity, onClick: () -
 )
 @Composable
 fun LazyEvent(
+    bottomSheetVisible: MutableState<Boolean>,
     eventRepo: EventRepo,
     eventVm: EventViewModel,
     chipVm: ChipViewModel,
@@ -281,7 +282,6 @@ fun LazyEvent(
     val errorDialogVisible = remember { mutableStateOf(false) }
 
     var selectedEvent by remember { mutableStateOf<EventEntity?>(null) }
-    val bottomSheetVisible = remember { mutableStateOf(selectedEvent != null) }
 
     val listState = rememberLazyListState()
     var refreshing by remember { mutableStateOf(false) }

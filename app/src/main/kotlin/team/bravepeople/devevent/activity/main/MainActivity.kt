@@ -78,6 +78,7 @@ import team.bravepeople.devevent.util.AlarmUtil
 import team.bravepeople.devevent.util.Data
 import team.bravepeople.devevent.util.config.PathConfig
 import team.bravepeople.devevent.util.extension.isServiceRunning
+import team.bravepeople.devevent.util.extension.toast
 
 private enum class Tab {
     Main, Favorite, Info
@@ -86,9 +87,12 @@ private enum class Tab {
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
+
+    private var backButtonPressedTime = 0L
     private var tab by mutableStateOf(Tab.Main)
     private val chipVm: ChipViewModel by viewModels()
     private val eventVm: EventViewModel by viewModels()
+    private val bottomSheetVisible = mutableStateOf(false)
 
     @Inject
     lateinit var eventRepo: EventRepo
@@ -266,6 +270,7 @@ class MainActivity : ComponentActivity() {
                             activity = this@MainActivity
                         )
                         else -> LazyEvent(
+                            bottomSheetVisible = bottomSheetVisible,
                             eventRepo = eventRepo,
                             eventVm = eventVm,
                             chipVm = chipVm,
@@ -289,6 +294,21 @@ class MainActivity : ComponentActivity() {
                     2 -> Tab.Info
                     else -> throw Error("Unknown FancyItem type.")
                 }
+            }
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (bottomSheetVisible.value) {
+            bottomSheetVisible.value = false
+        } else {
+            val clickedTime = System.currentTimeMillis()
+            if (clickedTime - backButtonPressedTime > 2000) {
+                toast(getString(R.string.main_toast_confirm_app_finish))
+                backButtonPressedTime = clickedTime
+            } else {
+                finish()
             }
         }
     }

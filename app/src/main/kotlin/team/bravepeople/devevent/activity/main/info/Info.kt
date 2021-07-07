@@ -115,7 +115,7 @@ fun ApplicationInfoDialog(isOpen: MutableState<Boolean>) {
                         modifier = Modifier.padding(top = 15.dp)
                     )
                     Text(
-                        text = stringResource(R.string.info_dialog_thanking_for_contribute_bug),
+                        text = stringResource(R.string.info_dialog_thanks_for_contribute_bug),
                         modifier = Modifier.padding(top = 2.dp),
                         fontSize = 13.sp
                     )
@@ -128,29 +128,12 @@ fun ApplicationInfoDialog(isOpen: MutableState<Boolean>) {
                         fontSize = 11.sp
                     )
                     Text(
-                        text = """
-                            이 앱의 모든 이벤트 정보들은 '용감한 친구들' 팀의
-                            'Dev-Event' 프로젝트에서 가져옵니다.
-                            
-                            이 앱을 제작할 수 있게 
-                            '용감한 친구들' 팀에 초대해주시고,
-                            이벤트 정보들 사용을 허락해 주신
-                            Covenant님께 감사드립니다.
-                            """.trimIndent(),
+                        text = stringResource(R.string.info_dialog_thanks_covenant),
                         modifier = Modifier
                             .padding(top = 15.dp)
                             .fillMaxWidth(),
                         textAlign = TextAlign.Center,
                         color = colors.primary,
-                        fontSize = 10.sp
-                    )
-                    Text(
-                        text = stringResource(R.string.info_dialog_amazing_fact),
-                        modifier = Modifier
-                            .padding(top = 15.dp)
-                            .fillMaxWidth(),
-                        textAlign = TextAlign.Center,
-                        color = colors.secondary,
                         fontSize = 10.sp
                     )
                 }
