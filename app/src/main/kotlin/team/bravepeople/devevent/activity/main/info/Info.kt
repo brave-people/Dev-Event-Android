@@ -11,10 +11,7 @@ package team.bravepeople.devevent.activity.main.info
 
 import android.app.Activity
 import android.widget.Toast
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -36,6 +33,8 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Switch
 import androidx.compose.material.SwitchDefaults
 import androidx.compose.material.Text
+import androidx.compose.material.TextField
+import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
@@ -50,15 +49,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.zIndex
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import com.airbnb.lottie.compose.LottieAnimation
-import com.airbnb.lottie.compose.LottieAnimationSpec
-import com.airbnb.lottie.compose.rememberLottieAnimationState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import team.bravepeople.devevent.BuildConfig
@@ -75,7 +71,6 @@ import team.bravepeople.devevent.util.Battery
 import team.bravepeople.devevent.util.Data
 import team.bravepeople.devevent.util.Web
 import team.bravepeople.devevent.util.config.PathConfig
-import team.bravepeople.devevent.util.extension.doDelay
 import team.bravepeople.devevent.util.extension.noRippleClickable
 import team.bravepeople.devevent.util.extension.noRippleLongClickable
 import team.bravepeople.devevent.util.extension.toast
@@ -253,6 +248,18 @@ fun Info(database: EventDatabase, activity: Activity) {
     var dbClearButtonLastClick = 0L
     val isOpensourceDialogOpen = remember { mutableStateOf(false) }
     val isApplicationInfoDialogOpen = remember { mutableStateOf(false) }
+
+    var eventsKeyword by remember {
+        mutableStateOf(
+            TextFieldValue(
+                Data.read(
+                    context,
+                    PathConfig.EventKeywordAlarm,
+                    ""
+                )!!
+            )
+        )
+    }
     var newEventsNotification by remember {
         mutableStateOf(
             Data.read(
@@ -272,32 +279,12 @@ fun Info(database: EventDatabase, activity: Activity) {
         )
     }
 
-    val animationSpec = remember { LottieAnimationSpec.RawRes(R.raw.confetti) }
-    val animationState =
-        rememberLottieAnimationState(autoPlay = false).apply { speed = .8f }
-
     OpenSourceDialog(isOpensourceDialogOpen)
     ApplicationInfoDialog(isApplicationInfoDialogOpen)
-    doDelay(500) { animationState.toggleIsPlaying() }
-    doDelay(3000) { lottieVisible = false }
 
     ConstraintLayout(modifier = Modifier.fillMaxSize()) {
         val (main, copyright) = createRefs()
 
-        AnimatedVisibility(
-            visible = lottieVisible,
-            modifier = Modifier
-                .fillMaxSize()
-                .zIndex(9999f),
-            enter = EnterTransition.None,
-            exit = fadeOut()
-        ) {
-            LottieAnimation(
-                spec = animationSpec,
-                animationState = animationState,
-                modifier = Modifier.fillMaxSize()
-            )
-        }
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -443,7 +430,7 @@ fun Info(database: EventDatabase, activity: Activity) {
                         if (checked) {
                             toast(context, context.getString(R.string.info_toast_battery_life))
                             Battery.requestIgnoreOptimization(context)
-                            AlarmUtil.startReloadService(context)
+                            AlarmUtil.startReloadService(context = context, compulsion = true)
                         } else {
                             AlarmUtil.stopReloadService(context)
                         }
@@ -476,6 +463,38 @@ fun Info(database: EventDatabase, activity: Activity) {
                         newEventsNotification = checked
                         Data.save(context, PathConfig.NewEventNotification, checked.toString())
                     }
+                )
+            }
+            Text(
+                text = stringResource(R.string.info_notice_keyword_split_char),
+                modifier = Modifier
+                    .padding(top = 30.dp)
+                    .wrapContentHeight()
+                    .fillMaxWidth(),
+                fontSize = 13.sp,
+                color = Color.Gray
+            )
+            Row(
+                modifier = Modifier
+                    .padding(top = 8.dp)
+                    .wrapContentHeight()
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(text = stringResource(R.string.info_event_keyword_alarm))
+                TextField(
+                    value = eventsKeyword,
+                    onValueChange = {
+                        eventsKeyword = it
+                        Data.save(context, PathConfig.EventKeywordAlarm, it.text)
+                    },
+                    modifier = Modifier.width(200.dp),
+                    singleLine = true,
+                    colors = TextFieldDefaults.textFieldColors(
+                        disabledIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent,
+                        focusedIndicatorColor = Color.Transparent
+                    )
                 )
             }
         }

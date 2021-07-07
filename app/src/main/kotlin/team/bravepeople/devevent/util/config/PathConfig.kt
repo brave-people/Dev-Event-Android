@@ -13,6 +13,7 @@ object PathConfig {
     const val DatabaseSaveTime = "events-database-save-time"
     const val NewEventNotification = "new-event-notification"
     const val AutoEventReload = "events-reload-auto"
+    const val EventKeywordAlarm = "events-keyword-alarm"
 
     val TagColor = { tag: String -> "tag-color-for-$tag" }
 }

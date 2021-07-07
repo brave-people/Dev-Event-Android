@@ -29,10 +29,17 @@ object AlarmUtil {
     private fun alarmManager(context: Context) =
         context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
-    fun startReloadService(context: Context, addReloadTask: Boolean = true) {
-        if (!context.isServiceRunning(ForegroundService::class.java)) {
+    fun startReloadService(
+        context: Context,
+        addReloadTask: Boolean = true,
+        compulsion: Boolean = false
+    ) {
+        if (!context.isServiceRunning(ForegroundService::class.java) && compulsion) {
             context.startService(Intent(context, ForegroundService::class.java))
             if (addReloadTask) addReloadTask(context)
+        } else {
+            context.startService(Intent(context, ForegroundService::class.java))
+            addReloadTask(context)
         }
     }
 

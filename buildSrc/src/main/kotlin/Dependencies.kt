@@ -25,13 +25,13 @@ object Versions {
     object Essential {
         const val Kotlin = "1.5.10" // todo: 1.5.20
         const val Gradle = "7.1.0-alpha02"
-        const val CoreKtx = "1.5.0"
+        const val CoreKtx = "1.6.0"
         const val Coroutines = "1.5.0"
     }
 
     object Ui {
-        const val SwipeToRefresh = "0.12.0"
-        const val LottieCompose = "1.0.0-beta07-2-SNAPSHOT"
+        const val SwipeToRefresh = "0.13.0"
+        const val LottieCompose = "1.0.0-rc01-1-SNAPSHOT"
         const val Glide = "4.12.0"
         const val Browser = "1.3.0"
         const val ConstraintLayout = "1.0.0-alpha08"
