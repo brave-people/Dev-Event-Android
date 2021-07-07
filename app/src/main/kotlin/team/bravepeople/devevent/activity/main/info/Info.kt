@@ -26,6 +26,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -45,10 +47,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -240,14 +246,13 @@ private fun OpenSourceDialog(isOpen: MutableState<Boolean>) {
 @Composable
 fun Info(database: EventDatabase, activity: Activity) {
     val context = LocalContext.current
+    val focusManager = LocalFocusManager.current
     val coroutineScope = rememberCoroutineScope()
-
-    var lottieVisible by remember { mutableStateOf(true) }
-    val logoUrl = "https://avatars.githubusercontent.com/u/68955947?s=200&v=4"
 
     var dbClearButtonLastClick = 0L
     val isOpensourceDialogOpen = remember { mutableStateOf(false) }
     val isApplicationInfoDialogOpen = remember { mutableStateOf(false) }
+    val logoUrl = "https://avatars.githubusercontent.com/u/68955947?s=200&v=4"
 
     var eventsKeyword by remember {
         mutableStateOf(
@@ -352,10 +357,10 @@ fun Info(database: EventDatabase, activity: Activity) {
                             dbClearButtonLastClick = clickedTime
                         } else {
                             coroutineScope.launch(Dispatchers.IO) {
-                                Data.clear(context)
                                 database.clearAllTables()
-                                AlarmUtil.stopReloadService(context)
                             }
+                            Data.clear(context)
+                            AlarmUtil.stopReloadService(context)
                             toast(context, activity.getString(R.string.info_button_cleared_db))
                             activity.finish()
                         }
@@ -479,21 +484,26 @@ fun Info(database: EventDatabase, activity: Activity) {
                     .padding(top = 8.dp)
                     .wrapContentHeight()
                     .fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(text = stringResource(R.string.info_event_keyword_alarm))
                 TextField(
                     value = eventsKeyword,
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                    keyboardActions = KeyboardActions(onDone = {
+                        focusManager.clearFocus()
+                    }),
                     onValueChange = {
                         eventsKeyword = it
                         Data.save(context, PathConfig.EventKeywordAlarm, it.text)
                     },
-                    modifier = Modifier.width(200.dp),
+                    modifier = Modifier
+                        .width(200.dp)
+                        .focusRequester(FocusRequester()),
                     singleLine = true,
                     colors = TextFieldDefaults.textFieldColors(
-                        disabledIndicatorColor = Color.Transparent,
-                        unfocusedIndicatorColor = Color.Transparent,
-                        focusedIndicatorColor = Color.Transparent
+                        backgroundColor = Color.Transparent
                     )
                 )
             }

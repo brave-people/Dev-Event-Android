@@ -28,6 +28,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Icon
@@ -45,7 +46,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -125,7 +129,6 @@ class MainActivity : ComponentActivity() {
             setNavigationBarColor(Color.White)
         }
 
-        println("start")
         setContent {
             MaterialTheme {
                 Scaffold(topBar = { TopBar() }, content = { Main() })
@@ -169,6 +172,7 @@ class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalAnimationApi::class)
     @Composable
     fun TopBar() {
+        val focusManager = LocalFocusManager.current
         val eventOptionDialogVisible = remember { mutableStateOf(false) }
         var tags by remember { mutableStateOf(eventVm.getAllTags()) }
 
@@ -178,7 +182,12 @@ class MainActivity : ComponentActivity() {
             AnimatedVisibility(visible = searching, exit = fadeOut()) {
                 TextField(
                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-                    modifier = Modifier.fillMaxSize(),
+                    keyboardActions = KeyboardActions(onDone = {
+                        focusManager.clearFocus()
+                    }),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .focusRequester(FocusRequester()),
                     singleLine = true,
                     value = searchField,
                     onValueChange = { searchField = it },

@@ -45,6 +45,8 @@ class EventReloadReceiver : BroadcastReceiver() {
             val preEvents = database.dao().getEvents()
             val receiveNewEventNotification =
                 Data.read(context!!, PathConfig.NewEventNotification, "false").toBoolean()
+            val eventsKeywordAlarms =
+                Data.read(context, PathConfig.EventKeywordAlarm, "")!!.split(",").map { it.trim() }
 
             fun getString(@StringRes res: Int, vararg args: Any) = context.getString(res, *args)
 
@@ -57,7 +59,14 @@ class EventReloadReceiver : BroadcastReceiver() {
                             endAction = {}
                         )
                         if (receiveNewEventNotification) {
-                            val diffEvents = newEvents.filterNewEventByName(preEvents)
+                            var diffEvents = newEvents.filterNewEventByName(preEvents)
+                            if (eventsKeywordAlarms.isNotEmpty()) {
+                                diffEvents = diffEvents.filter { event ->
+                                    eventsKeywordAlarms.any { keyword ->
+                                        event.contains(keyword)
+                                    }
+                                }
+                            }
                             val diffEventNames = diffEvents.map { it.name }
                             NotificationUtil.showInboxStyleNotification(
                                 context = context,
