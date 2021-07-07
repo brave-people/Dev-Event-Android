@@ -304,8 +304,8 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onBackPressed() {
+        super.onBackPressed()
         if (bottomSheetVisible.value) {
             bottomSheetVisible.value = false
         } else {
