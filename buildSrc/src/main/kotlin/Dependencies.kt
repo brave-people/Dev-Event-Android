@@ -31,7 +31,6 @@ object Versions {
 
     object Ui {
         const val SwipeToRefresh = "0.13.0"
-        const val LottieCompose = "1.0.0-rc01-1-SNAPSHOT"
         const val Glide = "4.12.0"
         const val Browser = "1.3.0"
         const val ConstraintLayout = "1.0.0-alpha08"
@@ -46,7 +45,6 @@ object Versions {
     }
 
     object Network {
-        const val OkHttp = "4.9.1"
         const val Retrofit = "2.9.0"
     }
 
@@ -76,8 +74,6 @@ object Dependencies {
     )
 
     val network = listOf(
-        "com.squareup.okhttp3:okhttp:${Versions.Network.OkHttp}",
-        "com.squareup.okhttp3:logging-interceptor:${Versions.Network.OkHttp}",
         "com.squareup.retrofit2:retrofit:${Versions.Network.Retrofit}"
     )
 
@@ -90,7 +86,6 @@ object Dependencies {
     val ui = listOf(
         "androidx.browser:browser:${Versions.Ui.Browser}",
         "com.github.bumptech.glide:glide:${Versions.Ui.Glide}",
-        "com.airbnb.android:lottie-compose:${Versions.Ui.LottieCompose}",
         "androidx.constraintlayout:constraintlayout-compose:${Versions.Ui.ConstraintLayout}",
         "com.google.accompanist:accompanist-swiperefresh:${Versions.Ui.SwipeToRefresh}"
     )

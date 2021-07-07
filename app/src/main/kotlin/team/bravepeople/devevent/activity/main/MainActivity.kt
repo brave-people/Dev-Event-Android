@@ -67,13 +67,11 @@ import team.bravepeople.devevent.service.ForegroundService
 import team.bravepeople.devevent.theme.MaterialTheme
 import team.bravepeople.devevent.theme.SystemUiController
 import team.bravepeople.devevent.theme.colors
-import team.bravepeople.devevent.theme.defaultFontFamily
 import team.bravepeople.devevent.ui.chip.ChipViewModel
 import team.bravepeople.devevent.ui.chip.FlowTag
 import team.bravepeople.devevent.ui.fancybottombar.FancyBottomBar
 import team.bravepeople.devevent.ui.fancybottombar.FancyColors
 import team.bravepeople.devevent.ui.fancybottombar.FancyItem
-import team.bravepeople.devevent.ui.fancybottombar.FancyOptions
 import team.bravepeople.devevent.util.AlarmUtil
 import team.bravepeople.devevent.util.Data
 import team.bravepeople.devevent.util.config.PathConfig
@@ -285,8 +283,7 @@ class MainActivity : ComponentActivity() {
                     bottom.linkTo(parent.bottom)
                 },
                 items = bottomItems,
-                fancyColors = FancyColors(primary = colors.primary),
-                fancyOptions = FancyOptions(fontFamily = defaultFontFamily)
+                fancyColors = FancyColors(primary = colors.primary)
             ) {
                 tab = when (id) {
                     0 -> Tab.Main

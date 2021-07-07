@@ -48,9 +48,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.airbnb.lottie.compose.LottieAnimation
-import com.airbnb.lottie.compose.LottieAnimationSpec
-import com.airbnb.lottie.compose.rememberLottieAnimationState
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshIndicator
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
@@ -79,20 +76,11 @@ import team.bravepeople.devevent.util.extension.toast
 
 @Composable
 private fun EmptyEvent() {
-    val animationSpec = remember { LottieAnimationSpec.RawRes(R.raw.empty) }
-    val animationState =
-        rememberLottieAnimationState(repeatCount = Integer.MAX_VALUE)
-
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        LottieAnimation(
-            spec = animationSpec,
-            animationState = animationState,
-            modifier = Modifier.size(250.dp)
-        )
         Text(
             text = stringResource(R.string.event_empty_favorite),
             modifier = Modifier.padding(top = 16.dp)

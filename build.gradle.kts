@@ -29,7 +29,6 @@ allprojects {
         mavenCentral()
         maven { setUrl("https://jitpack.io") }
         maven { setUrl("https://oss.jfrog.org/libs-snapshot") }
-        maven { setUrl("https://oss.sonatype.org/content/repositories/snapshots") }
     }
 
     afterEvaluate {
