@@ -435,7 +435,7 @@ fun Info(database: EventDatabase, activity: Activity) {
                         if (checked) {
                             toast(context, context.getString(R.string.info_toast_battery_life))
                             Battery.requestIgnoreOptimization(context)
-                            AlarmUtil.startReloadService(context = context, compulsion = true)
+                            AlarmUtil.startReloadService(context = context)
                         } else {
                             AlarmUtil.stopReloadService(context)
                         }

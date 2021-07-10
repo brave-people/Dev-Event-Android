@@ -2,7 +2,7 @@
  * DevEventAndroid © 2021 용감한 친구들. all rights reserved.
  * DevEventAndroid license is under the MIT.
  *
- * [ForegroundService.kt] created by Ji Sungbin on 21. 7. 2. 오후 11:11.
+ * [BackgroundService.kt] created by Ji Sungbin on 21. 7. 2. 오후 11:11.
  *
  * Please see: https://github.com/brave-people/Dev-Event-Android/blob/master/LICENSE.
  */
@@ -18,7 +18,7 @@ import android.os.PowerManager
 import team.bravepeople.devevent.R
 import team.bravepeople.devevent.util.NotificationUtil
 
-class ForegroundService : Service() {
+class BackgroundService : Service() {
 
     private val pm by lazy { getSystemService(Context.POWER_SERVICE) as PowerManager }
     private val wakeLock by lazy { pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, wakeLockLabel) }
@@ -40,16 +40,12 @@ class ForegroundService : Service() {
     @SuppressLint("WakelockTimeout")
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         startForeground(notificationId, notification.build())
-        if (!wakeLock.isHeld) {
-            wakeLock.acquire()
-        }
+        wakeLock.acquire()
         return START_STICKY
     }
 
     override fun onDestroy() {
         stopForeground(true)
-        if (wakeLock.isHeld) {
-            wakeLock.release()
-        }
+        wakeLock.release()
     }
 }

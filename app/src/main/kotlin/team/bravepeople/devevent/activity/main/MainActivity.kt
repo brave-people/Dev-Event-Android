@@ -67,7 +67,6 @@ import team.bravepeople.devevent.activity.main.event.LazyEvent
 import team.bravepeople.devevent.activity.main.event.database.EventDatabase
 import team.bravepeople.devevent.activity.main.event.repo.EventRepo
 import team.bravepeople.devevent.activity.main.info.Info
-import team.bravepeople.devevent.service.ForegroundService
 import team.bravepeople.devevent.theme.MaterialTheme
 import team.bravepeople.devevent.theme.SystemUiController
 import team.bravepeople.devevent.theme.colors
@@ -79,7 +78,6 @@ import team.bravepeople.devevent.ui.fancybottombar.FancyItem
 import team.bravepeople.devevent.util.AlarmUtil
 import team.bravepeople.devevent.util.Data
 import team.bravepeople.devevent.util.config.PathConfig
-import team.bravepeople.devevent.util.extension.isServiceRunning
 import team.bravepeople.devevent.util.extension.toast
 
 private enum class Tab {
@@ -120,7 +118,7 @@ class MainActivity : ComponentActivity() {
             "false"
         ).toBoolean()
 
-        if (autoEventReload && !isServiceRunning(ForegroundService::class.java)) {
+        if (autoEventReload) {
             AlarmUtil.startReloadService(applicationContext, false)
         }
 

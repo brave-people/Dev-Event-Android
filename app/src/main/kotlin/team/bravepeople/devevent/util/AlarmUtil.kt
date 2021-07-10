@@ -15,8 +15,7 @@ import android.content.Context
 import android.content.Intent
 import java.util.Calendar
 import team.bravepeople.devevent.receiver.EventReloadReceiver
-import team.bravepeople.devevent.service.ForegroundService
-import team.bravepeople.devevent.util.extension.isServiceRunning
+import team.bravepeople.devevent.service.BackgroundService
 
 object AlarmUtil {
 
@@ -29,25 +28,14 @@ object AlarmUtil {
     private fun alarmManager(context: Context) =
         context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
-    fun startReloadService(
-        context: Context,
-        addReloadTask: Boolean = true,
-        compulsion: Boolean = false
-    ) {
-        if (!context.isServiceRunning(ForegroundService::class.java) && compulsion) {
-            context.startService(Intent(context, ForegroundService::class.java))
-            if (addReloadTask) addReloadTask(context)
-        } else {
-            context.startService(Intent(context, ForegroundService::class.java))
-            addReloadTask(context)
-        }
+    fun startReloadService(context: Context, addReloadTask: Boolean = true) {
+        context.startService(Intent(context, BackgroundService::class.java))
+        if (addReloadTask) addReloadTask(context)
     }
 
     fun stopReloadService(context: Context, cancelReloadTask: Boolean = true) {
-        if (context.isServiceRunning(ForegroundService::class.java)) {
-            context.stopService(Intent(context, ForegroundService::class.java))
-            if (cancelReloadTask) cancelReloadTask(context)
-        }
+        context.stopService(Intent(context, BackgroundService::class.java))
+        if (cancelReloadTask) cancelReloadTask(context)
     }
 
     private fun cancelReloadTask(context: Context) {

@@ -38,7 +38,7 @@
 
         <activity android:name=".activity.main.MainActivity" />
 
-        <service android:name=".service.ForegroundService" />
+        <service android:name=".service.BackgroundService" />
 
         <receiver
             android:name=".receiver.EventReloadReceiver"
