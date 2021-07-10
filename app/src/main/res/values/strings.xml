@@ -52,4 +52,5 @@
     <string name="receiver_notification_title_new_event">새로운 이벤트가 도착했어요 \uD83C\uDF89</string>
     <string name="receiver_notification_new_events_size">총 %d개가 새로 생겼어요</string>
     <string name="receiver_notification_error_when_reload_events">이벤트 갱신중 오류가 발생했어요 \uD83D\uDE22</string>
+    <string name="receiver_notification_non_new_events">새로운 이벤트가 없어요</string>
 </resources>

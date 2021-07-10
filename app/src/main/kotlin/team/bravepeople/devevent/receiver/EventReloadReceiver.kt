@@ -68,19 +68,31 @@ class EventReloadReceiver : BroadcastReceiver() {
                                 }
                             }
                             val diffEventNames = diffEvents.map { it.name }
-                            NotificationUtil.showInboxStyleNotification(
-                                context = context,
-                                id = Random.nextInt(),
-                                channelId = getString(R.string.notification_channel_name),
-                                title = getString(R.string.receiver_notification_title_new_event),
-                                content = getString(
-                                    R.string.receiver_notification_new_events_size,
-                                    diffEventNames.size
-                                ),
-                                boxText = diffEventNames,
-                                icon = R.drawable.ic_round_event_note_24,
-                                isOnGoing = false
-                            )
+                            if (diffEventNames.isEmpty()) {
+                                NotificationUtil.showNormalNotification(
+                                    context = context,
+                                    id = Random.nextInt(),
+                                    channelId = getString(R.string.notification_channel_name),
+                                    title = getString(R.string.receiver_notification_title_new_event),
+                                    content = getString(R.string.receiver_notification_non_new_events),
+                                    icon = R.drawable.ic_round_event_note_24,
+                                    isOnGoing = false
+                                )
+                            } else {
+                                NotificationUtil.showInboxStyleNotification(
+                                    context = context,
+                                    id = Random.nextInt(),
+                                    channelId = getString(R.string.notification_channel_name),
+                                    title = getString(R.string.receiver_notification_title_new_event),
+                                    content = getString(
+                                        R.string.receiver_notification_new_events_size,
+                                        diffEventNames.size
+                                    ),
+                                    boxText = diffEventNames,
+                                    icon = R.drawable.ic_round_event_note_24,
+                                    isOnGoing = false
+                                )
+                            }
                         }
                     }
                     is EventRepoResult.Error -> {
