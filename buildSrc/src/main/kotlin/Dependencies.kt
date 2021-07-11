@@ -24,9 +24,9 @@ object Application {
 object Versions {
     object Essential {
         const val Kotlin = "1.5.10" // todo: 1.5.20
-        const val Gradle = "7.1.0-alpha02"
+        const val Gradle = "7.1.0-alpha03"
         const val CoreKtx = "1.6.0"
-        const val Coroutines = "1.5.0"
+        const val Coroutines = "1.5.1"
     }
 
     object Ui {

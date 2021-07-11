@@ -25,7 +25,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ExperimentalMaterialApi
@@ -265,13 +264,9 @@ fun LazyEvent(
     eventFilter: EventFilter
 ) {
     val coroutineScope = rememberCoroutineScope()
-
     var exception by remember { mutableStateOf(Exception()) }
     val errorDialogVisible = remember { mutableStateOf(false) }
-
     var selectedEvent by remember { mutableStateOf<EventEntity?>(null) }
-
-    val listState = rememberLazyListState()
     var refreshing by remember { mutableStateOf(false) }
 
     var eventEntities = eventVm.eventEntityFlow.collectAsState().value.filter {
@@ -340,7 +335,6 @@ fun LazyEvent(
                     LazyColumn(
                         modifier = Modifier.fillMaxSize(),
                         contentPadding = PaddingValues(bottom = 16.dp),
-                        state = listState,
                         verticalArrangement = Arrangement.spacedBy(16.dp)
                     ) { // todo: events change animation; https://stackoverflow.com/a/64922966/14299073
                         val eventGroup = eventEntities.groupBy { it.headerDate }
