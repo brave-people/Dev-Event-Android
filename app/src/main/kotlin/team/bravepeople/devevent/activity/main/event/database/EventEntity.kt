@@ -27,7 +27,7 @@ data class EventEntity(
     fun contains(_value: String): Boolean {
         val value = _value.lowercase()
         return name.lowercase().contains(value) ||
-                category?.lowercase()?.contains(value) == true
-                || owner?.lowercase()?.contains(value) == true
+            category?.lowercase()?.contains(value) == true ||
+            owner?.lowercase()?.contains(value) == true
     }
 }

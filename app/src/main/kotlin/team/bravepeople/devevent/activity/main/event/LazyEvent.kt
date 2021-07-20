@@ -50,9 +50,6 @@ import androidx.compose.ui.unit.sp
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshIndicator
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.delay
@@ -72,6 +69,9 @@ import team.bravepeople.devevent.util.Web
 import team.bravepeople.devevent.util.extension.takeIfLength
 import team.bravepeople.devevent.util.extension.takeIfSizeToCategory
 import team.bravepeople.devevent.util.extension.toast
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 @Composable
 private fun EmptyEvent() {
@@ -150,13 +150,15 @@ private fun EventBottomSheet(
                 verticalArrangement = Arrangement.Bottom,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Button(onClick = {
-                    if (event.site != null) {
-                        Web.open(context, event.site)
-                    } else {
-                        toast(context, context.getString(R.string.event_toast_unknown_site))
+                Button(
+                    onClick = {
+                        if (event.site != null) {
+                            Web.open(context, event.site)
+                        } else {
+                            toast(context, context.getString(R.string.event_toast_unknown_site))
+                        }
                     }
-                }) {
+                ) {
                     Icon(
                         painter = painterResource(R.drawable.ic_round_home_24),
                         contentDescription = null
@@ -343,7 +345,10 @@ fun LazyEvent(
                                 EventHeader(headerDate)
                             }
 
-                            items(events.sortedBy { it.startDate ?: it.joinDate }) { event ->
+                            items(
+                                items = events.sortedBy { it.startDate ?: it.joinDate },
+                                key = { event -> event.id }
+                            ) { event ->
                                 EventItem(
                                     eventVm = eventVm,
                                     event = event,
