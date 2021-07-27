@@ -13,9 +13,9 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import java.util.Calendar
 import team.bravepeople.devevent.receiver.EventReloadReceiver
 import team.bravepeople.devevent.service.BackgroundService
+import java.util.Calendar
 
 object AlarmUtil {
 

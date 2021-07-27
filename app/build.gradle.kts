@@ -11,7 +11,6 @@ plugins {
     id("com.android.application")
     id("kotlin-android")
     id("kotlin-kapt")
-    // id("kotlinx-serialization")
     id("dagger.hilt.android.plugin")
     id("name.remal.check-dependency-updates") version Versions.Util.CheckDependencyUpdates
 }
@@ -53,7 +52,6 @@ android {
     sourceSets {
         getByName("main").run {
             java.srcDirs("src/main/kotlin")
-            resources.excludes.add("META-INF/library_release.kotlin_module")
         }
     }
 
@@ -61,6 +59,7 @@ android {
         release {
             isDebuggable = false
             isMinifyEnabled = true
+            isShrinkResources = true
         }
     }
 
@@ -75,6 +74,11 @@ android {
 }
 
 dependencies {
+    implementation("com.github.skydoves:landscapist-coil:1.2.8") {
+        exclude(group = "androidx.appcompat", module = "appcompat")
+        exclude(group = "androidx.appcompat", module = "appcompat-resources")
+    }
+
     Dependencies.debug.forEach(::debugImplementation)
     Dependencies.essential.forEach(::implementation)
     Dependencies.network.forEach(::implementation)
@@ -84,4 +88,7 @@ dependencies {
     Dependencies.hilt.forEach(::implementation)
     Dependencies.room.forEach(::implementation)
     Dependencies.compiler.forEach(::kapt)
+
+    // https://whyprogrammer.tistory.com/590
+    kapt("org.xerial:sqlite-jdbc:3.34.0")
 }

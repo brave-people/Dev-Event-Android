@@ -14,9 +14,6 @@ import android.content.Context
 import android.content.Intent
 import androidx.annotation.StringRes
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.Calendar
-import javax.inject.Inject
-import kotlin.random.Random
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
@@ -25,10 +22,14 @@ import team.bravepeople.devevent.R
 import team.bravepeople.devevent.activity.main.event.database.EventDatabase
 import team.bravepeople.devevent.activity.main.event.repo.EventRepo
 import team.bravepeople.devevent.activity.main.event.repo.EventRepoResult
+import team.bravepeople.devevent.util.AlarmUtil
 import team.bravepeople.devevent.util.Data
 import team.bravepeople.devevent.util.NotificationUtil
 import team.bravepeople.devevent.util.config.PathConfig
 import team.bravepeople.devevent.util.extension.filterNewEventByName
+import java.util.Calendar
+import javax.inject.Inject
+import kotlin.random.Random
 
 @AndroidEntryPoint
 class EventReloadReceiver : BroadcastReceiver() {
@@ -41,10 +42,12 @@ class EventReloadReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context?, intent: Intent?) {
         if (Calendar.getInstance().get(Calendar.HOUR_OF_DAY) != 13) return
+        AlarmUtil.startReloadService(context = context!!)
+
         CoroutineScope(Dispatchers.IO).launch {
             val preEvents = database.dao().getEvents()
             val receiveNewEventNotification =
-                Data.read(context!!, PathConfig.NewEventNotification, "false").toBoolean()
+                Data.read(context, PathConfig.NewEventNotification, "false").toBoolean()
             val eventsKeywordAlarms =
                 Data.read(context, PathConfig.EventKeywordAlarm, "")!!.split(",").map { it.trim() }
 

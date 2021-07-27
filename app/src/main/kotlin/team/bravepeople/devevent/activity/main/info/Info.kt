@@ -61,6 +61,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import com.skydoves.landscapist.coil.CoilImage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import team.bravepeople.devevent.BuildConfig
@@ -68,7 +69,6 @@ import team.bravepeople.devevent.R
 import team.bravepeople.devevent.activity.main.event.database.EventDatabase
 import team.bravepeople.devevent.theme.ColorOrange
 import team.bravepeople.devevent.theme.colors
-import team.bravepeople.devevent.ui.glideimage.GlideImage
 import team.bravepeople.devevent.ui.licenser.License
 import team.bravepeople.devevent.ui.licenser.Licenser
 import team.bravepeople.devevent.ui.licenser.Project
@@ -80,7 +80,6 @@ import team.bravepeople.devevent.util.config.PathConfig
 import team.bravepeople.devevent.util.extension.noRippleClickable
 import team.bravepeople.devevent.util.extension.noRippleLongClickable
 import team.bravepeople.devevent.util.extension.toast
-
 
 @Composable
 fun ApplicationInfoDialog(isOpen: MutableState<Boolean>) {
@@ -187,12 +186,6 @@ private fun OpenSourceDialog(isOpen: MutableState<Boolean>) {
                                 License.Apache2
                             ),
                             Project(
-                                "lottie",
-                                "https://github.com/airbnb/lottie/blob/master/android-compose.md",
-                                License.MIT
-                            ),
-                            Project("glide", "https://github.com/bumptech/glide", License.BSD),
-                            Project(
                                 "Browser",
                                 "https://developer.android.com/jetpack/androidx/releases/browser",
                                 License.Apache2
@@ -225,13 +218,18 @@ private fun OpenSourceDialog(isOpen: MutableState<Boolean>) {
                                 License.Apache2
                             ),
                             Project(
-                                "바른나눔고딕",
-                                "https://help.naver.com/support/contents/contents.help?serviceNo=1074&categoryNo=3497",
-                                License.CUSTOM("SIL")
-                            ),
-                            Project(
                                 "ConstraintLayout",
                                 "https://developer.android.com/jetpack/compose/layouts/constraintlayout",
+                                License.Apache2
+                            ),
+                            Project(
+                                "FancyBottomBar",
+                                "https://github.com/jisungbin/FancyBottomBar",
+                                License.MIT
+                            ),
+                            Project(
+                                "Landscapist",
+                                "https://github.com/skydoves/Landscapist",
                                 License.Apache2
                             )
                         )
@@ -306,12 +304,12 @@ fun Info(database: EventDatabase, activity: Activity) {
                     .height(100.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                GlideImage(
+                CoilImage(
                     modifier = Modifier
                         .size(100.dp)
                         .noRippleClickable { Web.open(activity, Web.Link.Organization) }
                         .clip(RoundedCornerShape(10.dp)),
-                    src = logoUrl
+                    imageModel = logoUrl
                 )
                 Column(
                     modifier = Modifier.fillMaxSize(),
@@ -491,9 +489,11 @@ fun Info(database: EventDatabase, activity: Activity) {
                 TextField(
                     value = eventsKeyword,
                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-                    keyboardActions = KeyboardActions(onDone = {
-                        focusManager.clearFocus()
-                    }),
+                    keyboardActions = KeyboardActions(
+                        onDone = {
+                            focusManager.clearFocus()
+                        }
+                    ),
                     onValueChange = {
                         eventsKeyword = it
                         Data.save(context, PathConfig.EventKeywordAlarm, it.text)

@@ -59,7 +59,9 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
+import me.sungbin.fancybottombar.FancyBottomBar
+import me.sungbin.fancybottombar.FancyColors
+import me.sungbin.fancybottombar.FancyItem
 import team.bravepeople.devevent.R
 import team.bravepeople.devevent.activity.main.event.EventFilter
 import team.bravepeople.devevent.activity.main.event.EventViewModel
@@ -72,21 +74,14 @@ import team.bravepeople.devevent.theme.SystemUiController
 import team.bravepeople.devevent.theme.colors
 import team.bravepeople.devevent.ui.chip.ChipViewModel
 import team.bravepeople.devevent.ui.chip.FlowTag
-import team.bravepeople.devevent.ui.fancybottombar.FancyBottomBar
-import team.bravepeople.devevent.ui.fancybottombar.FancyColors
-import team.bravepeople.devevent.ui.fancybottombar.FancyItem
 import team.bravepeople.devevent.util.AlarmUtil
 import team.bravepeople.devevent.util.Data
 import team.bravepeople.devevent.util.config.PathConfig
 import team.bravepeople.devevent.util.extension.toast
-
-private enum class Tab {
-    Main, Favorite, Info
-}
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
 
     private var backButtonPressedTime = 0L
     private var tab by mutableStateOf(Tab.Main)
@@ -129,7 +124,10 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             MaterialTheme {
-                Scaffold(topBar = { TopBar() }, content = { Main() })
+                Scaffold(
+                    topBar = { TopBar() },
+                    content = { Main() }
+                )
             }
         }
     }
@@ -180,9 +178,11 @@ class MainActivity : ComponentActivity() {
             AnimatedVisibility(visible = searching, exit = fadeOut()) {
                 TextField(
                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-                    keyboardActions = KeyboardActions(onDone = {
-                        focusManager.clearFocus()
-                    }),
+                    keyboardActions = KeyboardActions(
+                        onDone = {
+                            focusManager.clearFocus()
+                        }
+                    ),
                     modifier = Modifier
                         .fillMaxSize()
                         .focusRequester(FocusRequester()),
@@ -260,13 +260,14 @@ class MainActivity : ComponentActivity() {
         ConstraintLayout(modifier = Modifier.fillMaxSize()) {
             val (events, bottomBar) = createRefs()
 
-            Column(modifier = Modifier
-                .constrainAs(events) {
-                    top.linkTo(parent.top)
-                    bottom.linkTo(bottomBar.top)
-                    height = Dimension.fillToConstraints
-                }
-                .fillMaxWidth()
+            Column(
+                modifier = Modifier
+                    .constrainAs(events) {
+                        top.linkTo(parent.top)
+                        bottom.linkTo(bottomBar.top)
+                        height = Dimension.fillToConstraints
+                    }
+                    .fillMaxWidth()
             ) {
                 Crossfade(tab) { target ->
                     when (target) {
