@@ -30,23 +30,25 @@ object Versions {
     }
 
     object Ui {
-        const val SwipeToRefresh = "0.13.0"
+        const val SwipeToRefresh = "0.15.0"
         const val Browser = "1.3.0"
-        const val ConstraintLayout = "1.0.0-alpha08"
-        const val FancyBottomBar = "1.0.0"
+        const val ConstraintLayout = "1.0.0-beta01"
+        const val FancyBottomBar = "1.0.1"
+        const val LandscapistCoil = "1.3.0"
     }
 
     object Util {
         const val CrashReporter = "1.1.0"
-        const val CheckDependencyUpdates = "1.4.0"
+        const val CheckDependencyUpdates = "1.4.1"
     }
 
     object Network {
         const val Retrofit = "2.9.0"
     }
 
-    object Jetpack {
-        const val Room = "2.3.0"
+    object Room {
+        const val Master = "2.3.0"
+        const val Jdbc = "3.36.0.1"
     }
 
     object Hilt {
@@ -54,8 +56,8 @@ object Versions {
     }
 
     object Compose {
-        const val Master = "1.0.0-rc01"
-        const val Activity = "1.3.0-rc01"
+        const val Master = "1.0.0"
+        const val Activity = "1.3.0"
     }
 
     object Debug {
@@ -82,7 +84,8 @@ object Dependencies {
         "androidx.browser:browser:${Versions.Ui.Browser}",
         "androidx.constraintlayout:constraintlayout-compose:${Versions.Ui.ConstraintLayout}",
         "com.google.accompanist:accompanist-swiperefresh:${Versions.Ui.SwipeToRefresh}",
-        "io.github.jisungbin:fancybottombar:${Versions.Ui.FancyBottomBar}"
+        "io.github.jisungbin:fancybottombar:${Versions.Ui.FancyBottomBar}",
+        "com.github.skydoves:landscapist-coil:${Versions.Ui.LandscapistCoil}"
     )
 
     val util = listOf(
@@ -91,8 +94,8 @@ object Dependencies {
     )
 
     val room = listOf(
-        "androidx.room:room-runtime:${Versions.Jetpack.Room}",
-        "androidx.room:room-ktx:${Versions.Jetpack.Room}"
+        "androidx.room:room-runtime:${Versions.Room.Master}",
+        "androidx.room:room-ktx:${Versions.Room.Master}"
     )
 
     val hilt = listOf(
@@ -109,7 +112,8 @@ object Dependencies {
     )
 
     val compiler = listOf(
-        "androidx.room:room-compiler:${Versions.Jetpack.Room}",
-        "com.google.dagger:hilt-android-compiler:${Versions.Hilt.Master}"
+        "androidx.room:room-compiler:${Versions.Room.Master}",
+        "com.google.dagger:hilt-android-compiler:${Versions.Hilt.Master}",
+        "org.xerial:sqlite-jdbc:${Versions.Room.Jdbc}"
     )
 }

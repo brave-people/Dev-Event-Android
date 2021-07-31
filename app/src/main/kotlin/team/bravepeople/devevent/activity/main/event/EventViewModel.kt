@@ -12,8 +12,6 @@ package team.bravepeople.devevent.activity.main.event
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import java.util.Calendar
-import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -21,6 +19,7 @@ import kotlinx.coroutines.launch
 import team.bravepeople.devevent.activity.main.event.database.EventDatabase
 import team.bravepeople.devevent.activity.main.event.database.EventEntity
 import team.bravepeople.devevent.activity.main.event.repo.EventRepo
+import javax.inject.Inject
 
 @HiltViewModel
 class EventViewModel @Inject constructor(
@@ -35,30 +34,21 @@ class EventViewModel @Inject constructor(
             .sortedByDescending { it.headerDate }
             .asReversed()
             .distinct()
-            .filter { event ->
-                val nowDate = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
-                (event.joinDate ?: event.startDate)?.let { _eventDate ->
-                    fun String.polish() = split(".")[1].split("(")[0].toInt()
-
-                    return@filter if (_eventDate.contains("~") && _eventDate.count { it == '.' } == 2) {
-                        val eventDate = _eventDate.split("~")[1].polish()
-                        eventDate >= nowDate
-                    } else {
-                        val eventDate = _eventDate.polish()
-                        eventDate >= nowDate
-                    }
-                }
-
-                return@filter true
-            }
 
     private val _eventEntityFlow = MutableStateFlow<List<EventEntity>>(emptyList())
     val eventEntityFlow = _eventEntityFlow.asStateFlow() // flow; unnecessary getter
 
+    init {
+        viewModelScope.launch(Dispatchers.IO) {
+            _eventEntityList.addAll(database.dao().getEvents())
+            updateFlow()
+        }
+    }
+
     fun getAllTags() =
         eventEntityFlow.value
             .mapNotNull { it.category }
-            .flatMap { it.split(",") } // .flatten()?
+            .flatMap { it.split(",") }
             .distinct()
             .sorted()
 
@@ -80,12 +70,5 @@ class EventViewModel @Inject constructor(
         _eventEntityList.clear()
         _eventEntityList.addAll(database.dao().getEvents())
         updateFlow()
-    }
-
-    init {
-        viewModelScope.launch(Dispatchers.IO) {
-            _eventEntityList.addAll(database.dao().getEvents())
-            updateFlow()
-        }
     }
 }

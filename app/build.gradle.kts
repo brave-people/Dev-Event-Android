@@ -71,14 +71,18 @@ android {
     kotlinOptions {
         jvmTarget = Application.jvmTarget
     }
+
+    configurations {
+        all {
+            implementation {
+                exclude(group = "androidx.appcompat", module = "appcompat")
+                exclude(group = "androidx.appcompat", module = "appcompat-resources")
+            }
+        }
+    }
 }
 
 dependencies {
-    implementation("com.github.skydoves:landscapist-coil:1.2.8") {
-        exclude(group = "androidx.appcompat", module = "appcompat")
-        exclude(group = "androidx.appcompat", module = "appcompat-resources")
-    }
-
     Dependencies.debug.forEach(::debugImplementation)
     Dependencies.essential.forEach(::implementation)
     Dependencies.network.forEach(::implementation)
@@ -88,7 +92,4 @@ dependencies {
     Dependencies.hilt.forEach(::implementation)
     Dependencies.room.forEach(::implementation)
     Dependencies.compiler.forEach(::kapt)
-
-    // https://whyprogrammer.tistory.com/590
-    kapt("org.xerial:sqlite-jdbc:3.34.0")
 }
