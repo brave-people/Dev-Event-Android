@@ -1,11 +1,11 @@
- /*
- * DevEventAndroid © 2021 용감한 친구들. all rights reserved.
- * DevEventAndroid license is under the MIT.
- *
- * [build.gradle.kts] created by Ji Sungbin on 21. 6. 20. 오후 11:52.
- *
- * Please see: https://github.com/brave-people/Dev-Event-Android/blob/master/LICENSE.
- */
+/*
+* DevEventAndroid © 2021 용감한 친구들. all rights reserved.
+* DevEventAndroid license is under the MIT.
+*
+* [build.gradle.kts] created by Ji Sungbin on 21. 6. 20. 오후 11:52.
+*
+* Please see: https://github.com/brave-people/Dev-Event-Android/blob/master/LICENSE.
+*/
 
 plugins {
     id("com.android.application")
@@ -71,18 +71,14 @@ android {
     kotlinOptions {
         jvmTarget = Application.jvmTarget
     }
-
-    configurations {
-        all {
-            implementation {
-                exclude(group = "androidx.appcompat", module = "appcompat")
-                exclude(group = "androidx.appcompat", module = "appcompat-resources")
-            }
-        }
-    }
 }
 
 dependencies {
+    implementation("com.github.skydoves:landscapist-coil:1.3.0") {
+        exclude(group = "androidx.appcompat", module = "appcompat")
+        exclude(group = "androidx.appcompat", module = "appcompat-resources")
+    }
+
     Dependencies.debug.forEach(::debugImplementation)
     Dependencies.essential.forEach(::implementation)
     Dependencies.network.forEach(::implementation)

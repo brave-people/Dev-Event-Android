@@ -270,6 +270,7 @@ class MainActivity : ComponentActivity() {
                     .fillMaxWidth()
             ) {
                 Crossfade(tab) { target ->
+                    bottomSheetVisible.value = false
                     when (target) {
                         Tab.Info -> Info(
                             database = eventDatabase,

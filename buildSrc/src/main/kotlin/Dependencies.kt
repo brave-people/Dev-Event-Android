@@ -34,7 +34,6 @@ object Versions {
         const val Browser = "1.3.0"
         const val ConstraintLayout = "1.0.0-beta01"
         const val FancyBottomBar = "1.0.1"
-        const val LandscapistCoil = "1.3.0"
     }
 
     object Util {
@@ -84,8 +83,7 @@ object Dependencies {
         "androidx.browser:browser:${Versions.Ui.Browser}",
         "androidx.constraintlayout:constraintlayout-compose:${Versions.Ui.ConstraintLayout}",
         "com.google.accompanist:accompanist-swiperefresh:${Versions.Ui.SwipeToRefresh}",
-        "io.github.jisungbin:fancybottombar:${Versions.Ui.FancyBottomBar}",
-        "com.github.skydoves:landscapist-coil:${Versions.Ui.LandscapistCoil}"
+        "io.github.jisungbin:fancybottombar:${Versions.Ui.FancyBottomBar}"
     )
 
     val util = listOf(
