@@ -49,10 +49,9 @@ object AlarmUtil {
             set(Calendar.MINUTE, 0)
             set(Calendar.SECOND, 0)
         }
-        alarmManager(context).setInexactRepeating(
+        alarmManager(context).setExactAndAllowWhileIdle(
             AlarmManager.RTC_WAKEUP,
             calender.timeInMillis,
-            AlarmManager.INTERVAL_DAY,
             pendingIntent(context)
         )
     }

@@ -32,7 +32,6 @@
     <string name="info_button_cleared_db">앱 데이터가 모두 초기화 되었습니다.\n앱이 종료됩니다.</string>
     <string name="info_button_clear_all_db">앱 전체 데이터 초기화</string>
     <string name="info_button_app_information">앱 정보</string>
-    <string name="info_toast_battery_life">배터리 소모량이 증가할 수 있습니다.</string>
     <string name="info_toast_must_on_event_auto_reload">이벤트 자동 갱신이 켜져있을때만 작동됩니다.</string>
     <string name="info_dialog_notice_issue_and_bug">알려진 문제 및 버그 제보</string>
     <string name="info_dialog_you_can_do_at_issue">프로젝트 이슈에서 진행하실 수 있습니다.\n(클릭)</string>

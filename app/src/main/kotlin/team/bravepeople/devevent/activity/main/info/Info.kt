@@ -73,7 +73,6 @@ import team.bravepeople.devevent.ui.licenser.License
 import team.bravepeople.devevent.ui.licenser.Licenser
 import team.bravepeople.devevent.ui.licenser.Project
 import team.bravepeople.devevent.util.AlarmUtil
-import team.bravepeople.devevent.util.Battery
 import team.bravepeople.devevent.util.Data
 import team.bravepeople.devevent.util.Web
 import team.bravepeople.devevent.util.config.PathConfig
@@ -431,8 +430,6 @@ fun Info(database: EventDatabase, activity: Activity) {
                     ),
                     onCheckedChange = { checked ->
                         if (checked) {
-                            toast(context, context.getString(R.string.info_toast_battery_life))
-                            Battery.requestIgnoreOptimization(context)
                             AlarmUtil.startReloadService(context = context)
                         } else {
                             AlarmUtil.stopReloadService(context)
