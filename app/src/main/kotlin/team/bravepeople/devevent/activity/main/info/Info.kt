@@ -406,7 +406,7 @@ fun Info(database: EventDatabase, activity: Activity) {
                 }
             }
             Text(
-                text = stringResource(R.string.info_notice_events_reload_time),
+                text = stringResource(R.string.info_notice_events_reload_task),
                 modifier = Modifier
                     .padding(top = 30.dp)
                     .wrapContentHeight()

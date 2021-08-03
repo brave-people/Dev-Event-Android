@@ -21,7 +21,7 @@
     <string name="main_toast_input_search">검색어를 입력해 주세요.</string>
     <string name="main_toast_confirm_app_finish">앱을 종료하실려면 한 번 더 눌러주세요.</string>
 
-    <string name="info_notice_events_reload_time">모든 이벤트 갱신 및 알림은 매일 13시에 진행됩니다.</string>
+    <string name="info_notice_events_reload_task">모든 이벤트 갱신 및 알림은 매일 13시에 진행됩니다.\n[실험중인 기능입니다]</string>
     <string name="info_notice_keyword_split_char">키워드는 ,로 구분합니다.</string>
     <string name="info_notification_new_event">새로운 이벤트 알림</string>
     <string name="info_event_auto_reload">이벤트 자동 갱신</string>
