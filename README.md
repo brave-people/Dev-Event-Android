@@ -15,8 +15,7 @@ https://github.com/brave-people/Dev-Event 의 안드로이드 앱 버전 입니�
 
 - 오프라인 모드 지원
 - 이벤트 즐겨찾기 지원
-  <br/>
-  엡 UI 제작에 베타 기술(jetpack compose)을 사용하여 UI 퍼포먼스가 저하될 수 있습니다.
+<br/>
 
 ## 스크린샷
 
