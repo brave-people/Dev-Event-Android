@@ -38,6 +38,8 @@ object Versions {
     }
 
     object Util {
+        const val Logcat = "0.1"
+        const val Erratum = "1.0.1"
         const val CheckDependencyUpdates = "1.5.0"
     }
 
@@ -71,6 +73,11 @@ object Dependencies {
 
     const val LandscapistCoil =
         "com.github.skydoves:landscapist-coil:${Versions.Ui.LandscapistCoil}"
+
+    val util = listOf(
+        "com.squareup.logcat:logcat:${Versions.Util.Logcat}",
+        "io.github.jisungbin:erratum:${Versions.Util.Erratum}"
+    )
 
     val network = listOf(
         "com.squareup.retrofit2:retrofit:${Versions.Network.Retrofit}",

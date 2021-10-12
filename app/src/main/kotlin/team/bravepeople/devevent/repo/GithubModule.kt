@@ -13,19 +13,34 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
+import logcat.logcat
+import okhttp3.Interceptor
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object GithubModule {
-    private const val BaseUrl =
-        "https://raw.githubusercontent.com"
+    private const val BaseUrl = "https://raw.githubusercontent.com"
+
+    private val loggingInterceptor =
+        HttpLoggingInterceptor { message -> logcat { message } }.apply {
+            level = HttpLoggingInterceptor.Level.BODY
+        }
+
+    private fun getInterceptor(vararg interceptors: Interceptor): OkHttpClient {
+        val builder = OkHttpClient.Builder()
+        for (interceptor in interceptors) builder.addInterceptor(interceptor)
+        return builder.build()
+    }
 
     @Provides
     @Singleton
     fun provideRetrofit() = Retrofit.Builder()
         .baseUrl(BaseUrl)
+        .client(getInterceptor(loggingInterceptor))
         .build()
         .create(GithubService::class.java)
 }

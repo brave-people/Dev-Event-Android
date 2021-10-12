@@ -79,6 +79,7 @@ dependencies {
     }
 
     Dependencies.ui.forEach(::implementation)
+    Dependencies.util.forEach(::implementation)
     Dependencies.network.forEach(::implementation)
     Dependencies.compose.forEach(::implementation)
     Dependencies.jetpack.forEach(::implementation)

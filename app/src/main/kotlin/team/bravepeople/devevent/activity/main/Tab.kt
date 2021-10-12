@@ -9,6 +9,4 @@
 
 package team.bravepeople.devevent.activity.main
 
-enum class Tab {
-    Main, Favorite, Info
-}
+enum class Tab { MAIN, FAVORITE, INFO }
