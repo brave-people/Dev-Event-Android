@@ -7,21 +7,21 @@
  * Please see: https://github.com/brave-people/Dev-Event-Android/blob/master/LICENSE.
  */
 
-package team.bravepeople.devevent.repo
+package team.bravepeople.devevent.di
 
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
+import dagger.hilt.android.components.ViewModelComponent
+import dagger.hilt.android.scopes.ViewModelScoped
 import logcat.logcat
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import javax.inject.Singleton
 
 @Module
-@InstallIn(SingletonComponent::class)
+@InstallIn(ViewModelComponent::class)
 object GithubModule {
     private const val BaseUrl = "https://raw.githubusercontent.com"
 
@@ -37,10 +37,9 @@ object GithubModule {
     }
 
     @Provides
-    @Singleton
-    fun provideRetrofit() = Retrofit.Builder()
+    @ViewModelScoped
+    fun provideRetrofit(): Retrofit = Retrofit.Builder()
         .baseUrl(BaseUrl)
         .client(getInterceptor(loggingInterceptor))
         .build()
-        .create(GithubService::class.java)
 }

@@ -7,7 +7,7 @@
  * Please see: https://github.com/brave-people/Dev-Event-Android/blob/master/LICENSE.
  */
 
-package team.bravepeople.devevent.repo
+package team.bravepeople.devevent.activity.main.event.repo
 
 import okhttp3.ResponseBody
 import retrofit2.Response

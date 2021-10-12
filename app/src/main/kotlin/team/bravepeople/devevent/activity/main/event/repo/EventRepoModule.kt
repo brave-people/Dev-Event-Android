@@ -16,7 +16,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import team.bravepeople.devevent.activity.main.event.database.EventDatabase
-import team.bravepeople.devevent.repo.GithubService
 import javax.inject.Singleton
 
 @Module

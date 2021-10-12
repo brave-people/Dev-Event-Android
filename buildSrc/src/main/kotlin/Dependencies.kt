@@ -22,6 +22,8 @@ object Application {
 }
 
 object Versions {
+    const val Hilt = "2.39.1"
+
     object Essential {
         const val Kotlin = "1.5.30"
         const val CoreKtx = "1.6.0"
@@ -32,7 +34,6 @@ object Versions {
     object Ui {
         const val Browser = "1.3.0"
         const val FancyBottomBar = "1.0.1"
-        const val SwipeToRefresh = "0.19.0"
         const val LandscapistCoil = "1.3.8"
         const val ConstraintLayout = "1.0.0-beta01"
     }
@@ -46,11 +47,6 @@ object Versions {
     object Network {
         const val OkHttp = "4.9.2"
         const val Retrofit = "2.9.0"
-    }
-
-    object Jetpack {
-        const val Room = "2.3.0"
-        const val Hilt = "2.39.1"
     }
 
     object Compose {
@@ -69,6 +65,9 @@ object Versions {
 }
 
 object Dependencies {
+    const val Hilt = "com.google.dagger:hilt-android:${Versions.Hilt}"
+    const val HiltCompiler = "com.google.dagger:hilt-android-compiler:${Versions.Hilt}"
+
     const val leakCanary = "com.squareup.leakcanary:leakcanary-android:${Versions.Debug.LeakCanary}"
 
     const val LandscapistCoil =
@@ -93,15 +92,8 @@ object Dependencies {
     val ui = listOf(
         "androidx.browser:browser:${Versions.Ui.Browser}",
         "io.github.jisungbin:fancybottombar:${Versions.Ui.FancyBottomBar}",
-        "com.google.accompanist:accompanist-swiperefresh:${Versions.Ui.SwipeToRefresh}",
         "com.google.android.gms:play-services-oss-licenses:${Versions.OssLicense.Master}",
         "androidx.constraintlayout:constraintlayout-compose:${Versions.Ui.ConstraintLayout}"
-    )
-
-    val jetpack = listOf(
-        "androidx.room:room-ktx:${Versions.Jetpack.Room}",
-        "androidx.room:room-runtime:${Versions.Jetpack.Room}",
-        "com.google.dagger:hilt-android:${Versions.Jetpack.Hilt}"
     )
 
     val compose = listOf(
@@ -111,10 +103,5 @@ object Dependencies {
         "androidx.compose.material:material:${Versions.Compose.Master}",
         "androidx.activity:activity-compose:${Versions.Compose.Activity}",
         "androidx.compose.runtime:runtime-livedata:${Versions.Compose.Master}"
-    )
-
-    val compiler = listOf(
-        "androidx.room:room-compiler:${Versions.Jetpack.Room}",
-        "com.google.dagger:hilt-android-compiler:${Versions.Jetpack.Hilt}",
     )
 }

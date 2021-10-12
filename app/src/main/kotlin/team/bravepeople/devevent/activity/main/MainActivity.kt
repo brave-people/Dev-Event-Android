@@ -74,11 +74,10 @@ import team.bravepeople.devevent.theme.SystemUiController
 import team.bravepeople.devevent.theme.colors
 import team.bravepeople.devevent.ui.chip.ChipViewModel
 import team.bravepeople.devevent.ui.chip.FlowTag
-import team.bravepeople.devevent.util.AlarmUtil
-import team.bravepeople.devevent.util.Data
-import team.bravepeople.devevent.util.config.PathConfig
 import team.bravepeople.devevent.util.extension.toast
 import javax.inject.Inject
+
+private enum class Tab { MAIN, FAVORITE, INFO }
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -106,16 +105,6 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val autoEventReload = Data.read(
-            applicationContext,
-            PathConfig.AutoEventReload,
-            "false"
-        ).toBoolean()
-
-        if (autoEventReload) {
-            AlarmUtil.startReloadService(applicationContext, false)
-        }
 
         SystemUiController(window).run {
             setStatusBarColor(colors.primary)

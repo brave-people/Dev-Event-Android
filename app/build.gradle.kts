@@ -73,6 +73,7 @@ android {
 }
 
 dependencies {
+    implementation(Dependencies.Hilt)
     implementation(Dependencies.LandscapistCoil) {
         exclude(group = "androidx.appcompat", module = "appcompat")
         exclude(group = "androidx.appcompat", module = "appcompat-resources")
@@ -82,10 +83,9 @@ dependencies {
     Dependencies.util.forEach(::implementation)
     Dependencies.network.forEach(::implementation)
     Dependencies.compose.forEach(::implementation)
-    Dependencies.jetpack.forEach(::implementation)
     Dependencies.essential.forEach(::implementation)
 
     debugImplementation(Dependencies.leakCanary)
 
-    Dependencies.compiler.forEach(::kapt)
+    kapt(Dependencies.HiltCompiler)
 }

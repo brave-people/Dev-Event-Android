@@ -11,7 +11,7 @@ package team.bravepeople.devevent.util
 
 import android.content.Context
 
-object Data {
+object DataUtil {
     fun read(context: Context, name: String, _null: String?) =
         context.getSharedPreferences("pref", Context.MODE_PRIVATE).getString(name, _null)
 
