@@ -9,6 +9,7 @@
 # 다운로드 👉 [[구글 플레이스토어]](https://play.google.com/store/apps/details?id=team.bravepeople.devevent)
 
 https://github.com/brave-people/Dev-Event 의 안드로이드 앱 버전 입니다.
+
 모든 정보는 위 사이트에서 가져옵니다.
 
 - 오프라인 모드 지원
@@ -21,8 +22,6 @@ https://github.com/brave-people/Dev-Event 의 안드로이드 앱 버전 입니�
   <img alt="main" src="/images/main.png?raw=true" width="25%" />
   <img alt="info" src="/images/info_v2.png?raw=true" width="25%" />
 </p>
-
-
 
 # [MAD Score](https://madscorecard.withgoogle.com/scorecard/share/1492290925/)
 
@@ -37,4 +36,3 @@ https://github.com/brave-people/Dev-Event 의 안드로이드 앱 버전 입니�
       <h3>용감한 친구들</h3>
     <hr/>
 </div>
-
