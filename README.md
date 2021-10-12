@@ -2,7 +2,7 @@
 
 # Dev-Event-Android [![ktlint](https://img.shields.io/badge/code%20style-%E2%9D%A4-FF4081.svg)](https://ktlint.github.io/)
 
-🎉🎈 개발자 {웨비나, 컨퍼런스, 해커톤} 행사를 안드로이드 앱으로 알려드립니다. 
+🎉🎈 개발자 {웨비나, 컨퍼런스, 해커톤} 행사를 안드로이드 앱으로 알려드립니다.
 
 ---
 
@@ -15,7 +15,7 @@ https://github.com/brave-people/Dev-Event 의 안드로이드 앱 버전 입니�
 
 - 오프라인 모드 지원
 - 이벤트 즐겨찾기 지원
-<br/>
+  <br/>
 
 ## 스크린샷
 
@@ -38,5 +38,4 @@ https://github.com/brave-people/Dev-Event 의 안드로이드 앱 버전 입니�
     <hr/>
       <h3>용감한 친구들</h3>
     <hr/>
-<div/>
-
+</div>
