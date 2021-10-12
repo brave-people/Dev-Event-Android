@@ -12,6 +12,7 @@ plugins {
     id("kotlin-android")
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
+    id("com.google.android.gms.oss-licenses-plugin")
     id("name.remal.check-dependency-updates") version Versions.Util.CheckDependencyUpdates
 }
 
@@ -27,6 +28,8 @@ android {
         setProperty("archivesBaseName", "$versionName ($versionCode)")
 
         kapt {
+            correctErrorTypes = true
+
             arguments {
                 arg("room.schemaLocation", "$projectDir/schemas")
             }
@@ -39,10 +42,6 @@ android {
 
     buildFeatures {
         compose = true
-    }
-
-    kapt {
-        correctErrorTypes = true
     }
 
     composeOptions {
@@ -74,18 +73,18 @@ android {
 }
 
 dependencies {
-    implementation("com.github.skydoves:landscapist-coil:1.3.0") {
+    implementation(Dependencies.LandscapistCoil) {
         exclude(group = "androidx.appcompat", module = "appcompat")
         exclude(group = "androidx.appcompat", module = "appcompat-resources")
     }
 
-    Dependencies.debug.forEach(::debugImplementation)
-    Dependencies.essential.forEach(::implementation)
-    Dependencies.network.forEach(::implementation)
     Dependencies.ui.forEach(::implementation)
-    Dependencies.util.forEach(::implementation)
+    Dependencies.network.forEach(::implementation)
     Dependencies.compose.forEach(::implementation)
-    Dependencies.hilt.forEach(::implementation)
-    Dependencies.room.forEach(::implementation)
+    Dependencies.jetpack.forEach(::implementation)
+    Dependencies.essential.forEach(::implementation)
+
+    debugImplementation(Dependencies.leakCanary)
+
     Dependencies.compiler.forEach(::kapt)
 }
