@@ -12,9 +12,6 @@ https://github.com/brave-people/Dev-Event 의 안드로이드 앱 버전 입니�
 
 모든 정보는 위 사이트에서 가져옵니다.
 
-- 오프라인 모드 지원
-- 이벤트 즐겨찾기 지원
-
 # 스크린샷
 
 <p align="center">
