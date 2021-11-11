@@ -9,5 +9,5 @@
 
 <resources>
 
-    <style name="Theme.DevEvent" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.DevEvent" parent="Theme.MaterialComponents.Light.NoActionBar" />
 </resources>

@@ -40,6 +40,7 @@ object Versions {
 
     object Ui {
         const val Browser = "1.4.0"
+        const val Material = "1.4.0"
     }
 
     object Util {
@@ -85,6 +86,7 @@ object Dependencies {
 
     val Ui = listOf(
         "androidx.browser:browser:${Versions.Ui.Browser}",
+        "com.google.android.material:material:${Versions.Ui.Material}",
         "com.google.android.gms:play-services-oss-licenses:${Versions.OssLicense.Master}"
     )
 

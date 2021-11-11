@@ -52,7 +52,7 @@ android {
 
     sourceSets {
         getByName("main").run {
-            java.srcDirs("src/main/kotlin")
+            java.srcDirs("src/main/kotlin", "build/generated/ksp/debug/java")
         }
     }
 
@@ -88,5 +88,5 @@ dependencies {
     Dependencies.Retrofit.forEach(::implementation)
     Dependencies.Essential.forEach(::implementation)
 
-    ksp(Dependencies.Hilt.Compiler)
+    kapt(Dependencies.Hilt.Compiler)
 }
