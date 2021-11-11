@@ -42,6 +42,7 @@ import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -76,6 +77,7 @@ class MainActivity : ComponentActivity() {
 
     private var backButtonPressedTime = 0L
     private val chipVm: ChipViewModel by viewModels()
+    private lateinit var onBackPressedAction: () -> Unit
 
     private var searching by mutableStateOf(false)
     private val searchField = mutableStateOf(TextFieldValue())
@@ -91,31 +93,6 @@ class MainActivity : ComponentActivity() {
                     content = { Content() },
                 )
             }
-        }
-    }
-
-    @OptIn(ExperimentalMaterialApi::class)
-    @Composable
-    private fun Content() {
-        val coroutineScope = rememberCoroutineScope()
-        val bottomSheetState = rememberBottomSheetScaffoldState()
-
-        BottomSheetScaffold(
-            sheetContent = { EventBottomSheet(event = selectedEvent) },
-            scaffoldState = bottomSheetState,
-            sheetShape = RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp),
-            sheetPeekHeight = 0.dp
-        ) {
-            LazyEvent(
-                chipVm = chipVm,
-                search = searchField,
-                onEventClickAction = { event ->
-                    coroutineScope.launch {
-                        selectedEvent = event
-                        bottomSheetState.bottomSheetState.expand()
-                    }
-                }
-            )
         }
     }
 
@@ -250,7 +227,52 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    @OptIn(ExperimentalMaterialApi::class)
+    @Composable
+    private fun Content() {
+        val coroutineScope = rememberCoroutineScope()
+        val bottomSheetState = rememberBottomSheetScaffoldState()
+
+        LaunchedEffect(Unit) {
+            onBackPressedAction = {
+                if (bottomSheetState.bottomSheetState.isExpanded) {
+                    coroutineScope.launch {
+                        bottomSheetState.bottomSheetState.collapse()
+                    }
+                } else {
+                    onBackPressedOrigin()
+                }
+            }
+        }
+
+        BottomSheetScaffold(
+            sheetContent = { EventBottomSheet(event = selectedEvent) },
+            scaffoldState = bottomSheetState,
+            sheetShape = RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp),
+            sheetPeekHeight = 0.dp
+        ) {
+            LazyEvent(
+                chipVm = chipVm,
+                search = searchField,
+                onEventClickAction = { event ->
+                    coroutineScope.launch {
+                        selectedEvent = event
+                        bottomSheetState.bottomSheetState.expand()
+                    }
+                }
+            )
+        }
+    }
+
     override fun onBackPressed() {
+        if (::onBackPressedAction.isInitialized) {
+            onBackPressedAction()
+        } else {
+            onBackPressedOrigin()
+        }
+    }
+
+    private fun onBackPressedOrigin() {
         val clickedTime = System.currentTimeMillis()
         if (clickedTime - backButtonPressedTime > 2000) {
             toast(getString(R.string.main_toast_confirm_app_finish))
