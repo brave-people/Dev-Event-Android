@@ -17,7 +17,6 @@ import team.bravepeople.devevent.R
 import team.bravepeople.devevent.util.extension.toast
 
 object Web {
-
     object Link {
         const val Organization = "https://github.com/brave-people"
         const val Project = "https://github.com/brave-people/Dev-Event-Android"

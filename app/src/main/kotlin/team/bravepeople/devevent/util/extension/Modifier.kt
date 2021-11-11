@@ -9,6 +9,7 @@
 
 package team.bravepeople.devevent.util.extension
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
@@ -18,14 +19,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 
 // https://stackoverflow.com/a/66839858/14299073
+@SuppressLint("UnnecessaryComposedModifier")
 inline fun Modifier.noRippleClickable(crossinline onClick: () -> Unit) = composed {
     clickable(
         indication = null,
-        interactionSource = remember { MutableInteractionSource() }) {
+        interactionSource = remember { MutableInteractionSource() }
+    ) {
         onClick()
     }
 }
 
+@SuppressLint("UnnecessaryComposedModifier")
 @OptIn(ExperimentalFoundationApi::class)
 inline fun Modifier.noRippleLongClickable(crossinline onLongClick: () -> Unit) = composed {
     combinedClickable(

@@ -7,13 +7,13 @@
  * Please see: https://github.com/brave-people/Dev-Event-Android/blob/master/LICENSE.
  */
 
-package team.bravepeople.devevent.repo
+package team.bravepeople.devevent.activity.main.event.repo
 
 import okhttp3.ResponseBody
-import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.GET
 
 interface GithubService {
     @GET("/brave-people/Dev-Event/master/README.md")
-    fun getEvents(): Call<ResponseBody>
+    suspend fun getEvents(): Response<ResponseBody>
 }

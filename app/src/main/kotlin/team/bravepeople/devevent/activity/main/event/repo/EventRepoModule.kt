@@ -15,14 +15,12 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
 import team.bravepeople.devevent.activity.main.event.database.EventDatabase
-import team.bravepeople.devevent.repo.GithubService
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object EventRepoModule {
-
     @Provides
     @Singleton
     fun provideEventRespository(

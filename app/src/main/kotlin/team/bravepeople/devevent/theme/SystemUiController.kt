@@ -17,10 +17,10 @@ class SystemUiController(private val window: Window) {
         window.statusBarColor = color.toArgb()
         if (darkIcons) {
             window.decorView.systemUiVisibility = window.decorView.systemUiVisibility or
-                    View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         } else {
             window.decorView.systemUiVisibility = window.decorView.systemUiVisibility and
-                    View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
+                View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
         }
     }
 
@@ -32,10 +32,10 @@ class SystemUiController(private val window: Window) {
         if (Build.VERSION.SDK_INT >= 26) {
             if (darkIcons) {
                 window.decorView.systemUiVisibility = window.decorView.systemUiVisibility or
-                        View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
+                    View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
             } else {
                 window.decorView.systemUiVisibility = window.decorView.systemUiVisibility and
-                        View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR.inv()
+                    View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR.inv()
             }
         }
     }

@@ -29,27 +29,23 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import team.bravepeople.devevent.R
 import team.bravepeople.devevent.activity.main.MainActivity
-import team.bravepeople.devevent.activity.main.event.database.EventDatabase
 import team.bravepeople.devevent.activity.main.event.repo.EventRepo
 import team.bravepeople.devevent.activity.main.event.repo.EventRepoResult
 import team.bravepeople.devevent.theme.MaterialTheme
 import team.bravepeople.devevent.theme.SystemUiController
 import team.bravepeople.devevent.theme.colors
 import team.bravepeople.devevent.ui.errordialog.ErrorDialog
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class SplashActivity : ComponentActivity() {
 
     @Inject
     lateinit var eventRepo: EventRepo
-
-    @Inject
-    lateinit var eventDatabase: EventDatabase
 
     private var exception by mutableStateOf(Exception())
     private val errorDialogVisible = mutableStateOf(false)

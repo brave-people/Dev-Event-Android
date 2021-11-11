@@ -74,17 +74,16 @@ import team.bravepeople.devevent.theme.SystemUiController
 import team.bravepeople.devevent.theme.colors
 import team.bravepeople.devevent.ui.chip.ChipViewModel
 import team.bravepeople.devevent.ui.chip.FlowTag
-import team.bravepeople.devevent.util.AlarmUtil
-import team.bravepeople.devevent.util.Data
-import team.bravepeople.devevent.util.config.PathConfig
 import team.bravepeople.devevent.util.extension.toast
 import javax.inject.Inject
+
+private enum class Tab { MAIN, FAVORITE, INFO }
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     private var backButtonPressedTime = 0L
-    private var tab by mutableStateOf(Tab.Main)
+    private var tab by mutableStateOf(Tab.MAIN)
     private val chipVm: ChipViewModel by viewModels()
     private val eventVm: EventViewModel by viewModels()
     private val bottomSheetVisible = mutableStateOf(false)
@@ -106,16 +105,6 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val autoEventReload = Data.read(
-            applicationContext,
-            PathConfig.AutoEventReload,
-            "false"
-        ).toBoolean()
-
-        if (autoEventReload) {
-            AlarmUtil.startReloadService(applicationContext, false)
-        }
 
         SystemUiController(window).run {
             setStatusBarColor(colors.primary)
@@ -224,7 +213,7 @@ class MainActivity : ComponentActivity() {
                             color = Color.White
                         )
                     }
-                    if (tab != Tab.Info) {
+                    if (tab != Tab.INFO) {
                         Row(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.End
@@ -272,7 +261,7 @@ class MainActivity : ComponentActivity() {
                 Crossfade(tab) { target ->
                     bottomSheetVisible.value = false
                     when (target) {
-                        Tab.Info -> Info(
+                        Tab.INFO -> Info(
                             database = eventDatabase,
                             activity = this@MainActivity
                         )
@@ -282,7 +271,7 @@ class MainActivity : ComponentActivity() {
                             eventVm = eventVm,
                             chipVm = chipVm,
                             search = searchField.text,
-                            eventFilter = if (target == Tab.Main) EventFilter.None else EventFilter.Favorite
+                            eventFilter = if (target == Tab.MAIN) EventFilter.None else EventFilter.Favorite
                         )
                     }
                 }
@@ -295,9 +284,9 @@ class MainActivity : ComponentActivity() {
                 fancyColors = FancyColors(primary = colors.primary)
             ) {
                 tab = when (id) {
-                    0 -> Tab.Main
-                    1 -> Tab.Favorite
-                    2 -> Tab.Info
+                    0 -> Tab.MAIN
+                    1 -> Tab.FAVORITE
+                    2 -> Tab.INFO
                     else -> throw Error("Unknown FancyItem type.")
                 }
             }

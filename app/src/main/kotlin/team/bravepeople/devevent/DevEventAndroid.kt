@@ -11,16 +11,18 @@ package team.bravepeople.devevent
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
-import team.bravepeople.devevent.util.NotificationUtil
+import io.github.jisungbin.erratum.Erratum
+import logcat.AndroidLogcatLogger
+import logcat.LogPriority
 
 @HiltAndroidApp
 class DevEventAndroid : Application() {
     override fun onCreate() {
         super.onCreate()
-        NotificationUtil.createChannel(
-            applicationContext,
-            getString(R.string.notification_channel_name),
-            getString(R.string.notification_channel_description)
+        AndroidLogcatLogger.installOnDebuggableApp(
+            application = this,
+            minPriority = LogPriority.VERBOSE
         )
+        Erratum.setup(application = this)
     }
 }

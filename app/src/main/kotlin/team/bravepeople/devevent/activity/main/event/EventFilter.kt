@@ -9,7 +9,4 @@
 
 package team.bravepeople.devevent.activity.main.event
 
-sealed class EventFilter {
-    object None : EventFilter()
-    object Favorite : EventFilter()
-}
+private enum class EventFilter { NONE, FAVORITE }

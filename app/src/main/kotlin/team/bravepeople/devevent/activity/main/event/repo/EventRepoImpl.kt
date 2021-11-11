@@ -18,12 +18,10 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.launch
-import retrofit2.await
 import team.bravepeople.devevent.activity.main.event.database.EventDatabase
 import team.bravepeople.devevent.activity.main.event.database.EventEntity
-import team.bravepeople.devevent.repo.GithubService
-import team.bravepeople.devevent.util.Data
-import team.bravepeople.devevent.util.config.PathConfig
+import team.bravepeople.devevent.util.DataUtil
+import team.bravepeople.devevent.util.constant.DataConstant
 import team.bravepeople.devevent.util.extension.filterChangedEventByFavorite
 import team.bravepeople.devevent.util.extension.parseOrNull
 import team.bravepeople.devevent.util.network.Network
@@ -83,13 +81,13 @@ class EventRepoImpl @Inject constructor(
             val databaseEvents = databaseDao.getEvents()
             if (databaseEvents.isEmpty()) { // 데이터베이스 초기화 상태
                 databaseDao.insertAll(eventEntities)
-                Data.save(context, PathConfig.DatabaseSaveTime, Date().time.toString())
+                DataUtil.save(context, DataConstant.DatabaseSaveTime, Date().time.toString())
                 endAction()
             } else { // 데이터베이스 업데이트 -> `favorite`만 달라짐
                 val events = eventEntities.filterChangedEventByFavorite(databaseEvents)
                 if (events.isNotEmpty()) {
                     databaseDao.updateAll(events)
-                    Data.save(context, PathConfig.DatabaseSaveTime, Date().time.toString())
+                    DataUtil.save(context, DataConstant.DatabaseSaveTime, Date().time.toString())
                     endAction()
                 } else {
                     endAction()
