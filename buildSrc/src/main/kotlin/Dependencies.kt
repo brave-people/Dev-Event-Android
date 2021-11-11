@@ -101,8 +101,6 @@ object Dependencies {
         "androidx.compose.compiler:compiler:${Versions.Compose.Master}",
         "androidx.compose.material:material:${Versions.Compose.Master}",
         "androidx.activity:activity-compose:${Versions.Compose.Activity}",
-        "androidx.compose.animation:animation:${Versions.Compose.Master}",
-        "androidx.compose.foundation:foundation:${Versions.Compose.Master}",
         "androidx.constraintlayout:constraintlayout-compose:${Versions.Compose.ConstraintLayout}"
     )
 }

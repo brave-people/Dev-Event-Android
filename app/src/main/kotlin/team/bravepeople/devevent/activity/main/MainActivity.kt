@@ -61,7 +61,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.google.android.gms.oss.licenses.OssLicensesActivity
+import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import kotlinx.coroutines.launch
 import team.bravepeople.devevent.R
 import team.bravepeople.devevent.event.EventBottomSheet
@@ -190,7 +190,7 @@ class MainActivity : ComponentActivity() {
                                 startActivity(
                                     Intent(
                                         this@MainActivity,
-                                        OssLicensesActivity::class.java
+                                        OssLicensesMenuActivity::class.java
                                     )
                                 )
                             },
