@@ -8,17 +8,13 @@
 
 # 다운로드 👉 [[구글 플레이스토어]](https://play.google.com/store/apps/details?id=team.bravepeople.devevent)
 
-https://github.com/brave-people/Dev-Event 의 안드로이드 앱 버전 입니다.<br/>
-모든 정보는 위 사이트에서 가져옵니다.
-<br/>
-<br/>
+https://github.com/brave-people/Dev-Event 의 안드로이드 앱 버전 입니다.
 
-- 오프라인 모드 지원
-- 이벤트 즐겨찾기 지원
-  <br/>
-  엡 UI 제작에 베타 기술(jetpack compose)을 사용하여 UI 퍼포먼스가 저하될 수 있습니다.
+모든 정보는 위 레포지토리에서 가져옵니다.
 
-## 스크린샷
+> 현재 개인 사정으로 인해 **앱 업데이트가 당분간 불가능**합니다. 이용에 불편을 드려 죄송합니다. 최대한 빨리 버그 수정 업데이트를 진행하겠습니다.
+
+# 스크린샷
 
 <p align="center">
   <img alt="splash" src="/images/splash.png?raw=true" width="25%"/>
@@ -26,12 +22,11 @@ https://github.com/brave-people/Dev-Event 의 안드로이드 앱 버전 입니�
   <img alt="info" src="/images/info_v2.png?raw=true" width="25%" />
 </p>
 
-
-## [MAD Score](https://madscorecard.withgoogle.com/scorecard/share/1492290925/)
+# [MAD Score](https://madscorecard.withgoogle.com/scorecard/share/1492290925/)
 
 ![](/images/madscore/summary.png?raw=true)
 
-## 알려진 문제 및 의견 제출
+# 알려진 문제 및 의견 제출
 
 [Issue](https://github.com/brave-people/Dev-Event-Android/issues) 탭을 통해 확인/제출하실 수 있습니다. 감사합니다.
 
@@ -39,5 +34,4 @@ https://github.com/brave-people/Dev-Event 의 안드로이드 앱 버전 입니�
     <hr/>
       <h3>용감한 친구들</h3>
     <hr/>
-<div/>
-
+</div>
