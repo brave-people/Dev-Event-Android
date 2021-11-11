@@ -10,9 +10,18 @@
 package team.bravepeople.devevent.event.di
 
 import dagger.Module
+import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
+import dagger.hilt.android.scopes.ViewModelScoped
+import team.bravepeople.devevent.event.data.EventRepoImpl
+import team.bravepeople.devevent.event.data.EventService
+import team.bravepeople.devevent.event.domain.EventRepo
 
 @Module
 @InstallIn(ViewModelComponent::class)
-object EventRepoModule
+object EventRepoModule {
+    @Provides
+    @ViewModelScoped
+    fun provideEventRepo(client: EventService): EventRepo = EventRepoImpl(client)
+}

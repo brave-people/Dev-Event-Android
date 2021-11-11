@@ -23,7 +23,7 @@ import team.bravepeople.devevent.event.data.EventService
 
 @Module
 @InstallIn(ViewModelComponent::class)
-object GithubModule {
+object RetrofitModule {
     private const val BaseUrl = "https://raw.githubusercontent.com"
 
     private val loggingInterceptor =
@@ -39,7 +39,7 @@ object GithubModule {
 
     @Provides
     @ViewModelScoped
-    fun provideRetrofit() = Retrofit.Builder()
+    fun provideRetrofit(): EventService = Retrofit.Builder()
         .baseUrl(BaseUrl)
         .client(getInterceptor(loggingInterceptor))
         .build()

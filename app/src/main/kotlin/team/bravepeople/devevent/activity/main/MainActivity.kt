@@ -54,7 +54,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dagger.hilt.android.AndroidEntryPoint
 import team.bravepeople.devevent.R
 import team.bravepeople.devevent.event.EventStore
 import team.bravepeople.devevent.event.LazyEvent
@@ -65,14 +64,13 @@ import team.bravepeople.devevent.ui.chip.ChipViewModel
 import team.bravepeople.devevent.ui.chip.FlowTag
 import team.bravepeople.devevent.util.extension.toast
 
-@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     private var backButtonPressedTime = 0L
     private val chipVm: ChipViewModel by viewModels()
 
     private var searching by mutableStateOf(false)
-    private var searchField = mutableStateOf(TextFieldValue())
+    private val searchField = mutableStateOf(TextFieldValue())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
