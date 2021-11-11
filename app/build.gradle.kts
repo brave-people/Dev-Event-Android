@@ -11,6 +11,7 @@ plugins {
     id("com.android.application")
     id("kotlin-android")
     id("kotlin-kapt")
+    id("com.google.devtools.ksp")
     id("dagger.hilt.android.plugin")
     id("name.remal.check-dependency-updates") version Versions.Util.CheckDependencyUpdates
 }
@@ -74,18 +75,18 @@ android {
 }
 
 dependencies {
-    implementation("com.github.skydoves:landscapist-coil:1.3.0") {
+    implementation(Dependencies.Orbit)
+    implementation(Dependencies.LandscapistCoil) {
         exclude(group = "androidx.appcompat", module = "appcompat")
         exclude(group = "androidx.appcompat", module = "appcompat-resources")
     }
 
-    Dependencies.debug.forEach(::debugImplementation)
-    Dependencies.essential.forEach(::implementation)
-    Dependencies.network.forEach(::implementation)
-    Dependencies.ui.forEach(::implementation)
-    Dependencies.util.forEach(::implementation)
-    Dependencies.compose.forEach(::implementation)
-    Dependencies.hilt.forEach(::implementation)
-    Dependencies.room.forEach(::implementation)
-    Dependencies.compiler.forEach(::kapt)
+    Dependencies.Ui.forEach(::implementation)
+    Dependencies.Util.forEach(::implementation)
+    Dependencies.Compose.forEach(::implementation)
+    Dependencies.Jetpack.forEach(::implementation)
+    Dependencies.Retrofit.forEach(::implementation)
+    Dependencies.Essential.forEach(::implementation)
+
+    Dependencies.Compiler.forEach(::ksp)
 }

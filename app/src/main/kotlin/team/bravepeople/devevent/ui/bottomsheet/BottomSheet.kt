@@ -27,10 +27,11 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.consumeAllChanges
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
@@ -67,7 +68,11 @@ fun BottomSheet(
                     }
                     .clip(shape)
                     .background(Color.White, shape)
-                    .shadow(1.dp, shape)
+                    .graphicsLayer(
+                        shadowElevation = with(LocalDensity.current) {
+                            1.dp.toPx()
+                        }
+                    )
                     .noRippleClickable { }
             ) {
                 bottomSheetContent()
