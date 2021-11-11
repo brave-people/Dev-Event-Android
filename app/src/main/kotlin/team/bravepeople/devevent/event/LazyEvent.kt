@@ -7,7 +7,7 @@
  * Please see: https://github.com/brave-people/Dev-Event-Android/blob/master/LICENSE.
  */
 
-package team.bravepeople.devevent.activity.main.event
+package team.bravepeople.devevent.event
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -53,12 +53,11 @@ import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import team.bravepeople.devevent.R
-import team.bravepeople.devevent.activity.main.event.database.EventEntity
-import team.bravepeople.devevent.activity.main.event.repo.EventRepo
-import team.bravepeople.devevent.activity.main.event.repo.EventRepoResult
+import team.bravepeople.devevent.event.database.EventEntity
+import team.bravepeople.devevent.event.domain.EventRepo
+import team.bravepeople.devevent.event.repo.EventRepoResult
 import team.bravepeople.devevent.theme.ColorOrange
 import team.bravepeople.devevent.theme.colors
 import team.bravepeople.devevent.ui.bottomsheet.BottomSheet
@@ -66,12 +65,7 @@ import team.bravepeople.devevent.ui.chip.ChipViewModel
 import team.bravepeople.devevent.ui.chip.LazyTag
 import team.bravepeople.devevent.ui.errordialog.ErrorDialog
 import team.bravepeople.devevent.util.Web
-import team.bravepeople.devevent.util.extension.takeIfLength
-import team.bravepeople.devevent.util.extension.takeIfSizeToCategory
 import team.bravepeople.devevent.util.extension.toast
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 @Composable
 private fun EmptyEvent() {

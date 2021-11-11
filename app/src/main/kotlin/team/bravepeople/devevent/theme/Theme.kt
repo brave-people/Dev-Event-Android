@@ -9,21 +9,28 @@
 
 package team.bravepeople.devevent.theme
 
+import androidx.compose.material.Typography
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import team.bravepeople.devevent.R
 
-val ColorOrange = Color(0xFFF9A825)
+val defaultFontFamily = FontFamily(Font(R.font.nanumbarungothic))
 val colors = lightColors().copy(
     primary = Color(0xFF1e88e5),
     primaryVariant = Color(0xFF005cb2),
     secondary = Color(0xFF6ab7ff)
 )
 
+private val typography = Typography(defaultFontFamily = defaultFontFamily)
+
 @Composable
 fun MaterialTheme(content: @Composable () -> Unit) {
     androidx.compose.material.MaterialTheme(
-        colors = colors
+        colors = colors,
+        typography = typography
     ) {
         content()
     }

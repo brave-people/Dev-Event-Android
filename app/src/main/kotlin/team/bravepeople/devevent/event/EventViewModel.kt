@@ -7,7 +7,7 @@
  * Please see: https://github.com/brave-people/Dev-Event-Android/blob/master/LICENSE.
  */
 
-package team.bravepeople.devevent.activity.main.event
+package team.bravepeople.devevent.event
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -16,14 +16,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import team.bravepeople.devevent.activity.main.event.database.EventDatabase
-import team.bravepeople.devevent.activity.main.event.database.EventEntity
-import team.bravepeople.devevent.activity.main.event.repo.EventRepo
+import team.bravepeople.devevent.event.database.EventEntity
+import team.bravepeople.devevent.event.domain.EventRepo
 import javax.inject.Inject
 
 @HiltViewModel
 class EventViewModel @Inject constructor(
-    private val database: EventDatabase,
     private val eventRepo: EventRepo
 ) : ViewModel() {
 

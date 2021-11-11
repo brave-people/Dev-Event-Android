@@ -11,17 +11,18 @@ import org.gradle.api.JavaVersion
 
 object Application {
     const val minSdk = 24
-    const val targetSdk = 30
-    const val compileSdk = 30
-    const val jvmTarget = "1.8"
-    const val versionCode = 12
-    const val versionName = "1.0.7"
+    const val targetSdk = 31
+    const val compileSdk = 31
+    const val jvmTarget = "11"
+    const val versionCode = 13
+    const val versionName = "1.1.0"
 
     val targetCompat = JavaVersion.VERSION_11
     val sourceCompat = JavaVersion.VERSION_11
 }
 
 object Versions {
+    const val Hilt = "2.40"
     const val Orbit = "4.2.0"
 
     object Essential {
@@ -48,16 +49,9 @@ object Versions {
         const val CheckDependencyUpdates = "1.5.0"
     }
 
-    object Jetpack {
-        const val Hilt = "2.40"
-        const val Room = "2.3.0"
-    }
-
     object Compose {
-        const val Lottie = "4.2.0"
         const val Master = "1.0.5"
         const val Activity = "1.4.0"
-        const val FancyBottomBar = "1.0.1"
         const val LandscapistCoil = "1.4.2"
         const val SwipeToRefresh = "0.20.2"
         const val ConstraintLayout = "1.0.0-beta01"
@@ -73,6 +67,11 @@ object Dependencies {
     const val Orbit = "org.orbit-mvi:orbit-viewmodel:${Versions.Orbit}"
     const val LandscapistCoil =
         "com.github.skydoves:landscapist-coil:${Versions.Compose.LandscapistCoil}"
+
+    object Hilt {
+        const val Master = "com.google.dagger:hilt-android:${Versions.Hilt}"
+        const val Compiler = "com.google.dagger:hilt-android-compiler:${Versions.Hilt}"
+    }
 
     val Essential = listOf(
         "androidx.core:core-ktx:${Versions.Essential.CoreKtx}",
@@ -90,12 +89,6 @@ object Dependencies {
         "com.google.android.gms:play-services-oss-licenses:${Versions.OssLicense.Master}"
     )
 
-    val Jetpack = listOf(
-        "androidx.room:room-ktx:${Versions.Jetpack.Room}",
-        "androidx.room:room-runtime:${Versions.Jetpack.Room}",
-        "com.google.dagger:hilt-android:${Versions.Jetpack.Hilt}"
-    )
-
     val Util = listOf(
         "io.github.jisungbin:erratum:${Versions.Util.Erratum}",
         "io.github.jisungbin:logeukes:${Versions.Util.Logeukes}",
@@ -105,17 +98,10 @@ object Dependencies {
     val Compose = listOf(
         "androidx.compose.ui:ui:${Versions.Compose.Master}",
         "androidx.compose.ui:ui-tooling:${Versions.Compose.Master}",
-        "com.airbnb.android:lottie-compose:${Versions.Compose.Lottie}",
         "androidx.compose.compiler:compiler:${Versions.Compose.Master}",
         "androidx.compose.material:material:${Versions.Compose.Master}",
         "androidx.activity:activity-compose:${Versions.Compose.Activity}",
-        "io.github.jisungbin:fancybottombar:${Versions.Compose.FancyBottomBar}",
         "com.google.accompanist:accompanist-swiperefresh:${Versions.Compose.SwipeToRefresh}",
         "androidx.constraintlayout:constraintlayout-compose:${Versions.Compose.ConstraintLayout}"
-    )
-
-    val Compiler = listOf(
-        "androidx.room:room-compiler:${Versions.Jetpack.Room}",
-        "com.google.dagger:hilt-android-compiler:${Versions.Jetpack.Hilt}"
     )
 }

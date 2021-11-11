@@ -12,12 +12,6 @@ package team.bravepeople.devevent.util.extension
 import android.content.Context
 import android.widget.Toast
 
-@JvmName("ContextToastExtension")
-fun Context.toast(message: String, length: Int = Toast.LENGTH_SHORT) {
-    Toast.makeText(this, message, length).show()
-}
-
-@JvmName("ToastExtension")
 fun toast(context: Context, message: String, length: Int = Toast.LENGTH_SHORT) {
     Toast.makeText(context, message, length).show()
 }

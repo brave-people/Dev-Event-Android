@@ -10,5 +10,6 @@
 package team.bravepeople.devevent.util.constant
 
 object DataConstant {
-    val TagColor = { tag: String -> "tag-color-for-$tag" }
+    @Suppress("FunctionName")
+    fun TagColor(tag: String) = "tag-color-for-$tag"
 }

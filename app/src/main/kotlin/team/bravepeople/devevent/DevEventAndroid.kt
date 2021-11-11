@@ -12,17 +12,15 @@ package team.bravepeople.devevent
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
 import io.github.jisungbin.erratum.Erratum
-import logcat.AndroidLogcatLogger
-import logcat.LogPriority
+import io.github.jisungbin.logeukes.Logeukes
 
 @HiltAndroidApp
 class DevEventAndroid : Application() {
     override fun onCreate() {
         super.onCreate()
-        AndroidLogcatLogger.installOnDebuggableApp(
-            application = this,
-            minPriority = LogPriority.VERBOSE
-        )
-        Erratum.setup(application = this)
+        Erratum.setup(this)
+        if (BuildConfig.DEBUG) {
+            Logeukes.setup()
+        }
     }
 }

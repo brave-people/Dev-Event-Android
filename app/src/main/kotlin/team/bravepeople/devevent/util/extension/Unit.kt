@@ -9,9 +9,9 @@
 
 package team.bravepeople.devevent.util.extension
 
-import android.os.Handler
-import android.os.Looper
+import kotlinx.coroutines.delay
 
-fun doDelay(ms: Long, action: () -> Unit) {
-    Handler(Looper.getMainLooper()).postDelayed({ action() }, ms)
+suspend fun doDelay(ms: Long, block: () -> Unit) {
+    delay(ms)
+    block()
 }

@@ -9,6 +9,7 @@
 
 package team.bravepeople.devevent.activity.splash
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -17,9 +18,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -30,25 +28,21 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collect
 import team.bravepeople.devevent.R
 import team.bravepeople.devevent.activity.main.MainActivity
-import team.bravepeople.devevent.activity.main.event.repo.EventRepo
-import team.bravepeople.devevent.activity.main.event.repo.EventRepoResult
+import team.bravepeople.devevent.event.domain.EventRepo
+import team.bravepeople.devevent.event.repo.EventRepoResult
 import team.bravepeople.devevent.theme.MaterialTheme
 import team.bravepeople.devevent.theme.SystemUiController
 import team.bravepeople.devevent.theme.colors
-import team.bravepeople.devevent.ui.errordialog.ErrorDialog
 import javax.inject.Inject
 
+@SuppressLint("CustomSplashScreen")
 @AndroidEntryPoint
 class SplashActivity : ComponentActivity() {
 
     @Inject
     lateinit var eventRepo: EventRepo
-
-    private var exception by mutableStateOf(Exception())
-    private val errorDialogVisible = mutableStateOf(false)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,12 +71,6 @@ class SplashActivity : ComponentActivity() {
         SystemUiController(window).setSystemBarsColor(colors.primary)
         setContent {
             MaterialTheme {
-                ErrorDialog(
-                    visible = errorDialogVisible,
-                    exception = exception,
-                    onDismiss = { finish() }
-                )
-
                 ConstraintLayout(
                     modifier = Modifier
                         .fillMaxSize()

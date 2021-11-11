@@ -9,29 +9,25 @@
 
 package team.bravepeople.devevent.ui.chip
 
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 
 class ChipViewModel : ViewModel() {
 
-    private val _selectedChip = mutableStateListOf<String>()
-    val selectedChip: List<String> get() = _selectedChip
+    private val _selectedChip = MutableStateFlow(emptyList<String>())
+    val selectedChip = _selectedChip.asStateFlow()
 
     fun toggleChipSelected(name: String) {
-        if (_selectedChip.contains(name)) {
-            _selectedChip.remove(name)
+        if (_selectedChip.value.contains(name)) {
+            _selectedChip.update { oldValue -> oldValue.toMutableList().apply { remove(name) } }
         } else {
-            _selectedChip.add(name)
+            _selectedChip.update { oldValue -> oldValue.toMutableList().apply { add(name) } }
         }
     }
 
-    fun isChipSelected(name: String): State<Boolean> {
-        return mutableStateOf(_selectedChip.contains(name))
-    }
-
     fun reset() {
-        _selectedChip.clear()
+        _selectedChip.update { emptyList() }
     }
 }

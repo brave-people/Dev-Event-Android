@@ -63,11 +63,11 @@ import me.sungbin.fancybottombar.FancyBottomBar
 import me.sungbin.fancybottombar.FancyColors
 import me.sungbin.fancybottombar.FancyItem
 import team.bravepeople.devevent.R
-import team.bravepeople.devevent.activity.main.event.EventFilter
-import team.bravepeople.devevent.activity.main.event.EventViewModel
-import team.bravepeople.devevent.activity.main.event.LazyEvent
-import team.bravepeople.devevent.activity.main.event.database.EventDatabase
-import team.bravepeople.devevent.activity.main.event.repo.EventRepo
+import team.bravepeople.devevent.event.EventFilter
+import team.bravepeople.devevent.event.EventViewModel
+import team.bravepeople.devevent.event.LazyEvent
+import team.bravepeople.devevent.event.database.EventDatabase
+import team.bravepeople.devevent.event.domain.EventRepo
 import team.bravepeople.devevent.activity.main.info.Info
 import team.bravepeople.devevent.theme.MaterialTheme
 import team.bravepeople.devevent.theme.SystemUiController

@@ -37,11 +37,5 @@
 
         <activity android:name=".activity.main.MainActivity" />
 
-        <service android:name=".service.BackgroundService" />
-
-        <receiver
-            android:name=".receiver.EventReloadReceiver"
-            android:exported="false" />
-
     </application>
 </manifest>
