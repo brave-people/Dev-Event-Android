@@ -46,7 +46,7 @@ class EventRepoImpl(private val client: EventService) : EventRepo {
             } else null
         }
 
-        val data = value.split("## Dev Event만의 특별함")[1].split("---------------")[0]
+        val data = value.split("자주 확인하여 참석합시다 :)")[1].split("---------------")[0]
         data.split("##").forEachIndexed { eventsIndex, events ->
             if (eventsIndex > 0) {
                 val headerDate = events.split("\n")[0].trim()
