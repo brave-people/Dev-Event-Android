@@ -9,7 +9,6 @@
 
 package team.bravepeople.devevent.event
 
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -22,66 +21,28 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.google.accompanist.swiperefresh.SwipeRefresh
-import com.google.accompanist.swiperefresh.SwipeRefreshIndicator
-import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.InternalCoroutinesApi
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import team.bravepeople.devevent.R
-import team.bravepeople.devevent.event.database.EventEntity
-import team.bravepeople.devevent.event.domain.EventRepo
-import team.bravepeople.devevent.event.repo.EventRepoResult
-import team.bravepeople.devevent.theme.ColorOrange
+import team.bravepeople.devevent.event.domain.Event
 import team.bravepeople.devevent.theme.colors
-import team.bravepeople.devevent.ui.bottomsheet.BottomSheet
 import team.bravepeople.devevent.ui.chip.ChipViewModel
-import team.bravepeople.devevent.ui.chip.LazyTag
-import team.bravepeople.devevent.ui.errordialog.ErrorDialog
-import team.bravepeople.devevent.util.Web
-import team.bravepeople.devevent.util.extension.toast
+import team.bravepeople.devevent.util.extension.takeIfLength
+import team.bravepeople.devevent.util.extension.takeIfSizeToCategory
 
-@Composable
-private fun EmptyEvent() {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(
-            text = stringResource(R.string.event_empty_favorite),
-            modifier = Modifier.padding(top = 16.dp)
-        )
-    }
-}
-
-@Composable
+/*@Composable
 private fun EventBottomSheet(
     event: EventEntity?,
     sheetVisible: MutableState<Boolean>
@@ -166,7 +127,7 @@ private fun EventBottomSheet(
             }
         }
     }
-}
+}*/
 
 @Composable
 private fun EventHeader(headerDate: String) {
@@ -183,9 +144,8 @@ private fun EventHeader(headerDate: String) {
 }
 
 @Composable
-private fun EventItem(eventVm: EventViewModel, event: EventEntity, onClick: () -> Unit) {
+private fun EventItem(event: Event, onClick: () -> Unit) {
     val shape = RoundedCornerShape(15.dp)
-    var favorite by remember { mutableStateOf(event.favorite) }
 
     Box(
         modifier = Modifier
@@ -221,20 +181,8 @@ private fun EventItem(eventVm: EventViewModel, event: EventEntity, onClick: () -
                 .fillMaxWidth()
                 .height(65.dp),
             horizontalAlignment = Alignment.End,
-            verticalArrangement = Arrangement.SpaceBetween
+            verticalArrangement = Arrangement.Bottom
         ) {
-            Icon(
-                painter = painterResource(if (favorite) R.drawable.ic_round_favorite_24 else R.drawable.ic_round_favorite_border_24),
-                contentDescription = null,
-                tint = ColorOrange,
-                modifier = Modifier
-                    .size(30.dp)
-                    .clickable {
-                        favorite = !favorite
-                        event.favorite = favorite
-                        eventVm.update(event)
-                    }
-            )
             Text(
                 text = (event.joinDate ?: event.startDate)?.takeIfLength(18) ?: event.headerDate,
                 fontSize = 13.sp,
@@ -244,118 +192,41 @@ private fun EventItem(eventVm: EventViewModel, event: EventEntity, onClick: () -
     }
 }
 
-@OptIn(
-    ExperimentalAnimationApi::class,
-    ExperimentalFoundationApi::class,
-    ExperimentalMaterialApi::class,
-    InternalCoroutinesApi::class
-)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun LazyEvent(
-    bottomSheetVisible: MutableState<Boolean>,
-    eventRepo: EventRepo,
-    eventVm: EventViewModel,
     chipVm: ChipViewModel,
-    search: String,
-    eventFilter: EventFilter
+    search: State<TextFieldValue>
 ) {
-    val coroutineScope = rememberCoroutineScope()
-    var exception by remember { mutableStateOf(Exception()) }
-    val errorDialogVisible = remember { mutableStateOf(false) }
-    var selectedEvent by remember { mutableStateOf<EventEntity?>(null) }
-    var refreshing by remember { mutableStateOf(false) }
+    val selectedChips by chipVm.selectedChips.collectAsState()
+    var events = EventStore.events.filter { it.contains(search.value.text) }
 
-    var eventEntities = eventVm.eventEntityFlow.collectAsState().value.filter {
-        if (eventFilter == EventFilter.Favorite) it.favorite
-        else true
-    }
-    eventEntities = eventEntities.filter { it.contains(search) }
-
-    if (chipVm.selectedChip.isNotEmpty()) {
-        eventEntities = eventEntities.filter { event ->
+    if (selectedChips.isNotEmpty()) {
+        events = events.filter { event ->
             if (event.category == null) false
-            else chipVm.selectedChip.any { event.category.contains(it) }
+            else selectedChips.any { chip -> event.category.contains(chip) }
         }
     }
-
-    if (eventFilter == EventFilter.Favorite && eventEntities.isEmpty()) {
-        EmptyEvent()
-    } else {
-        BottomSheet(
-            bottomSheetContent = {
-                EventBottomSheet(
-                    event = selectedEvent,
-                    sheetVisible = bottomSheetVisible
-                )
-            },
-            contentHeight = 300.dp,
-            bottomSheetVisible = bottomSheetVisible,
-            content = {
-                SwipeRefresh(
-                    state = rememberSwipeRefreshState(refreshing),
-                    indicator = { state, refreshTrigger ->
-                        SwipeRefreshIndicator(
-                            state = state,
-                            refreshTriggerDistance = refreshTrigger,
-                            contentColor = colors.primary
-                        )
-                    },
-                    onRefresh = {
-                        coroutineScope.launch(Dispatchers.IO) {
-                            refreshing = true
-                            eventRepo.reload().collect { result ->
-                                when (result) {
-                                    is EventRepoResult.Success -> {
-                                        eventRepo.save(
-                                            result.events,
-                                            endAction = {
-                                                delay(1000)
-                                                refreshing = false
-                                                eventVm.reload()
-                                            }
-                                        )
-                                    }
-                                    is EventRepoResult.Error -> {
-                                        exception = result.exception
-                                        errorDialogVisible.value = true
-                                        refreshing = false
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    modifier = Modifier.fillMaxSize()
-                ) {
-                    ErrorDialog(visible = errorDialogVisible, exception = exception)
-
-                    LazyColumn(
-                        modifier = Modifier.fillMaxSize(),
-                        contentPadding = PaddingValues(bottom = 16.dp),
-                        verticalArrangement = Arrangement.spacedBy(16.dp)
-                    ) { // todo: events change animation; https://stackoverflow.com/a/64922966/14299073
-                        val eventGroup = eventEntities.groupBy { it.headerDate }
-                        eventGroup.forEach { (headerDate, events) ->
-                            stickyHeader {
-                                EventHeader(headerDate)
-                            }
-
-                            items(
-                                items = events.sortedBy { it.startDate ?: it.joinDate },
-                                key = { event -> event.id }
-                            ) { event ->
-                                EventItem(
-                                    eventVm = eventVm,
-                                    event = event,
-                                    onClick = {
-                                        selectedEvent = event
-                                        bottomSheetVisible.value = true
-                                    }
-                                )
-                            }
-                        }
-                    }
-                }
+    LazyColumn(
+        modifier = Modifier.fillMaxSize(),
+        contentPadding = PaddingValues(bottom = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        val eventGroup = events.groupBy { it.headerDate }
+        eventGroup.forEach { (headerDate, events) ->
+            stickyHeader {
+                EventHeader(headerDate)
             }
-        )
+
+            items(
+                items = events.sortedBy { it.startDate ?: it.joinDate },
+                key = { event -> event.id }
+            ) { event ->
+                EventItem(
+                    event = event,
+                    onClick = {}
+                )
+            }
+        }
     }
 }

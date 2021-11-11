@@ -50,10 +50,9 @@ object Versions {
     }
 
     object Compose {
-        const val Master = "1.0.5"
+        const val Master = "1.1.0-beta02"
         const val Activity = "1.4.0"
         const val LandscapistCoil = "1.4.2"
-        const val SwipeToRefresh = "0.20.2"
         const val ConstraintLayout = "1.0.0-beta01"
     }
 
@@ -97,11 +96,11 @@ object Dependencies {
 
     val Compose = listOf(
         "androidx.compose.ui:ui:${Versions.Compose.Master}",
-        "androidx.compose.ui:ui-tooling:${Versions.Compose.Master}",
         "androidx.compose.compiler:compiler:${Versions.Compose.Master}",
         "androidx.compose.material:material:${Versions.Compose.Master}",
         "androidx.activity:activity-compose:${Versions.Compose.Activity}",
-        "com.google.accompanist:accompanist-swiperefresh:${Versions.Compose.SwipeToRefresh}",
+        "androidx.compose.animation:animation:${Versions.Compose.Master}",
+        "androidx.compose.foundation:foundation:${Versions.Compose.Master}",
         "androidx.constraintlayout:constraintlayout-compose:${Versions.Compose.ConstraintLayout}"
     )
 }

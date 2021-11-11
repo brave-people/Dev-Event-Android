@@ -10,15 +10,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="team.bravepeople.devevent">
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name=".DevEventAndroid"
         android:allowBackup="true"
-        android:fullBackupContent="true"
         android:fullBackupOnly="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -38,4 +35,5 @@
         <activity android:name=".activity.main.MainActivity" />
 
     </application>
+
 </manifest>

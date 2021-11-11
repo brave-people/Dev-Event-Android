@@ -16,18 +16,18 @@ import kotlinx.coroutines.flow.update
 
 class ChipViewModel : ViewModel() {
 
-    private val _selectedChip = MutableStateFlow(emptyList<String>())
-    val selectedChip = _selectedChip.asStateFlow()
+    private val _selectedChips = MutableStateFlow(emptyList<String>())
+    val selectedChips = _selectedChips.asStateFlow()
 
     fun toggleChipSelected(name: String) {
-        if (_selectedChip.value.contains(name)) {
-            _selectedChip.update { oldValue -> oldValue.toMutableList().apply { remove(name) } }
+        if (_selectedChips.value.contains(name)) {
+            _selectedChips.update { oldValue -> oldValue.toMutableList().apply { remove(name) } }
         } else {
-            _selectedChip.update { oldValue -> oldValue.toMutableList().apply { add(name) } }
+            _selectedChips.update { oldValue -> oldValue.toMutableList().apply { add(name) } }
         }
     }
 
     fun reset() {
-        _selectedChip.update { emptyList() }
+        _selectedChips.update { emptyList() }
     }
 }

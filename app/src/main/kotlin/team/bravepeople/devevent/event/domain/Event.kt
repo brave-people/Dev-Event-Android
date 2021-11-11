@@ -1,6 +1,9 @@
 package team.bravepeople.devevent.event.domain
 
+import kotlin.random.Random
+
 data class Event(
+    val id: Int = Random.nextInt(),
     val site: String? = "",
     val name: String = "",
     val category: String? = "",

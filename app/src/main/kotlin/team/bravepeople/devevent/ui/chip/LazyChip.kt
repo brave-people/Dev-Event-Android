@@ -22,10 +22,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -39,23 +37,24 @@ import team.bravepeople.devevent.util.extension.noRippleClickable
 
 @Composable
 private fun Chip(
+    modifier: Modifier = Modifier, // todo: animated
     name: String,
-    selected: State<Boolean>,
+    selected: Boolean,
     onClick: (String.() -> Unit)?
 ) {
     val context = LocalContext.current
     val shape = RoundedCornerShape(5.dp)
     val color = TagColor(context, name)
     val isDarkColor = ColorUtils.calculateLuminance(color) < 0.5
-    var modifier = Modifier
+    var newModifier = modifier
         .wrapContentSize()
         .clip(shape)
 
-    val textColor by animateColorAsState(if (selected.value) if (isDarkColor) Color.White else Color.Black else Color.Black)
-    val surfaceColor by animateColorAsState(if (selected.value) Color(color) else Color.White)
+    val textColor by animateColorAsState(if (selected) if (isDarkColor) Color.White else Color.Black else Color.Black)
+    val surfaceColor by animateColorAsState(if (selected) Color(color) else Color.White)
 
     onClick?.let { action ->
-        modifier = modifier.noRippleClickable { action(name) }
+        newModifier = newModifier.noRippleClickable { action(name) }
     }
 
     Surface(
@@ -63,7 +62,7 @@ private fun Chip(
         color = surfaceColor,
         elevation = 1.dp,
         border = BorderStroke(1.dp, animateColorAsState(Color(color)).value),
-        modifier = modifier
+        modifier = newModifier
     ) {
         Text(
             text = name,
@@ -81,11 +80,12 @@ fun FlowTag(
     tags: List<String>,
     onClick: String.() -> Unit
 ) { // used in setting dialog -> chip clickable
+    val selectedChips by chipVm.selectedChips.collectAsState()
     FlowRow(modifier = modifier, verticalGap = 4.dp, horizontalGap = 4.dp) {
         for (tag in tags) {
             Chip(
                 name = tag,
-                selected = chipVm.isChipSelected(tag),
+                selected = selectedChips.contains(tag),
                 onClick = onClick
             )
         }
@@ -103,10 +103,10 @@ fun LazyTag(
             .wrapContentHeight(),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        items(tags) { tag ->
+        items(items = tags, key = { it }) { tag ->
             Chip(
                 name = tag,
-                selected = remember { mutableStateOf(true) },
+                selected = true,
                 onClick = null
             )
         }

@@ -14,6 +14,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -27,47 +28,28 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
+import org.orbitmvi.orbit.viewmodel.observe
 import team.bravepeople.devevent.R
 import team.bravepeople.devevent.activity.main.MainActivity
-import team.bravepeople.devevent.event.domain.EventRepo
-import team.bravepeople.devevent.event.repo.EventRepoResult
+import team.bravepeople.devevent.activity.splash.mvi.MviSplashState
+import team.bravepeople.devevent.event.EventStore
 import team.bravepeople.devevent.theme.MaterialTheme
 import team.bravepeople.devevent.theme.SystemUiController
 import team.bravepeople.devevent.theme.colors
-import javax.inject.Inject
+import team.bravepeople.devevent.util.extension.doDelay
+import team.bravepeople.devevent.util.extension.errorToast
 
 @SuppressLint("CustomSplashScreen")
 @AndroidEntryPoint
 class SplashActivity : ComponentActivity() {
 
-    @Inject
-    lateinit var eventRepo: EventRepo
+    private val vm: SplashViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        lifecycleScope.launchWhenCreated {
-            eventRepo.load().collect { result ->
-                when (result) {
-                    is EventRepoResult.Success -> {
-                        eventRepo.save(
-                            result.events,
-                            endAction = {
-                                delay(1000)
-                                finish()
-                                startActivity(Intent(this@SplashActivity, MainActivity::class.java))
-                            }
-                        )
-                    }
-                    is EventRepoResult.Error -> {
-                        exception = result.exception
-                        errorDialogVisible.value = true
-                    }
-                }
-            }
-        }
-
+        vm.loadEvents()
+        vm.observe(lifecycleOwner = this, state = ::handleState, sideEffect = null)
         SystemUiController(window).setSystemBarsColor(colors.primary)
         setContent {
             MaterialTheme {
@@ -103,6 +85,27 @@ class SplashActivity : ComponentActivity() {
                     )
                 }
             }
+        }
+    }
+
+    private fun handleState(state: MviSplashState) {
+        if (!state.isException()) {
+            if (state.loaded) {
+                lifecycleScope.launchWhenCreated {
+                    val events = state.events
+                    if (events.isNotEmpty()) {
+                        EventStore.update(events)
+                        doDelay(1000) {
+                            finish()
+                            startActivity(Intent(this@SplashActivity, MainActivity::class.java))
+                        }
+                    } else {
+                        errorToast(Exception("이벤트 목록이 비었어요."))
+                    }
+                }
+            }
+        } else {
+            errorToast(state.exception!!)
         }
     }
 

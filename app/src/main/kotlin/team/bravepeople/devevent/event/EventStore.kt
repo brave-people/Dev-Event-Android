@@ -3,6 +3,7 @@ package team.bravepeople.devevent.event
 import team.bravepeople.devevent.event.domain.Event
 
 object EventStore {
+    @Suppress("ObjectPropertyName")
     private val _events = mutableListOf<Event>()
     val events: List<Event>
         get() = _events

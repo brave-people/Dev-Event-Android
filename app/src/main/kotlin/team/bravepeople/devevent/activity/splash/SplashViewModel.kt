@@ -2,12 +2,21 @@
  * DevEventAndroid © 2021 용감한 친구들. all rights reserved.
  * DevEventAndroid license is under the MIT.
  *
+ * [EventViewModel.kt] created by Ji Sungbin on 21. 11. 11. 오후 6:41
+ *
+ * Please see: https://github.com/brave-people/Dev-Event-Android/blob/master/LICENSE.
+ */
+
+/*
+ * DevEventAndroid © 2021 용감한 친구들. all rights reserved.
+ * DevEventAndroid license is under the MIT.
+ *
  * [EventViewModel.kt] created by Ji Sungbin on 21. 6. 22. 오후 9:45.
  *
  * Please see: https://github.com/brave-people/Dev-Event-Android/blob/master/LICENSE.
  */
 
-package team.bravepeople.devevent.event
+package team.bravepeople.devevent.activity.splash
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -18,17 +27,16 @@ import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.viewmodel.container
 import team.bravepeople.devevent.activity.splash.mvi.MviSplashState
 import team.bravepeople.devevent.event.domain.EventRepo
-import team.bravepeople.devevent.mvi.MviToastSideEffect
 import team.bravepeople.devevent.util.extension.doWhen
 import team.bravepeople.devevent.util.extension.toException
 import javax.inject.Inject
 
 @HiltViewModel
-class EventViewModel @Inject constructor(private val eventRepo: EventRepo) :
+class SplashViewModel @Inject constructor(private val eventRepo: EventRepo) :
     ViewModel(),
-    ContainerHost<MviSplashState, MviToastSideEffect> {
+    ContainerHost<MviSplashState, Unit> {
 
-    override val container = container<MviSplashState, MviToastSideEffect>(MviSplashState())
+    override val container = container<MviSplashState, Unit>(MviSplashState())
 
     fun loadEvents() = intent {
         eventRepo.load(viewModelScope).doWhen(

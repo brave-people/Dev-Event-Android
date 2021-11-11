@@ -7,7 +7,7 @@
  * Please see: https://github.com/brave-people/Dev-Event-Android/blob/master/LICENSE.
  */
 
-package team.bravepeople.devevent.util.network
+package team.bravepeople.devevent.util
 
 import android.content.Context
 import android.net.ConnectivityManager
