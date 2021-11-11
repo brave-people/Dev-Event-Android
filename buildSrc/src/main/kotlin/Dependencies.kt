@@ -26,7 +26,6 @@ object Versions {
     const val Orbit = "4.2.0"
 
     object Essential {
-        const val Ksp = "1.5.31-1.0.0"
         const val Kotlin = "1.5.31"
         const val Gradle = "7.1.0-beta03"
         const val CoreKtx = "1.7.0"

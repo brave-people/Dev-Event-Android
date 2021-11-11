@@ -11,7 +11,6 @@ plugins {
     id("com.android.application")
     id("kotlin-android")
     id("kotlin-kapt")
-    id("com.google.devtools.ksp")
     id("dagger.hilt.android.plugin")
     id("name.remal.check-dependency-updates") version Versions.Util.CheckDependencyUpdates
 }
@@ -52,7 +51,7 @@ android {
 
     sourceSets {
         getByName("main").run {
-            java.srcDirs("src/main/kotlin", "build/generated/ksp/debug/java")
+            java.srcDirs("src/main/kotlin")
         }
     }
 
