@@ -63,12 +63,12 @@ import me.sungbin.fancybottombar.FancyBottomBar
 import me.sungbin.fancybottombar.FancyColors
 import me.sungbin.fancybottombar.FancyItem
 import team.bravepeople.devevent.R
+import team.bravepeople.devevent.activity.main.info.Info
 import team.bravepeople.devevent.event.EventFilter
 import team.bravepeople.devevent.event.EventViewModel
 import team.bravepeople.devevent.event.LazyEvent
 import team.bravepeople.devevent.event.database.EventDatabase
 import team.bravepeople.devevent.event.domain.EventRepo
-import team.bravepeople.devevent.activity.main.info.Info
 import team.bravepeople.devevent.theme.MaterialTheme
 import team.bravepeople.devevent.theme.SystemUiController
 import team.bravepeople.devevent.theme.colors
@@ -76,8 +76,6 @@ import team.bravepeople.devevent.ui.chip.ChipViewModel
 import team.bravepeople.devevent.ui.chip.FlowTag
 import team.bravepeople.devevent.util.extension.toast
 import javax.inject.Inject
-
-private enum class Tab { MAIN, FAVORITE, INFO }
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {

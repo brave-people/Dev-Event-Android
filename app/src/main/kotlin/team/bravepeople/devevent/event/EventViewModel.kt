@@ -12,61 +12,36 @@ package team.bravepeople.devevent.event
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
-import team.bravepeople.devevent.event.database.EventEntity
+import org.orbitmvi.orbit.ContainerHost
+import org.orbitmvi.orbit.syntax.simple.intent
+import org.orbitmvi.orbit.syntax.simple.reduce
+import org.orbitmvi.orbit.viewmodel.container
+import team.bravepeople.devevent.activity.splash.mvi.MviSplashState
 import team.bravepeople.devevent.event.domain.EventRepo
+import team.bravepeople.devevent.mvi.MviToastSideEffect
+import team.bravepeople.devevent.util.extension.doWhen
+import team.bravepeople.devevent.util.extension.toException
 import javax.inject.Inject
 
 @HiltViewModel
-class EventViewModel @Inject constructor(
-    private val eventRepo: EventRepo
-) : ViewModel() {
+class EventViewModel @Inject constructor(private val eventRepo: EventRepo) :
+    ViewModel(),
+    ContainerHost<MviSplashState, MviToastSideEffect> {
 
-    private val _eventEntityList: MutableList<EventEntity> = mutableListOf()
-    private val eventEntityList
-        get() = _eventEntityList
-            .sortedByDescending { it.name }
-            .sortedByDescending { it.headerDate }
-            .asReversed()
-            .distinct()
+    override val container = container<MviSplashState, MviToastSideEffect>(MviSplashState())
 
-    private val _eventEntityFlow = MutableStateFlow<List<EventEntity>>(emptyList())
-    val eventEntityFlow = _eventEntityFlow.asStateFlow() // flow; unnecessary getter
-
-    init {
-        viewModelScope.launch(Dispatchers.IO) {
-            _eventEntityList.addAll(database.dao().getEvents())
-            updateFlow()
-        }
-    }
-
-    fun getAllTags() =
-        eventEntityFlow.value
-            .mapNotNull { it.category }
-            .flatMap { it.split(",") }
-            .distinct()
-            .sorted()
-
-    private fun updateFlow() {
-        _eventEntityFlow.value = eventEntityList
-    }
-
-    fun update(event: EventEntity) {
-        _eventEntityList.removeIf { it.name == event.name }
-        _eventEntityList.add(event)
-        eventRepo.save(
-            eventEntities = listOf(event),
-            endAction = {}
+    fun loadEvents() = intent {
+        eventRepo.load(viewModelScope).doWhen(
+            onSuccess = { events ->
+                reduce {
+                    state.copy(loaded = true, exception = null, events = events)
+                }
+            },
+            onFailure = { throwable ->
+                reduce {
+                    state.copy(exception = throwable.toException())
+                }
+            }
         )
-        updateFlow()
-    }
-
-    fun reload() = viewModelScope.launch(Dispatchers.IO) {
-        _eventEntityList.clear()
-        _eventEntityList.addAll(database.dao().getEvents())
-        updateFlow()
     }
 }
