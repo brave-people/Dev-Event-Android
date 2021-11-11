@@ -34,7 +34,6 @@ import team.bravepeople.devevent.activity.main.MainActivity
 import team.bravepeople.devevent.activity.splash.mvi.MviSplashState
 import team.bravepeople.devevent.event.EventStore
 import team.bravepeople.devevent.theme.MaterialTheme
-import team.bravepeople.devevent.theme.SystemUiController
 import team.bravepeople.devevent.theme.colors
 import team.bravepeople.devevent.util.extension.doDelay
 import team.bravepeople.devevent.util.extension.errorToast
@@ -50,7 +49,6 @@ class SplashActivity : ComponentActivity() {
 
         vm.loadEvents()
         vm.observe(lifecycleOwner = this, state = ::handleState, sideEffect = null)
-        SystemUiController(window).setSystemBarsColor(colors.primary)
         setContent {
             MaterialTheme {
                 ConstraintLayout(

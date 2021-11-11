@@ -58,8 +58,6 @@ import team.bravepeople.devevent.R
 import team.bravepeople.devevent.event.EventStore
 import team.bravepeople.devevent.event.LazyEvent
 import team.bravepeople.devevent.theme.MaterialTheme
-import team.bravepeople.devevent.theme.SystemUiController
-import team.bravepeople.devevent.theme.colors
 import team.bravepeople.devevent.ui.chip.ChipViewModel
 import team.bravepeople.devevent.ui.chip.FlowTag
 import team.bravepeople.devevent.util.extension.toast
@@ -74,11 +72,6 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        SystemUiController(window).run {
-            setStatusBarColor(colors.primary)
-            setNavigationBarColor(Color.White)
-        }
 
         setContent {
             MaterialTheme {
