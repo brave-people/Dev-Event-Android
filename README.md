@@ -31,6 +31,7 @@ https://github.com/brave-people/Dev-Event 의 안드로이드 앱 버전 입니�
 - [ ] 백그라운드 상태에서 이벤트 자동 갱신
 - [ ] 이벤트 추가 키워드 알림
 - [ ] 디자인 개선
+- [ ] 다크모드 지원
 - [ ] 무시할 이벤트 태그 지정
 
 # [MAD Score](https://madscorecard.withgoogle.com/scorecard/share/1492290925/)
