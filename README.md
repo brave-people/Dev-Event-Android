@@ -14,7 +14,7 @@ https://github.com/brave-people/Dev-Event 의 안드로이드 앱 버전 입니�
 
 > 앱 기능이 많이 간소화 되었습니다. 당분간 일정이 바빠 급하게 메인 기능만 업데이트 하였습니다.
 > 
-> 취준과 기타 일정들이 마무리 되면, 앱 전체적으로 크게 업데이트가 있을 예정입니다. 잠시만 기다려 주세요.
+> 2022년 1월 초에 앱 전체적으로 크게 업데이트가 있을 예정입니다. 잠시만 기다려 주세요.
 
 # 스크린샷
 
@@ -23,6 +23,16 @@ https://github.com/brave-people/Dev-Event 의 안드로이드 앱 버전 입니�
   <img alt="main" src="/images/main.png?raw=true" width="25%" />
   <img alt="info" src="/images/info_v2.png?raw=true" width="25%" />
 </p>
+
+# TODO
+- [ ] 즐겨찾기 기능 롤백
+- [ ] 오프라인 모드 롤백
+- [ ] 이벤트 추가 요청
+- [ ] 백그라운드 상태에서 이벤트 자동 갱신
+- [ ] 이벤트 추가 키워드 알림
+- [ ] 디자인 개선
+- [ ] 다크모드 지원
+- [ ] 무시할 이벤트 태그 지정
 
 # [MAD Score](https://madscorecard.withgoogle.com/scorecard/share/1492290925/)
 
