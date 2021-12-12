@@ -27,6 +27,7 @@ https://github.com/brave-people/Dev-Event 의 안드로이드 앱 버전 입니�
 </p>
 
 # TODO
+
 - [ ] 즐겨찾기 기능 롤백
 - [ ] 오프라인 모드 롤백
 - [ ] 이벤트 추가 요청
