@@ -20,7 +20,7 @@ import team.bravepeople.devevent.R
 val defaultFontFamily = FontFamily(Font(R.font.nanumbarungothic))
 val colors = lightColors().copy(
     primary = Color(0xFF1e88e5),
-    primaryVariant = Color(0xFF005cb2),
+    primaryVariant = Color(0xFF1e88e5),
     secondary = Color(0xFF6ab7ff)
 )
 

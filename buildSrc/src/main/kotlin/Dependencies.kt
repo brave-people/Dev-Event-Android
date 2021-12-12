@@ -22,8 +22,8 @@ object Application {
 }
 
 object Versions {
-    const val Hilt = "2.40"
-    const val Orbit = "4.2.0"
+    const val Hilt = "2.40.5"
+    const val Orbit = "4.3.0"
 
     object Essential {
         const val Kotlin = "1.5.31"
@@ -33,7 +33,7 @@ object Versions {
     }
 
     object Network {
-        const val OkHttp = "4.9.2"
+        const val OkHttp = "4.9.3"
         const val Retrofit = "2.9.0"
     }
 
@@ -52,7 +52,7 @@ object Versions {
     object Compose {
         const val Master = "1.1.0-beta02"
         const val Activity = "1.4.0"
-        const val LandscapistCoil = "1.4.2"
+        const val LandscapistCoil = "1.4.4"
         const val ConstraintLayout = "1.0.0-beta01"
     }
 
