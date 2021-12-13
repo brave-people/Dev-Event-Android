@@ -8,7 +8,7 @@
 
 # 다운로드 👉 [[구글 플레이스토어]](https://play.google.com/store/apps/details?id=team.bravepeople.devevent)
 
-https://github.com/brave-people/Dev-Event 의 안드로이드 앱 버전 입니다.
+[brave-people/Dev-Event](https://github.com/brave-people/Dev-Event) 의 안드로이드 앱 버전 입니다.
 
 모든 정보는 위 레포지토리에서 가져옵니다.
 
