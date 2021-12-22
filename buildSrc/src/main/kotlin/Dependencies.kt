@@ -27,7 +27,7 @@ object Versions {
 
     object Essential {
         const val Kotlin = "1.5.31"
-        const val Gradle = "7.1.0-beta04"
+        const val Gradle = "7.1.0-beta05"
         const val CoreKtx = "1.7.0"
         const val Coroutines = "1.5.1"
     }
@@ -92,6 +92,9 @@ object Dependencies {
     val Util = listOf(
         "io.github.jisungbin:erratum:${Versions.Util.Erratum}",
         "io.github.jisungbin:logeukes:${Versions.Util.Logeukes}",
+    )
+
+    val DebugUtil = listOf(
         "com.squareup.leakcanary:leakcanary-android:${Versions.Util.LeakCanary}"
     )
 
