@@ -86,6 +86,7 @@ dependencies {
     Dependencies.Compose.forEach(::implementation)
     Dependencies.Retrofit.forEach(::implementation)
     Dependencies.Essential.forEach(::implementation)
+    Dependencies.DebugUtil.forEach(::debugImplementation)
 
     kapt(Dependencies.Hilt.Compiler)
 }
