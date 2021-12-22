@@ -8,13 +8,15 @@
 
 # 다운로드 👉 [[구글 플레이스토어]](https://play.google.com/store/apps/details?id=team.bravepeople.devevent)
 
-https://github.com/brave-people/Dev-Event 의 안드로이드 앱 버전 입니다.
+[brave-people/Dev-Event](https://github.com/brave-people/Dev-Event) 의 안드로이드 앱 버전 입니다.
 
 모든 정보는 위 레포지토리에서 가져옵니다.
 
 > 앱 기능이 많이 간소화 되었습니다. 당분간 일정이 바빠 급하게 메인 기능만 업데이트 하였습니다.
 > 
-> 2022년 1월 초에 앱 전체적으로 크게 업데이트가 있을 예정입니다. 잠시만 기다려 주세요.
+> ~~2022년 1월 초에 앱 전체적으로 크게 업데이트가 있을 예정입니다. 잠시만 기다려 주세요.~~
+>
+> **현재 iOS 버전 개발중에 있습니다. iOS 버전의 1차 배포가 끝난 후 안드로이드 작업 예정입니다.**
 
 # 스크린샷
 
@@ -25,14 +27,16 @@ https://github.com/brave-people/Dev-Event 의 안드로이드 앱 버전 입니�
 </p>
 
 # TODO
+
 - [ ] 즐겨찾기 기능 롤백
 - [ ] 오프라인 모드 롤백
 - [ ] 이벤트 추가 요청
-- [ ] 백그라운드 상태에서 이벤트 자동 갱신
 - [ ] 이벤트 추가 키워드 알림
 - [ ] 디자인 개선
 - [ ] 다크모드 지원
 - [ ] 무시할 이벤트 태그 지정
+- [ ] 카카오톡으로 이벤트 공유
+- [ ] 백그라운드 상태에서 이벤트 자동 갱신
 
 # [MAD Score](https://madscorecard.withgoogle.com/scorecard/share/1492290925/)
 
