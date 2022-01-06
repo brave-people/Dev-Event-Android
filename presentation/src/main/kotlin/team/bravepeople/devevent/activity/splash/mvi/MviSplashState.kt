@@ -9,11 +9,11 @@
 
 package team.bravepeople.devevent.activity.splash.mvi
 
-import team.bravepeople.devevent.event.domain.Event
+import team.bravepeople.devevent.domain.model.Event
 import team.bravepeople.devevent.mvi.MviBaseState
 
 data class MviSplashState(
     override val loaded: Boolean = false,
     override val exception: Exception? = null,
-    val events: List<Event> = emptyList()
+    val events: List<team.bravepeople.devevent.domain.model.Event> = emptyList()
 ) : MviBaseState

@@ -14,14 +14,15 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.scopes.ViewModelScoped
-import team.bravepeople.devevent.event.data.EventRepoImpl
-import team.bravepeople.devevent.event.data.EventService
-import team.bravepeople.devevent.event.domain.EventRepo
+import team.bravepeople.devevent.data.repository.EventRepoImpl
+import team.bravepeople.devevent.data.datasource.EventService
+import team.bravepeople.devevent.domain.model.EventRepo
 
 @Module
 @InstallIn(ViewModelComponent::class)
 object EventRepoModule {
     @Provides
     @ViewModelScoped
-    fun provideEventRepo(client: EventService): EventRepo = EventRepoImpl(client)
+    fun provideEventRepo(client: team.bravepeople.devevent.data.datasource.EventService): team.bravepeople.devevent.domain.model.EventRepo =
+        team.bravepeople.devevent.data.repository.EventRepoImpl(client)
 }

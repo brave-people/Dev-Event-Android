@@ -67,7 +67,7 @@ import team.bravepeople.devevent.R
 import team.bravepeople.devevent.event.EventBottomSheet
 import team.bravepeople.devevent.event.EventStore
 import team.bravepeople.devevent.event.LazyEvent
-import team.bravepeople.devevent.event.domain.Event
+import team.bravepeople.devevent.domain.model.Event
 import team.bravepeople.devevent.theme.MaterialTheme
 import team.bravepeople.devevent.ui.chip.ChipViewModel
 import team.bravepeople.devevent.ui.chip.FlowTag
@@ -81,7 +81,7 @@ class MainActivity : ComponentActivity() {
 
     private var searching by mutableStateOf(false)
     private val searchField = mutableStateOf(TextFieldValue())
-    private var selectedEvent by mutableStateOf<Event?>(null)
+    private var selectedEvent by mutableStateOf<team.bravepeople.devevent.domain.model.Event?>(null)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

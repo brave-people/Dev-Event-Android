@@ -17,13 +17,11 @@ import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.viewmodel.container
 import team.bravepeople.devevent.activity.splash.mvi.MviSplashState
-import team.bravepeople.devevent.event.domain.EventRepo
-import team.bravepeople.devevent.util.extension.doWhen
-import team.bravepeople.devevent.util.extension.toException
+import team.bravepeople.devevent.domain.model.EventRepo
 import javax.inject.Inject
 
 @HiltViewModel
-class SplashViewModel @Inject constructor(private val eventRepo: EventRepo) :
+class SplashViewModel @Inject constructor(private val eventRepo: team.bravepeople.devevent.domain.model.EventRepo) :
     ViewModel(),
     ContainerHost<MviSplashState, Unit> {
 

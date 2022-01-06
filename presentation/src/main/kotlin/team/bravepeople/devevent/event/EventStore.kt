@@ -1,11 +1,11 @@
 package team.bravepeople.devevent.event
 
-import team.bravepeople.devevent.event.domain.Event
+import team.bravepeople.devevent.domain.model.Event
 
 object EventStore {
     @Suppress("ObjectPropertyName")
-    private val _events = mutableListOf<Event>()
-    val events: List<Event>
+    private val _events = mutableListOf<team.bravepeople.devevent.domain.model.Event>()
+    val events: List<team.bravepeople.devevent.domain.model.Event>
         get() = _events
             .sortedByDescending { it.name }
             .sortedByDescending { it.headerDate }
@@ -19,7 +19,7 @@ object EventStore {
             .distinct()
             .sorted()
 
-    fun update(events: List<Event>) {
+    fun update(events: List<team.bravepeople.devevent.domain.model.Event>) {
         _events.addAll(events)
     }
 }

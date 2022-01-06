@@ -7,10 +7,12 @@
  * Please see: https://github.com/brave-people/Dev-Event-Android/blob/master/LICENSE.
  */
 
-package team.bravepeople.devevent.event.domain
+package team.bravepeople.devevent.domain.repository
 
+import android.content.Context
 import kotlinx.coroutines.CoroutineScope
+import team.bravepeople.devevent.domain.model.EventResult
 
-interface EventRepo {
-    suspend fun load(coroutineScope: CoroutineScope): Result<List<Event>>
+interface EventRepository {
+    suspend fun load(context: Context, coroutineScope: CoroutineScope): EventResult
 }

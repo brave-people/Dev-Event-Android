@@ -2,10 +2,11 @@
  * DevEventAndroid © 2021 용감한 친구들. all rights reserved.
  * DevEventAndroid license is under the MIT.
  *
- * [empty.kt] created by Ji Sungbin on 22. 1. 6. 오후 11:57
+ * [string.kt] created by Ji Sungbin on 22. 1. 7. 오전 12:44
  *
  * Please see: https://github.com/brave-people/Dev-Event-Android/blob/master/LICENSE.
  */
 
-package team.bravepeople.devevent.data
+package team.bravepeople.devevent.data.util.extention
 
+fun String.parseOrNull(content: String) = if (contains(content)) split(content)[1] else null

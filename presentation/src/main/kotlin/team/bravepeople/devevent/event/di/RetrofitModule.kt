@@ -19,7 +19,7 @@ import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import team.bravepeople.devevent.event.data.EventService
+import team.bravepeople.devevent.data.datasource.EventService
 
 @Module
 @InstallIn(ViewModelComponent::class)
@@ -39,9 +39,9 @@ object RetrofitModule {
 
     @Provides
     @ViewModelScoped
-    fun provideRetrofit(): EventService = Retrofit.Builder()
+    fun provideRetrofit(): team.bravepeople.devevent.data.datasource.EventService = Retrofit.Builder()
         .baseUrl(BaseUrl)
         .client(getInterceptor(loggingInterceptor))
         .build()
-        .create(EventService::class.java)
+        .create(team.bravepeople.devevent.data.datasource.EventService::class.java)
 }

@@ -7,19 +7,20 @@
  * Please see: https://github.com/brave-people/Dev-Event-Android/blob/master/LICENSE.
  */
 
-package team.bravepeople.devevent.event.data
+package team.bravepeople.devevent.data.datasource.remote
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
-import team.bravepeople.devevent.event.domain.Event
-import team.bravepeople.devevent.event.domain.EventRepo
-import team.bravepeople.devevent.util.extension.parseOrNull
+import team.bravepeople.devevent.data.model.EventResponse
+import team.bravepeople.devevent.data.util.extention.parseOrNull
+import team.bravepeople.devevent.domain.model.Event
 import kotlin.coroutines.resume
 
-class EventRepoImpl(private val client: EventService) : EventRepo {
+class RemoteDataSource {
+    // TODO
     @Suppress("BlockingMethodInNonBlockingContext", "LocalVariableName")
-    override suspend fun load(coroutineScope: CoroutineScope): Result<List<Event>> =
+    suspend fun load(coroutineScope: CoroutineScope): EventResponse =
         suspendCancellableCoroutine { continuation ->
             coroutineScope.launch {
                 val result = client.getEventPage()

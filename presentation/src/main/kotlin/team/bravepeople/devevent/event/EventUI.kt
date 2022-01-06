@@ -41,20 +41,15 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import team.bravepeople.devevent.R
-import team.bravepeople.devevent.event.domain.Event
+import team.bravepeople.devevent.domain.model.Event
 import team.bravepeople.devevent.theme.colors
 import team.bravepeople.devevent.ui.chip.ChipViewModel
 import team.bravepeople.devevent.ui.chip.LazyTag
 import team.bravepeople.devevent.util.Web
-import team.bravepeople.devevent.util.extension.takeIfLength
-import team.bravepeople.devevent.util.extension.takeIfSizeToCategory
 import team.bravepeople.devevent.util.extension.toast
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 @Composable
-fun EventBottomSheet(event: Event?) {
+fun EventBottomSheet(event: team.bravepeople.devevent.domain.model.Event?) {
     if (event == null) return
 
     val context = LocalContext.current
@@ -143,7 +138,7 @@ private fun EventHeader(headerDate: String) {
 }
 
 @Composable
-private fun EventItem(event: Event, onClick: () -> Unit) {
+private fun EventItem(event: team.bravepeople.devevent.domain.model.Event, onClick: () -> Unit) {
     val shape = RoundedCornerShape(15.dp)
 
     Box(
@@ -196,7 +191,7 @@ private fun EventItem(event: Event, onClick: () -> Unit) {
 fun LazyEvent(
     chipVm: ChipViewModel,
     search: State<TextFieldValue>,
-    onEventClickAction: (Event) -> Unit
+    onEventClickAction: (team.bravepeople.devevent.domain.model.Event) -> Unit
 ) {
     val selectedChips by chipVm.selectedChips.collectAsState()
     var events = EventStore.events.filter { it.contains(search.value.text) }

@@ -7,7 +7,7 @@
  * Please see: https://github.com/brave-people/Dev-Event-Android/blob/master/LICENSE.
  */
 
-package team.bravepeople.devevent.event.data
+package team.bravepeople.devevent.data.datasource.remote
 
 import okhttp3.ResponseBody
 import retrofit2.Response
