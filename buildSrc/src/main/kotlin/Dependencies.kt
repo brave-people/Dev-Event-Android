@@ -26,10 +26,10 @@ object Versions {
     const val Orbit = "4.3.0"
 
     object Essential {
-        const val Kotlin = "1.5.31"
-        const val Gradle = "7.1.0-beta05"
+        const val Kotlin = "1.6.0"
         const val CoreKtx = "1.7.0"
-        const val Coroutines = "1.5.1"
+        const val Coroutines = "1.6.0"
+        const val Gradle = "7.1.0-rc01"
     }
 
     object Network {
@@ -45,14 +45,14 @@ object Versions {
     object Util {
         const val Erratum = "1.0.1"
         const val Logeukes = "1.0.1"
-        const val LeakCanary = "2.7"
+        const val LeakCanary = "2.8"
         const val CheckDependencyUpdates = "1.5.0"
     }
 
     object Compose {
-        const val Master = "1.1.0-beta02"
         const val Activity = "1.4.0"
-        const val LandscapistCoil = "1.4.4"
+        const val Master = "1.1.0-rc01"
+        const val LandscapistCoil = "1.4.5"
         const val ConstraintLayout = "1.0.0-beta01"
     }
 
@@ -94,7 +94,7 @@ object Dependencies {
         "io.github.jisungbin:logeukes:${Versions.Util.Logeukes}",
     )
 
-    val DebugUtil = listOf(
+    val Debug = listOf(
         "com.squareup.leakcanary:leakcanary-android:${Versions.Util.LeakCanary}"
     )
 
