@@ -1,7 +1,9 @@
 /.idea
 /.gradle
-/app/release
 local.properties
-/app/build/
+/presentation/build/
+/presentation/release/
+/data/build/
+/domain/build/
 /buildSrc/.gradle/
 /buildSrc/build/

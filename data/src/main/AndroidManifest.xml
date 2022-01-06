@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ DevEventAndroid © 2021 용감한 친구들. all rights reserved.
+  ~ DevEventAndroid license is under the MIT.
+  ~
+  ~ [AndroidManifest.xml] created by Ji Sungbin on 22. 1. 6. 오후 11:56
+  ~
+  ~ Please see: https://github.com/brave-people/Dev-Event-Android/blob/master/LICENSE.
+  -->
+
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="team.bravepeople.devevent.data">
+
+</manifest>
