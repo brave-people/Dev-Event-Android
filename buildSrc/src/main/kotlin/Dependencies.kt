@@ -22,7 +22,6 @@ object Application {
 }
 
 object Versions {
-    const val Hilt = "2.40.5"
     const val Orbit = "4.3.0"
 
     object Essential {
@@ -40,6 +39,11 @@ object Versions {
     object Ui {
         const val Browser = "1.4.0"
         const val Material = "1.4.0"
+    }
+
+    object Jetpack {
+        const val Hilt = "2.40.5"
+        const val Room = "2.4.0"
     }
 
     object Util {
@@ -67,9 +71,9 @@ object Dependencies {
     const val LandscapistCoil =
         "com.github.skydoves:landscapist-coil:${Versions.Compose.LandscapistCoil}"
 
-    object Hilt {
-        const val Master = "com.google.dagger:hilt-android:${Versions.Hilt}"
-        const val Compiler = "com.google.dagger:hilt-android-compiler:${Versions.Hilt}"
+    object Compiler {
+        const val Room = "androidx.room:room-compiler:${Versions.Jetpack.Room}"
+        const val Hilt = "com.google.dagger:hilt-android-compiler:${Versions.Jetpack.Hilt}"
     }
 
     val Essential = listOf(
@@ -78,7 +82,7 @@ object Dependencies {
         "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.Essential.Coroutines}"
     )
 
-    val Retrofit = listOf(
+    val Network = listOf(
         "com.squareup.retrofit2:retrofit:${Versions.Network.Retrofit}",
         "com.squareup.okhttp3:logging-interceptor:${Versions.Network.OkHttp}"
     )
@@ -105,4 +109,9 @@ object Dependencies {
         "androidx.activity:activity-compose:${Versions.Compose.Activity}",
         "androidx.constraintlayout:constraintlayout-compose:${Versions.Compose.ConstraintLayout}"
     )
+
+    object Jetpack {
+        const val Room = "androidx.room:room-runtime:${Versions.Jetpack.Room}"
+        const val Hilt = "com.google.dagger:hilt-android:${Versions.Jetpack.Hilt}"
+    }
 }

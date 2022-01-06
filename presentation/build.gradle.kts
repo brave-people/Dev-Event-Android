@@ -75,7 +75,7 @@ android {
 
 dependencies {
     implementation(Dependencies.Orbit)
-    implementation(Dependencies.Hilt.Master)
+    implementation(Dependencies.Jetpack.Hilt)
     implementation(Dependencies.LandscapistCoil) {
         exclude(group = "androidx.appcompat", module = "appcompat")
         exclude(group = "androidx.appcompat", module = "appcompat-resources")
@@ -84,10 +84,10 @@ dependencies {
     Dependencies.Ui.forEach(::implementation)
     Dependencies.Util.forEach(::implementation)
     Dependencies.Compose.forEach(::implementation)
-    Dependencies.Retrofit.forEach(::implementation)
+    Dependencies.Network.forEach(::implementation)
     Dependencies.Essential.forEach(::implementation)
 
     Dependencies.Debug.forEach(::debugImplementation)
 
-    kapt(Dependencies.Hilt.Compiler)
+    kapt(Dependencies.Compiler.Hilt)
 }
