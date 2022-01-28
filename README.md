@@ -26,18 +26,6 @@
   <img alt="info" src="/images/info_v2.png?raw=true" width="25%" />
 </p>
 
-# TODO
-
-- [ ] 즐겨찾기 기능 롤백
-- [ ] 오프라인 모드 롤백
-- [ ] 이벤트 추가 요청
-- [ ] 이벤트 추가 키워드 알림
-- [ ] 디자인 개선
-- [ ] 다크모드 지원
-- [ ] 무시할 이벤트 태그 지정
-- [ ] 카카오톡으로 이벤트 공유
-- [ ] 백그라운드 상태에서 이벤트 자동 갱신
-
 # [MAD Score](https://madscorecard.withgoogle.com/scorecard/share/1492290925/)
 
 ![](/images/madscore/summary.png?raw=true)
