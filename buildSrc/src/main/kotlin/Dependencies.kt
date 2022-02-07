@@ -22,13 +22,35 @@ object Application {
 }
 
 object Versions {
-    const val Orbit = "4.3.0"
+    const val Orbit = "4.3.1"
 
     object Essential {
         const val Kotlin = "1.6.0"
+        const val Gradle = "7.1.1"
         const val CoreKtx = "1.7.0"
         const val Coroutines = "1.6.0"
-        const val Gradle = "7.1.0"
+        const val Ksp = "1.6.10-1.0.2"
+    }
+
+    object Ui {
+        const val Browser = "1.4.0"
+        const val Material = "1.4.0"
+        const val Splash = "1.0.0-beta01"
+    }
+
+    object Compose {
+        const val Lottie = "4.2.2"
+        const val Activity = "1.4.0"
+        const val Master = "1.1.0-rc03"
+        const val Landscapist = "1.4.5"
+        const val Material = "1.1.0-rc01"
+        const val ConstraintLayout = "1.0.0"
+        const val LifecycleViewModel = "2.4.0"
+    }
+
+    object OssLicense {
+        const val Master = "17.0.0"
+        const val Classpath = "0.10.4"
     }
 
     object Network {
@@ -36,14 +58,9 @@ object Versions {
         const val Retrofit = "2.9.0"
     }
 
-    object Ui {
-        const val Browser = "1.4.0"
-        const val Material = "1.4.0"
-    }
-
     object Jetpack {
+        const val Room = "2.4.1"
         const val Hilt = "2.40.5"
-        const val Room = "2.4.0"
     }
 
     object Util {
@@ -52,29 +69,10 @@ object Versions {
         const val LeakCanary = "2.8"
         const val CheckDependencyUpdates = "1.5.0"
     }
-
-    object Compose {
-        const val Activity = "1.4.0"
-        const val Master = "1.1.0-rc01"
-        const val LandscapistCoil = "1.4.5"
-        const val ConstraintLayout = "1.0.0-beta01"
-    }
-
-    object OssLicense {
-        const val Master = "17.0.0"
-        const val Classpath = "0.10.4"
-    }
 }
 
 object Dependencies {
     const val Orbit = "org.orbit-mvi:orbit-viewmodel:${Versions.Orbit}"
-    const val LandscapistCoil =
-        "com.github.skydoves:landscapist-coil:${Versions.Compose.LandscapistCoil}"
-
-    object Compiler {
-        const val Room = "androidx.room:room-compiler:${Versions.Jetpack.Room}"
-        const val Hilt = "com.google.dagger:hilt-android-compiler:${Versions.Jetpack.Hilt}"
-    }
 
     val Essential = listOf(
         "androidx.core:core-ktx:${Versions.Essential.CoreKtx}",
@@ -82,15 +80,26 @@ object Dependencies {
         "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.Essential.Coroutines}"
     )
 
+    val Ui = listOf(
+        "androidx.browser:browser:${Versions.Ui.Browser}",
+        "androidx.core:core-splashscreen:${Versions.Ui.Splash}",
+        "com.google.android.material:material:${Versions.Ui.Material}",
+        "com.google.android.gms:play-services-oss-licenses:${Versions.OssLicense.Master}"
+    )
+
+    val Compose = listOf(
+        "androidx.compose.ui:ui-tooling:${Versions.Compose.Master}",
+        "com.airbnb.android:lottie-compose:${Versions.Compose.Lottie}",
+        "androidx.activity:activity-compose:${Versions.Compose.Activity}",
+        "androidx.compose.material:material:${Versions.Compose.Material}",
+        "com.github.skydoves:landscapist-glide:${Versions.Compose.Landscapist}",
+        "androidx.lifecycle:lifecycle-viewmodel-compose:${Versions.Compose.LifecycleViewModel}",
+        "androidx.constraintlayout:constraintlayout-compose:${Versions.Compose.ConstraintLayout}"
+    )
+
     val Network = listOf(
         "com.squareup.retrofit2:retrofit:${Versions.Network.Retrofit}",
         "com.squareup.okhttp3:logging-interceptor:${Versions.Network.OkHttp}"
-    )
-
-    val Ui = listOf(
-        "androidx.browser:browser:${Versions.Ui.Browser}",
-        "com.google.android.material:material:${Versions.Ui.Material}",
-        "com.google.android.gms:play-services-oss-licenses:${Versions.OssLicense.Master}"
     )
 
     val Util = listOf(
@@ -102,16 +111,13 @@ object Dependencies {
         "com.squareup.leakcanary:leakcanary-android:${Versions.Util.LeakCanary}"
     )
 
-    val Compose = listOf(
-        "androidx.compose.ui:ui:${Versions.Compose.Master}",
-        "androidx.compose.compiler:compiler:${Versions.Compose.Master}",
-        "androidx.compose.material:material:${Versions.Compose.Master}",
-        "androidx.activity:activity-compose:${Versions.Compose.Activity}",
-        "androidx.constraintlayout:constraintlayout-compose:${Versions.Compose.ConstraintLayout}"
-    )
-
     object Jetpack {
-        const val Room = "androidx.room:room-runtime:${Versions.Jetpack.Room}"
+        const val Room = "androidx.room:room-compiler:${Versions.Jetpack.Room}"
         const val Hilt = "com.google.dagger:hilt-android:${Versions.Jetpack.Hilt}"
+    }
+
+    object Compiler {
+        const val RoomKsp = "androidx.room:room-compiler:${Versions.Jetpack.Room}"
+        const val Hilt = "com.google.dagger:hilt-android-compiler:${Versions.Jetpack.Hilt}"
     }
 }
