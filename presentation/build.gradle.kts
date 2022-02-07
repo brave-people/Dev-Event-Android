@@ -16,43 +16,19 @@ plugins {
 }
 
 android {
-    compileSdk = Application.compileSdk
+    compileSdk = ApplicationConstants.compileSdk
 
     defaultConfig {
-        minSdk = Application.minSdk
-        targetSdk = Application.targetSdk
-        versionCode = Application.versionCode
-        versionName = Application.versionName
-        multiDexEnabled = true
-        setProperty("archivesBaseName", "$versionName ($versionCode)")
-
-        kapt {
-            arguments {
-                arg("room.schemaLocation", "$projectDir/schemas")
-            }
-        }
-
-        vectorDrawables {
-            useSupportLibrary = true
-        }
+        versionCode = ApplicationConstants.versionCode
+        versionName = ApplicationConstants.versionName
     }
 
     buildFeatures {
         compose = true
     }
 
-    kapt {
-        correctErrorTypes = true
-    }
-
     composeOptions {
         kotlinCompilerExtensionVersion = Versions.Compose.Master
-    }
-
-    sourceSets {
-        getByName("main").run {
-            java.srcDirs("src/main/kotlin")
-        }
     }
 
     buildTypes {
@@ -62,31 +38,19 @@ android {
             isShrinkResources = true
         }
     }
-
-    compileOptions {
-        sourceCompatibility = Application.sourceCompat
-        targetCompatibility = Application.targetCompat
-    }
-
-    kotlinOptions {
-        jvmTarget = Application.jvmTarget
-    }
 }
 
 dependencies {
+    implementation(project(":data"))
+    implementation(project(":domain"))
+
     implementation(Dependencies.Orbit)
     implementation(Dependencies.Jetpack.Hilt)
-    implementation(Dependencies.LandscapistCoil) {
-        exclude(group = "androidx.appcompat", module = "appcompat")
-        exclude(group = "androidx.appcompat", module = "appcompat-resources")
-    }
 
     Dependencies.Ui.forEach(::implementation)
     Dependencies.Util.forEach(::implementation)
     Dependencies.Compose.forEach(::implementation)
-    Dependencies.Network.forEach(::implementation)
     Dependencies.Essential.forEach(::implementation)
-
     Dependencies.Debug.forEach(::debugImplementation)
 
     kapt(Dependencies.Compiler.Hilt)

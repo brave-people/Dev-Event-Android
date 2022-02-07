@@ -1,0 +1,36 @@
+/*
+ * DevEventAndroid © 2021 용감한 친구들. all rights reserved.
+ * DevEventAndroid license is under the MIT.
+ *
+ * [common.gradle] created by Ji Sungbin on 22. 2. 7. 오후 4:58
+ *
+ * Please see: https://github.com/brave-people/Dev-Event-Android/blob/master/LICENSE.
+ */
+
+def hasLibraryPlugin = pluginManager.hasPlugin("com.android.library")
+def hasApplicationPlugin = pluginManager.hasPlugin("com.android.application")
+
+if (hasLibraryPlugin || hasApplicationPlugin) {
+    android {
+        compileSdk = ApplicationConstants.compileSdk
+
+        defaultConfig {
+            minSdk = ApplicationConstants.minSdk
+            targetSdk = ApplicationConstants.targetSdk
+            multiDexEnabled = true
+        }
+
+        sourceSets {
+            main.java.srcDirs += 'src/main/kotlin/'
+        }
+
+        compileOptions {
+            sourceCompatibility = ApplicationConstants.javaVersion
+            targetCompatibility = ApplicationConstants.javaVersion
+        }
+
+        kotlinOptions {
+            jvmTarget = ApplicationConstants.jvmTarget
+        }
+    }
+}

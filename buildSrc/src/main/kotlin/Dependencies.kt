@@ -9,18 +9,6 @@
 
 import org.gradle.api.JavaVersion
 
-object Application {
-    const val minSdk = 24
-    const val targetSdk = 31
-    const val compileSdk = 31
-    const val jvmTarget = "11"
-    const val versionCode = 14
-    const val versionName = "1.1.1"
-
-    val targetCompat = JavaVersion.VERSION_11
-    val sourceCompat = JavaVersion.VERSION_11
-}
-
 object Versions {
     const val Orbit = "4.3.1"
 
@@ -76,7 +64,6 @@ object Dependencies {
 
     val Essential = listOf(
         "androidx.core:core-ktx:${Versions.Essential.CoreKtx}",
-        "org.jetbrains.kotlin:kotlin-stdlib:${Versions.Essential.Kotlin}",
         "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.Essential.Coroutines}"
     )
 

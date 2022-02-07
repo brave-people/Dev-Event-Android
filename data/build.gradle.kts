@@ -11,39 +11,27 @@ plugins {
     id("com.android.library")
     id("kotlin-android")
     id("kotlin-kapt")
+    id("dagger.hilt.android.plugin")
+    id("com.google.devtools.ksp")
 }
 
 android {
-    compileSdk = Application.compileSdk
-
-    defaultConfig {
-        minSdk = Application.minSdk
-        targetSdk = Application.targetSdk
-        multiDexEnabled = true
-    }
-
-    sourceSets {
-        getByName("main").run {
-            java.srcDirs("src/main/kotlin")
+    kapt {
+        correctErrorTypes = true
+        arguments {
+            arg("room.schemaLocation", "$projectDir/schemas")
         }
-    }
-
-    compileOptions {
-        sourceCompatibility = Application.sourceCompat
-        targetCompatibility = Application.targetCompat
-    }
-
-    kotlinOptions {
-        jvmTarget = Application.jvmTarget
     }
 }
 
 dependencies {
     implementation(project(":domain"))
+    implementation(Dependencies.Jetpack.Hilt)
     implementation(Dependencies.Jetpack.Room)
 
     Dependencies.Network.forEach(::implementation)
     Dependencies.Essential.forEach(::implementation)
 
-    kapt(Dependencies.Compiler.Room)
+    kapt(Dependencies.Compiler.Hilt)
+    ksp(Dependencies.Compiler.RoomKsp)
 }

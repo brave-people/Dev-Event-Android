@@ -20,6 +20,7 @@ buildscript {
         classpath("com.google.dagger:hilt-android-gradle-plugin:${Versions.Jetpack.Hilt}")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.Essential.Kotlin}")
         classpath("com.google.android.gms:oss-licenses-plugin:${Versions.OssLicense.Classpath}")
+        classpath("com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin:${Versions.Essential.Ksp}")
     }
 }
 
@@ -30,6 +31,7 @@ allprojects {
     }
 
     afterEvaluate {
+        project.apply("$rootDir/gradle/common.gradle")
         tasks.withType<KotlinCompile> {
             kotlinOptions.freeCompilerArgs += listOf(
                 "-Xopt-in=kotlin.RequiresOptIn",
@@ -40,5 +42,5 @@ allprojects {
 }
 
 tasks.register("clean", Delete::class) {
-    delete(rootProject.buildDir)
+    allprojects.map { it.buildDir }.forEach(::delete)
 }
