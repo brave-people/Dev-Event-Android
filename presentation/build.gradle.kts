@@ -13,15 +13,19 @@
 )
 
 import DependencyHandler.Extensions.implementations
-import org.jetbrains.kotlin.gradle.internal.Kapt3GradleSubplugin.Companion.isUseJvmIr
 
 plugins {
     id(ConventionEnum.AndroidLibrary)
     id(ConventionEnum.JvmJUnit4)
+    id(ConventionEnum.AndroidHilt)
 }
 
 android {
     namespace = "team.brave.devevent.android.presentation"
+
+    buildFeatures {
+        dataBinding = true
+    }
 }
 
 dependencies {
