@@ -10,7 +10,6 @@
 package team.brave.devevent.android.convention
 
 internal object PluginEnum {
-    const val KotlinCore = "kotlin"
     const val KotlinKapt = "kotlin-kapt"
     const val KotlinAndroid = "kotlin-android"
 

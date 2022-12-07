@@ -7,13 +7,15 @@
  * Please see: https://github.com/brave-people/Dev-Event-Android/blob/master/LICENSE
  */
 
+@file:Suppress("unused")
+
 import DependencyHandler.Extensions.implementations
 import DependencyHandler.Extensions.kapts
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
-import team.brave.devevent.android.convention.applyPlugins
 import team.brave.devevent.android.convention.PluginEnum
+import team.brave.devevent.android.convention.applyPlugins
 import team.brave.devevent.android.convention.libs
 
 internal class AndroidHiltPlugin : Plugin<Project> {

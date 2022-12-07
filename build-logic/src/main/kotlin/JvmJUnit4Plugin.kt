@@ -7,6 +7,8 @@
  * Please see: https://github.com/brave-people/Dev-Event-Android/blob/master/LICENSE
  */
 
+@file:Suppress("unused")
+
 import DependencyHandler.Extensions.testImplementations
 import org.gradle.api.Plugin
 import org.gradle.api.Project
