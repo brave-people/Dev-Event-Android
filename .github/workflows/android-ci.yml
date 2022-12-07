@@ -28,6 +28,9 @@ jobs:
         with:
           gradle-home-cache-cleanup: true
 
+      - name: Setup MavenLocal
+        run: ./gradlew :local-enums:publishToMavenLocal
+
       - name: Run build
         run: ./gradlew build
 
