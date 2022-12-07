@@ -13,4 +13,6 @@
     <string name="menu_dashboard">Dashboard</string>
     <string name="menu_favorite">Favorite</string>
     <string name="menu_settings">Settings</string>
+
+    <string name="layout_event_organizer">주최: %s</string>
 </resources>
