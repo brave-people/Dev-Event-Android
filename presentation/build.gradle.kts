@@ -16,8 +16,8 @@ import DependencyHandler.Extensions.implementations
 
 plugins {
     id(ConventionEnum.AndroidLibrary)
-    id(ConventionEnum.JvmJUnit4)
     id(ConventionEnum.AndroidHilt)
+    id(ConventionEnum.JvmJUnit4)
 }
 
 android {
@@ -30,10 +30,8 @@ android {
 
 dependencies {
     implementations(
-        libs.androidx.splash,
         libs.androidx.appcompat,
         libs.ui.material3,
         libs.ui.oss.license,
-        libs.ui.system.controller,
     )
 }
