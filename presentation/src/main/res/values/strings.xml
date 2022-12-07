@@ -9,4 +9,8 @@
 
 <resources>
     <string name="app_name">DevEvent</string>
+
+    <string name="menu_dashboard">Dashboard</string>
+    <string name="menu_favorite">Favorite</string>
+    <string name="menu_settings">Settings</string>
 </resources>

@@ -11,13 +11,17 @@ package team.brave.devevent.android.presentation
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
+import androidx.databinding.DataBindingUtil
+import team.brave.devevent.android.presentation.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        installSplashScreen()
+
+    private lateinit var binding : ActivityMainBinding
+
+    override fun onCreate(savedInstanceState : Bundle?) {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
     }
 }

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ DevEvent-Android © 2022 Ji Sungbin. all rights reserved.
+  ~ DevEvent-Android license is under the MIT.
+  ~
+  ~ [activity_main.xml] created by Ji Sungbin on 22. 12. 7. 오후 10:46
+  ~
+  ~ Please see: https://github.com/brave-people/Dev-Event-Android/blob/master/LICENSE
+  -->
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="false"
+        tools:theme="@style/Theme.DevEvent.Styled">
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bnv_navigator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:menu="@menu/menu_main_bottom_navigation" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
