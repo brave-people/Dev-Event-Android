@@ -40,6 +40,7 @@ ktx-lifecycle = "2.4.1"
 # ui
 ui-material3 = "1.8.0-alpha03"
 ui-oss-license = "17.0.0"
+ui-system-controller = "1.0.1"
 
 # analytics
 analytics-leakcanary = "2.9.1"
@@ -107,6 +108,7 @@ ktx-lifecycle = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.r
 
 ui-material3 = { module = "com.google.android.material:material", version.ref = "ui-material3" }
 ui-oss-license = { module = "com.google.android.gms:play-services-oss-licenses", version.ref = "ui-oss-license" }
+ui-system-controller = { module = "land.sungbin:systemuicontroller", version.ref = "ui-system-controller" }
 
 analytics-leakcanary = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "analytics-leakcanary" }
 analytics-anrwatchdog = { module = "com.github.anrwatchdog:anrwatchdog", version.ref = "analytics-anrwatchdog" }

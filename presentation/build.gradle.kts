@@ -13,6 +13,7 @@
 )
 
 import DependencyHandler.Extensions.implementations
+import org.jetbrains.kotlin.gradle.internal.Kapt3GradleSubplugin.Companion.isUseJvmIr
 
 plugins {
     id(ConventionEnum.AndroidLibrary)
@@ -29,5 +30,6 @@ dependencies {
         libs.androidx.appcompat,
         libs.ui.material3,
         libs.ui.oss.license,
+        libs.ui.system.controller,
     )
 }
