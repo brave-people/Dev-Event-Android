@@ -13,6 +13,7 @@ android {
 dependencies {
     implementations(
         libs.kotlin.coroutines,
+        libs.bundles.ktor,
         projects.domain,
     )
 }

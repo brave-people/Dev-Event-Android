@@ -33,5 +33,8 @@ dependencies {
         libs.androidx.appcompat,
         libs.ui.material3,
         libs.ui.oss.license,
+        libs.ui.glide.core,
+        libs.ui.glide.recyclerview,
+        projects.domain,
     )
 }
