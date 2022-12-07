@@ -1,38 +1,29 @@
-<!--
-  ~ DevEventAndroid © 2021 용감한 친구들. all rights reserved.
-  ~ DevEventAndroid license is under the MIT.
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ DevEvent-Android © 2022 Ji Sungbin. all rights reserved.
+  ~ DevEvent-Android license is under the MIT.
   ~
-  ~ [AndroidManifest.xml] created by Ji Sungbin on 21. 6. 21. 오전 12:15.
+  ~ [AndroidManifest.xml] created by Ji Sungbin on 22. 12. 7. 오후 9:07
   ~
-  ~ Please see: https://github.com/brave-people/Dev-Event-Android/blob/master/LICENSE.
+  ~ Please see: https://github.com/brave-people/Dev-Event-Android/blob/master/LICENSE
   -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="team.bravepeople.devevent">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
     <application
-        android:name=".DevEventAndroid"
+        android:name=".App"
         android:allowBackup="true"
         android:fullBackupOnly="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.DevEvent">
+        tools:ignore="MissingApplicationIcon">
 
-        <activity
-            android:name=".activity.splash.SplashActivity"
-            android:exported="true"
-            android:theme="@style/Theme.DevEvent.Splash">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-
-        <activity android:name=".activity.main.MainActivity" />
+        <!--
+        https://firebase.google.com/docs/perf-mon/get-started-android#view-log-messages
+        -->
+        <meta-data
+            android:name="firebase_performance_logcat_enabled"
+            android:value="true" />
 
     </application>
 

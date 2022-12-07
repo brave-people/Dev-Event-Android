@@ -1,92 +1,39 @@
 /*
-* DevEventAndroid © 2021 용감한 친구들. all rights reserved.
-* DevEventAndroid license is under the MIT.
-*
-* [build.gradle.kts] created by Ji Sungbin on 21. 6. 20. 오후 11:52.
-*
-* Please see: https://github.com/brave-people/Dev-Event-Android/blob/master/LICENSE.
-*/
+ * Designed and developed by Duckie Team, 2022
+ *
+ * Licensed under the MIT.
+ * Please see full license: https://github.com/duckie-team/duckie-android/blob/develop/LICENSE
+ */
+
+@file:Suppress("DSL_SCOPE_VIOLATION", "UnstableApiUsage")
+
+import DependencyHandler.Extensions.implementations
 
 plugins {
-    id("com.android.application")
-    id("kotlin-android")
-    id("kotlin-kapt")
-    id("dagger.hilt.android.plugin")
-    id("name.remal.check-dependency-updates") version Versions.Util.CheckDependencyUpdates
+    id(ConventionEnum.AndroidApplication)
+    id(ConventionEnum.AndroidHilt)
+    id(libs.plugins.gms.google.service.get().pluginId)
+    id(libs.plugins.firebase.crashlytics.get().pluginId)
+    id(libs.plugins.firebase.performance.get().pluginId)
 }
 
 android {
-    compileSdk = Application.compileSdk
+    namespace = "team.brave.devevent.android"
 
-    defaultConfig {
-        minSdk = Application.minSdk
-        targetSdk = Application.targetSdk
-        versionCode = Application.versionCode
-        versionName = Application.versionName
-        multiDexEnabled = true
-        setProperty("archivesBaseName", "$versionName ($versionCode)")
-
-        kapt {
-            arguments {
-                arg("room.schemaLocation", "$projectDir/schemas")
-            }
-        }
-
-        vectorDrawables {
-            useSupportLibrary = true
-        }
-    }
-
-    buildFeatures {
-        compose = true
-    }
-
-    kapt {
-        correctErrorTypes = true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = Versions.Compose.Master
-    }
-
-    sourceSets {
-        getByName("main").run {
-            java.srcDirs("src/main/kotlin")
-        }
-    }
-
-    buildTypes {
-        release {
-            isDebuggable = false
-            isMinifyEnabled = true
-            isShrinkResources = true
-        }
-    }
-
-    compileOptions {
-        sourceCompatibility = Application.sourceCompat
-        targetCompatibility = Application.targetCompat
-    }
-
-    kotlinOptions {
-        jvmTarget = Application.jvmTarget
+    lint {
+        // Error: When targeting Android 13 or higher, posting a permission requires holding the POST_NOTIFICATIONS permission (usage from leakcanary.NotificationEventListener)
+        disable.add("NotificationPermission")
     }
 }
 
 dependencies {
-    implementation(Dependencies.Orbit)
-    implementation(Dependencies.Hilt.Master)
-    implementation(Dependencies.LandscapistCoil) {
-        exclude(group = "androidx.appcompat", module = "appcompat")
-        exclude(group = "androidx.appcompat", module = "appcompat-resources")
-    }
-
-    Dependencies.Ui.forEach(::implementation)
-    Dependencies.Util.forEach(::implementation)
-    Dependencies.Compose.forEach(::implementation)
-    Dependencies.Retrofit.forEach(::implementation)
-    Dependencies.Essential.forEach(::implementation)
-    Dependencies.DebugUtil.forEach(::debugImplementation)
-
-    kapt(Dependencies.Hilt.Compiler)
+    implementations(
+        platform(libs.firebase.bom),
+        libs.analytics.anrwatchdog,
+        libs.firebase.performance,
+        libs.firebase.analytics,
+        libs.firebase.crashlytics,
+        projects.presentation, // for launch IntroActivity
+    )
+    debugImplementation(libs.analytics.leakcanary)
 }

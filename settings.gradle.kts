@@ -1,11 +1,30 @@
-/*
- * DevEventAndroid © 2021 용감한 친구들. all rights reserved.
- * DevEventAndroid license is under the MIT.
- *
- * [settings.gradle.kts] created by Ji Sungbin on 21. 6. 20. 오후 11:51.
- *
- * Please see: https://github.com/brave-people/Dev-Event-Android/blob/master/LICENSE.
- */
+@file:Suppress("UnstableApiUsage")
 
-rootProject.name = "DevEvent"
-include(":app")
+rootProject.name = "DevEvent-Android"
+
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
+pluginManagement {
+    repositories {
+        google()
+        mavenLocal()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+
+    includeBuild("build-logic")
+    includeBuild("build-logic/local-enums")
+}
+
+buildCache {
+    local {
+        removeUnusedEntriesAfterDays = 7
+    }
+}
+
+include(
+    ":app",
+    ":data",
+    ":domain",
+    ":presentation",
+)

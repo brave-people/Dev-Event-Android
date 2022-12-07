@@ -1,0 +1,46 @@
+complexity:
+  LongMethod:
+    threshold: 100
+    ignoreAnnotated: [ 'Composable' ]
+  ComplexMethod:
+    ignoreAnnotated: [ 'Composable' ]
+  LongParameterList:
+    active: false
+  TooManyFunctions:
+    active: false
+  ComplexCondition:
+    threshold: 7
+
+performance:
+  SpreadOperator:
+    active: false
+
+style:
+  MagicNumber:
+    ignorePropertyDeclaration: true
+    ignoreCompanionObjectPropertyDeclaration: true
+    ignoreAnnotated: [ 'AllowMagicNumber' ]
+  ForbiddenComment:
+    active: false
+  UnusedPrivateMember:
+    ignoreAnnotated: [ 'preview' ]
+  ThrowsCount:
+    active: false
+  ReturnCount:
+    active: false
+  LoopWithTooManyJumpStatements:
+    active: false
+  DestructuringDeclarationWithTooManyEntries:
+    active: false
+  MaxLineLength:
+    excludeCommentStatements: true
+
+naming:
+  TopLevelPropertyNaming:
+    constantPattern: '[A-Z][A-Za-z0-9_]*'
+  FunctionNaming:
+    ignoreAnnotated: [ 'Composable' ]
+  MatchingDeclarationName:
+    active: false
+  VariableNaming:
+    active: false
