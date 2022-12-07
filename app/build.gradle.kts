@@ -20,6 +20,10 @@ plugins {
 android {
     namespace = "team.brave.devevent.android"
 
+    buildFeatures {
+        dataBinding = true
+    }
+
     lint {
         // Error: When targeting Android 13 or higher, posting a permission requires holding the POST_NOTIFICATIONS permission (usage from leakcanary.NotificationEventListener)
         disable.add("NotificationPermission")
