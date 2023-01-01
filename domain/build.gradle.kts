@@ -9,9 +9,12 @@
 
 plugins {
     id(ConventionEnum.AndroidLibrary)
-    id(ConventionEnum.JvmJUnit4)
 }
 
 android {
     namespace = "team.brave.devevent.android.domain"
+}
+
+dependencies {
+    implementation(libs.di.inject)
 }
