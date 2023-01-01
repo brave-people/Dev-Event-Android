@@ -11,11 +11,11 @@ package team.brave.devevent.android.data.model
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
-// eventTimeType 는 2가지 종류로 나뉨
+// [NOTE] eventTimeType 는 2가지 종류로 나뉨
 // 1. DATE: 이벤트 진행 "일시" 를 나타냄
 // 2. RECRUIT: 이벤트 "모집" 을 나타냄
 
-data class DevEventItem(
+internal data class EventData(
     @field:JsonProperty("event_time_type")
     val eventTimeType: String? = null,
 
@@ -35,7 +35,7 @@ data class DevEventItem(
     val displaySequence: Int? = null,
 
     @field:JsonProperty("tags")
-    val tags: List<TagsItem?>? = null,
+    val tags: List<TagData?>? = null,
 
     @field:JsonProperty("use_end_date_time_yn")
     val useEndDateTimeYn: String? = null,

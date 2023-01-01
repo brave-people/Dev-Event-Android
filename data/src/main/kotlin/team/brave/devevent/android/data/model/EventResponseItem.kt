@@ -11,10 +11,10 @@ package team.brave.devevent.android.data.model
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
-data class EventResponseItem(
+internal data class EventResponseItem(
     @field:JsonProperty("metadata")
     val metadata: Metadata? = null,
 
     @field:JsonProperty("dev_event")
-    val devEvent: List<DevEventItem?>? = null,
+    val events: List<EventData?>? = null,
 )

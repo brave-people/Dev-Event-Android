@@ -11,7 +11,7 @@ package team.brave.devevent.android.data.model
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
-data class Metadata(
+internal data class Metadata(
     @field:JsonProperty("total")
     val total: Int? = null,
 
