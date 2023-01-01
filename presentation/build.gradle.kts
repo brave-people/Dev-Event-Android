@@ -35,6 +35,7 @@ dependencies {
         libs.ui.oss.license,
         libs.ui.glide.core,
         libs.ui.glide.recyclerview,
+        projects.di,
         projects.domain,
     )
 }
