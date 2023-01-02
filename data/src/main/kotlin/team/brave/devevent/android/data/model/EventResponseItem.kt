@@ -11,6 +11,10 @@ package team.brave.devevent.android.data.model
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
+// [NOTE] 매 달마다 행사가 EventResponseItem 으로 들어옴
+// ex) 1월달 행사, 2월달 행사, 3월달 행사가 개별적으로 EventResponseItem 으로 들어옴
+//     (month 단위)
+
 internal data class EventResponseItem(
     @field:JsonProperty("metadata")
     val metadata: Metadata? = null,
