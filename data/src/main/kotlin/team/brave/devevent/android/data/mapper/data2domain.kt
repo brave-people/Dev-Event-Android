@@ -17,7 +17,6 @@ import java.util.Locale
 import team.brave.devevent.android.data.model.EventResponseItem
 import team.brave.devevent.android.data.model.TagData
 import team.brave.devevent.android.data.util.generateRandomHexColor
-import team.brave.devevent.android.domain.constants.EventTimeType
 import team.brave.devevent.android.domain.model.Event
 import team.brave.devevent.android.domain.model.Tag
 
@@ -36,11 +35,12 @@ internal fun List<EventResponseItem>.toDomain(): List<Event> {
             Event(
                 title = event.title,
                 organizer = event.organizer,
-                time = (event.startDateTime to event.endDateTime).toEventDateString() ?: "조회 실패",
-                timeType = EventTimeType.valueOf(event.eventTimeType),
+                time = (EventDate.from(event.startDateTime) to EventDate.from(event.endDateTime)).toEventDateString()
+                    ?: "조회 실패",
+                timeType = event.eventTimeType,
                 tags = event.tags?.filterNotNull()?.mapNotNull(TagData::toDomain).orEmpty(),
                 eventLink = event.eventLink,
-                bannerUrl = event.coverImageLink.orEmpty(),
+                bannerUrl = event.coverImageLink,
             )
         }
     }
@@ -54,6 +54,16 @@ private fun TagData.toDomain(): Tag? {
     )
 }
 
+@JvmInline
+@VisibleForTesting
+internal value class EventDate(private val date: String) {
+    companion object {
+        fun from(date: String) = EventDate(date)
+    }
+
+    fun toDate() = date.toDate()
+}
+
 /**
  * 이벤트 시작일과 종료일을 [Pair] 로 받고,
  * 이벤트 카드에 표시할 형식에 맞게 다듬어 반환합니다.
@@ -64,7 +74,7 @@ private fun TagData.toDomain(): Tag? {
  * - 시작일과 종료일이 다른 경우: yyyy.MM.dd(E) ~ yyyy.MM.dd(E)
  */
 @VisibleForTesting
-internal fun Pair<String, String>.toEventDateString(): String? {
+internal fun Pair<EventDate, EventDate>.toEventDateString(): String? {
     val startDate = first.toDate() ?: return null
     val endDate = second.toDate() ?: return null
 
