@@ -32,7 +32,7 @@ data class Event(
     val timeType: EventTimeType,
     val tags: List<Tag>,
     val eventLink: String,
-    val bannerUrl: String,
+    val bannerUrl: String?,
 )
 
 /**
