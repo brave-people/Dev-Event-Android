@@ -10,7 +10,6 @@
 package team.brave.devevent.android.domain.repository
 
 import team.brave.devevent.android.domain.model.Event
-import team.brave.devevent.android.domain.model.Tag
 
 /**
  * 이벤트와 관련된 데이터를 제공하는 저장소
