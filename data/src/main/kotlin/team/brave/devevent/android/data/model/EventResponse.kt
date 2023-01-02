@@ -9,6 +9,10 @@
 
 package team.brave.devevent.android.data.model
 
+// [NOTE] 매 달마다 행사가 response 아이템으로 들어옴
+// ex) 1월달 행사, 2월달 행사, 3월달 행사가 개별적으로 EventResponseItem 으로 들어옴
+//     (month 단위)
+
 internal data class EventResponse(
     val responses: List<EventResponseItem?>? = null,
 )

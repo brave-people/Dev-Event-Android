@@ -15,6 +15,8 @@ import com.fasterxml.jackson.annotation.JsonProperty
 // 1. DATE: 이벤트 진행 "일시" 를 나타냄
 // 2. RECRUIT: 이벤트 "모집" 을 나타냄
 
+// [NOTE] start_date_time ~ end_date_time 이 기간을 나타냄
+
 internal data class EventData(
     @field:JsonProperty("event_time_type")
     val eventTimeType: String? = null,
