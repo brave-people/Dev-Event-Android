@@ -26,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{tag.name}"
-            app:backgroundColor="@{tag.color}"
+            app:backgroundColor="@{tag.hexColor}"
             tools:text="@string/app_name" />
 
     </merge>
