@@ -14,7 +14,6 @@
 - [ ] 외부 서비스로 이벤트 정보 공유
 - [ ] 다크모드
 - [ ] 이벤트 필터 (목록에서 이벤트 필터링)
-- [ ] 이벤트 후기 등록 (댓글 시스템)
 - [x] 원하는 기능이 있으신가요? [Issue](https://github.com/brave-people/Dev-Event-Android/issues) 에 등록해 주세요.
 
 ---
