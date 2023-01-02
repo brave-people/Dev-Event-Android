@@ -18,8 +18,8 @@ fun buildDate(
     day: Int,
     hour: Int,
     minute: Int,
-    second: Int,
-    millisecond: Int,
+    second: Int = 0,
+    millisecond: Int = 0,
 ): Date {
     return Calendar.Builder()
         .setDate(year, month, day)
