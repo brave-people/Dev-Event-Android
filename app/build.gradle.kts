@@ -1,8 +1,10 @@
 /*
- * Designed and developed by Duckie Team, 2022
+ * DevEvent-Android © 2022 Ji Sungbin. all rights reserved.
+ * DevEvent-Android license is under the MIT.
  *
- * Licensed under the MIT.
- * Please see full license: https://github.com/duckie-team/duckie-android/blob/develop/LICENSE
+ * [build.gradle.kts] created by Ji Sungbin on 23. 1. 2. 오후 5:32
+ *
+ * Please see: https://github.com/brave-people/Dev-Event-Android/blob/master/LICENSE
  */
 
 @file:Suppress("DSL_SCOPE_VIOLATION", "UnstableApiUsage")
