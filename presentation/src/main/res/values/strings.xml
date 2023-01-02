@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ DevEvent-Android © 2022 Ji Sungbin. all rights reserved.
+  ~ DevEvent-Android license is under the MIT.
+  ~
+  ~ [strings.xml] created by Ji Sungbin on 22. 12. 7. 오후 9:46
+  ~
+  ~ Please see: https://github.com/brave-people/Dev-Event-Android/blob/master/LICENSE
+  -->
+
+<resources>
+    <string name="app_name">DevEvent</string>
+
+    <string name="menu_dashboard">Dashboard</string>
+    <string name="menu_favorite">Favorite</string>
+    <string name="menu_settings">Settings</string>
+
+    <string name="layout_event_organizer">주최: %s</string>
+</resources>

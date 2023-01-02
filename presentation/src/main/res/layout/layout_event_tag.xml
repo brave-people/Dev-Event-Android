@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ DevEvent-Android © 2022 Ji Sungbin. all rights reserved.
+  ~ DevEvent-Android license is under the MIT.
+  ~
+  ~ [layout_event_tag.xml] created by Ji Sungbin on 22. 12. 8. 오전 3:08
+  ~
+  ~ Please see: https://github.com/brave-people/Dev-Event-Android/blob/master/LICENSE
+  -->
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="tag"
+            type="team.brave.devevent.android.domain.model.Tag" />
+    </data>
+
+    <merge tools:theme="@style/Theme.DevEvent.Styled">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_tag"
+            style="@style/Widget.Material3.Chip.Suggestion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{tag.name}"
+            app:backgroundColor="@{tag.color}"
+            tools:text="@string/app_name" />
+
+    </merge>
+
+</layout>

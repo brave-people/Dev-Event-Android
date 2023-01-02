@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ DevEvent-Android © 2022 Ji Sungbin. all rights reserved.
+  ~ DevEvent-Android license is under the MIT.
+  ~
+  ~ [menu_main_bottom_navigation.xml] created by Ji Sungbin on 22. 12. 7. 오후 10:53
+  ~
+  ~ Please see: https://github.com/brave-people/Dev-Event-Android/blob/master/LICENSE
+  -->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_dashboard"
+        android:icon="@drawable/round_dashboard_24"
+        android:title="@string/menu_dashboard" />
+
+    <item
+        android:id="@+id/menu_favorite"
+        android:icon="@drawable/round_favorite_24"
+        android:title="@string/menu_favorite" />
+
+    <item
+        android:id="@+id/menu_settings"
+        android:icon="@drawable/round_settings_24"
+        android:title="@string/menu_settings" />
+</menu>
