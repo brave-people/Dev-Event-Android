@@ -10,6 +10,7 @@
 package team.brave.devevent.android.data.model
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import team.brave.devevent.android.domain.constants.EventTimeType
 
 // [NOTE] eventTimeType 는 2가지 종류로 나뉨
 // 1. DATE: 이벤트 진행 "일시" 를 나타냄
@@ -19,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 
 internal data class EventData(
     @field:JsonProperty("event_time_type")
-    val eventTimeType: String? = null,
+    val eventTimeType: EventTimeType? = null,
 
     @field:JsonProperty("start_day_week")
     val startDayWeek: String? = null,
