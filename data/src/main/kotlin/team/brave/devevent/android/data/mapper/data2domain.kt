@@ -93,8 +93,8 @@ internal fun String.toDate(): Date? {
 
 @VisibleForTesting
 internal fun Date.isSameDay(other: Date): Boolean {
-    val cal1 = Calendar.getInstance().also { time = time }
-    val cal2 = Calendar.getInstance().also { time = other.time }
+    val cal1 = Calendar.getInstance().apply { time = this@isSameDay }
+    val cal2 = Calendar.getInstance().apply { time = other }
     return cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
             cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR)
 }
