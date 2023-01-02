@@ -9,19 +9,21 @@
 
 package team.brave.devevent.android.data.repository
 
+import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
 import javax.inject.Inject
-import team.brave.devevent.android.data.datasource.client
 import team.brave.devevent.android.data.mapper.toDomain
-import team.brave.devevent.android.data.model.EventResponse
+import team.brave.devevent.android.data.model.EventResponseItem
 import team.brave.devevent.android.domain.model.Event
 import team.brave.devevent.android.domain.repository.EventRepository
 
-class EventRepositoryImpl @Inject constructor() : EventRepository {
+class EventRepositoryImpl @Inject constructor(
+    private val client: HttpClient,
+) : EventRepository {
     override suspend fun getAllEvents(): List<Event> {
         val request = client.get("/current")
-        val response: EventResponse = request.body()
-        return response.responses?.filterNotNull()?.toDomain() ?: emptyList()
+        val response: List<EventResponseItem> = request.body()
+        return response.toDomain()
     }
 }
