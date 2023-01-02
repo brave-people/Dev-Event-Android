@@ -9,6 +9,10 @@
 
 package team.brave.devevent.android.data.datasource
 
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
 import io.ktor.client.engine.cio.endpoint
@@ -20,14 +24,15 @@ import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.serialization.jackson.jackson
 
-internal var client = EventsHttpClient()
-
-private object EventsHttpClient {
+@Suppress("unused")
+@Module
+@InstallIn(SingletonComponent::class)
+internal object EventsHttpClient {
     private const val MaxTimeoutMillis = 3000L
     private const val MaxRetryCount = 3
     private const val BaseUrl = "https://real-brave-people.o-r.kr/front/v1/events"
 
-    operator fun invoke() = HttpClient(engineFactory = CIO) {
+    private operator fun invoke() = HttpClient(engineFactory = CIO) {
         expectSuccess = true
         engine {
             endpoint {
@@ -46,4 +51,7 @@ private object EventsHttpClient {
             level = LogLevel.ALL
         }
     }
+
+    @Provides
+    fun provideHttpClient(): HttpClient = this()
 }
