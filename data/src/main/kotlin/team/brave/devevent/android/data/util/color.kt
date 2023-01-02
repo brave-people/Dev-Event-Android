@@ -12,6 +12,7 @@ package team.brave.devevent.android.data.util
 import java.util.Random
 
 // https://stackoverflow.com/a/35459935/14299073
+@Suppress("MagicNumber", "ImplicitDefaultLocale")
 internal fun generateRandomHexColor(): String {
     val nextInt = Random().nextInt(0xffffff + 1)
     return String.format("#%06x", nextInt)
