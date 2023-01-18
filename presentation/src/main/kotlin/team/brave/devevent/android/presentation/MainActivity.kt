@@ -18,6 +18,8 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import com.google.firebase.crashlytics.ktx.crashlytics
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import team.brave.devevent.android.presentation.databinding.ActivityMainBinding
@@ -48,8 +50,9 @@ class MainActivity : AppCompatActivity() {
                         lifecycle = lifecycle,
                         minActiveState = Lifecycle.State.CREATED,
                     ).collect { exception ->
-                        exception.printStackTrace()
                         toast(getString(R.string.activity_main_toast_exception_occurred, exception.message.orEmpty()))
+                        if (BuildConfig.DEBUG) exception.printStackTrace()
+                        if (!BuildConfig.DEBUG) Firebase.crashlytics.recordException(exception)
                     }
             }
         }
