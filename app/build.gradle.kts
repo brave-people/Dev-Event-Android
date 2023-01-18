@@ -14,9 +14,9 @@ import DependencyHandler.Extensions.implementations
 plugins {
     id(ConventionEnum.AndroidApplication)
     id(ConventionEnum.AndroidHilt)
-    id(libs.plugins.gms.google.service.get().pluginId)
-    id(libs.plugins.firebase.crashlytics.get().pluginId)
-    id(libs.plugins.firebase.performance.get().pluginId)
+    // id(libs.plugins.gms.google.service.get().pluginId)
+    // id(libs.plugins.firebase.crashlytics.get().pluginId)
+    // id(libs.plugins.firebase.performance.get().pluginId)
 }
 
 android {
@@ -34,11 +34,11 @@ android {
 
 dependencies {
     implementations(
-        platform(libs.firebase.bom),
+        /*platform(libs.firebase.bom),
         libs.analytics.anrwatchdog,
         libs.firebase.performance,
         libs.firebase.analytics,
-        libs.firebase.crashlytics,
+        libs.firebase.crashlytics,*/
         projects.presentation, // for launch IntroActivity
     )
     debugImplementation(libs.analytics.leakcanary)

@@ -9,6 +9,7 @@
 
 @file:Suppress("DSL_SCOPE_VIOLATION", "PropertyName")
 
+import java.util.Locale
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jlleitschuh.gradle.ktlint.KtlintExtension
 
@@ -41,9 +42,9 @@ buildscript {
     dependencies {
         classpath(libs.kotlin.core)
         classpath(libs.build.gradle.agp)
-        classpath(libs.build.google.service)
-        classpath(libs.build.firebase.crashlytics)
-        classpath(libs.build.firebase.performance)
+        // classpath(libs.build.google.service)
+        // classpath(libs.build.firebase.crashlytics)
+        // classpath(libs.build.firebase.performance)
         classpath(libs.build.ui.oss.license)
         classpath(libs.build.di.hilt)
     }
@@ -88,7 +89,7 @@ subprojects {
     @Suppress("UnstableApiUsage")
     if (
         gradle.startParameter.isConfigureOnDemand &&
-        buildscript.sourceFile?.extension?.toLowerCase() == "kts" &&
+        buildscript.sourceFile?.extension?.lowercase(Locale.getDefault()) == "kts" &&
         parent != rootProject
     ) {
         generateSequence(parent) { project ->
