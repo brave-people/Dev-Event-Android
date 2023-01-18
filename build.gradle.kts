@@ -45,6 +45,7 @@ buildscript {
         // classpath(libs.build.google.service)
         // classpath(libs.build.firebase.crashlytics)
         // classpath(libs.build.firebase.performance)
+        classpath(libs.build.androidx.navigation.safeargs)
         classpath(libs.build.ui.oss.license)
         classpath(libs.build.di.hilt)
     }

@@ -18,10 +18,15 @@ plugins {
     id(ConventionEnum.AndroidLibrary)
     id(ConventionEnum.AndroidHilt)
     id(ConventionEnum.JvmJUnit4)
+    id(libs.plugins.androidx.navigation.safeargs.get().pluginId)
 }
 
 android {
     namespace = "team.brave.devevent.android.presentation"
+
+    sourceSets {
+        getByName("main").java.srcDirs("build/generated/source/navigation-args")
+    }
 
     buildFeatures {
         dataBinding = true
@@ -31,6 +36,8 @@ android {
 dependencies {
     implementations(
         libs.androidx.appcompat,
+        libs.androidx.navigation.ktx.ui,
+        libs.androidx.navigation.ktx.fragment,
         libs.ui.material3,
         libs.ui.oss.license,
         libs.ui.glide.core,
@@ -42,4 +49,5 @@ dependencies {
         projects.di,
         projects.domain,
     )
+    androidTestImplementation(libs.test.androidx.navigation)
 }
