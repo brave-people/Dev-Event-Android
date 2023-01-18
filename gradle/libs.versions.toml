@@ -11,7 +11,7 @@ plugin-code-ktlint-source = "0.45.2"
 plugin-code-detekt = "1.22.0"
 
 # plugin - kotlin
-plugin-kotlin-ksp = "1.7.20-1.0.8"
+plugin-kotlin-ksp = "1.8.0-1.0.8"
 
 # plugin - ui
 plugin-ui-oss-license = "0.10.5"
@@ -20,9 +20,9 @@ plugin-ui-oss-license = "0.10.5"
 plugin-util-dependency-handler-extensions = "1.0.3"
 
 # kotlin
-kotlin-core = "1.7.20"
+kotlin-core = "1.8.0"
 kotlin-kover = "0.6.1"
-kotlin-coroutines = "1.6.2"
+kotlin-coroutines = "1.6.4"
 
 # androidx
 androidx-appcompat = "1.6.0" # needs for oss license activity
