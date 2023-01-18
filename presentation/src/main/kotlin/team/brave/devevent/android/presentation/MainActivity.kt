@@ -12,25 +12,66 @@ package team.brave.devevent.android.presentation
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.WindowCompat
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import team.brave.devevent.android.presentation.databinding.ActivityMainBinding
+import team.brave.devevent.android.presentation.fragment.dashboard.DashboardFragmentArgs
+import team.brave.devevent.android.presentation.util.toast
 import team.brave.devevent.android.presentation.viewmodel.MainViewModel
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+    private lateinit var navController: NavController
+
     private val vm: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fcv_navigator) as NavHostFragment
+        navController = navHostFragment.navController
+
         lifecycleScope.launchWhenCreated {
             vm.getAllEvents()
+
+            launch {
+                vm.exception
+                    .flowWithLifecycle(
+                        lifecycle = lifecycle,
+                        minActiveState = Lifecycle.State.CREATED,
+                    ).collect { exception ->
+                        exception.printStackTrace()
+                        toast(getString(R.string.activity_main_toast_exception_occurred, exception.message.orEmpty()))
+                    }
+            }
+        }
+
+        binding.bnvNavigator.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.menu_dashboard -> {
+                    val args = DashboardFragmentArgs(isFavorite = false).toBundle()
+                    navController.navigate(R.id.navigation_dashboard, args)
+                    true
+                }
+                R.id.menu_favorite -> {
+                    val args = DashboardFragmentArgs(isFavorite = true).toBundle()
+                    navController.navigate(R.id.navigation_dashboard, args)
+                    true
+                }
+                R.id.menu_settings -> {
+                    navController.navigate(R.id.navigation_setting)
+                    true
+                }
+                else -> false
+            }
         }
     }
 }
