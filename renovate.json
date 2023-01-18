@@ -1,9 +1,21 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
+    ":timezone(Asia/Seoul)",
     "config:base",
-    "group:all",
-    ":dependencyDashboard",
     "schedule:daily"
+  ],
+  "packageRules": [
+    {
+      "groupName": "Kotlin, KSP and Compose Compiler",
+      "groupSlug": "kotlin",
+      "matchPackagePrefixes": [
+        "com.google.devtools.ksp",
+        "androidx.compose.compiler"
+      ],
+      "matchPackagePatterns": [
+        "org.jetbrains.kotlin.*"
+      ]
+    }
   ]
 }
