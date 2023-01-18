@@ -34,5 +34,7 @@ internal fun Project.configureApplication(extension: CommonExtension<*, *, *, *>
         lint {
             checkTestSources = true
         }
+
+        dependencies.add("detektPlugins", libs.findLibrary("detekt-plugin-formatting").get().get())
     }
 }

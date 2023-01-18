@@ -138,6 +138,8 @@ test-turbine = { module = "app.cash.turbine:turbine", version.ref = "test-turbin
 test-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlin-coroutines" }
 test-ktor-client = { module = "io.ktor:ktor-client-mock", version.ref = "ktor-core" }
 
+detekt-plugin-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "plugin-code-detekt" }
+
 [bundles]
 ktx = ["ktx-core", "ktx-activiy", "ktx-lifecycle"]
 ktor = ["ktor-client", "ktor-content-negotiation", "ktor-jackson", "ktor-logging", "ktor-engine"]
