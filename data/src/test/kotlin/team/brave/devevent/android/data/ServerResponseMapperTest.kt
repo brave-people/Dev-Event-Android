@@ -16,10 +16,8 @@ import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
-import strikt.api.expect
 import strikt.api.expectThat
 import strikt.assertions.containsExactly
-import strikt.assertions.isEqualTo
 import team.brave.devevent.android.data.dummy.DummyResponse
 import team.brave.devevent.android.data.mock.buildMockHttpClient
 import team.brave.devevent.android.data.repository.EventRepositoryImpl
