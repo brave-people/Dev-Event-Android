@@ -9,7 +9,8 @@
 
 @file:Suppress("DSL_SCOPE_VIOLATION", "PropertyName")
 
-import java.util.Locale
+import io.gitlab.arturbosch.detekt.Detekt
+import io.gitlab.arturbosch.detekt.DetektCreateBaselineTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jlleitschuh.gradle.ktlint.KtlintExtension
 
@@ -41,9 +42,9 @@ buildscript {
     dependencies {
         classpath(libs.kotlin.core)
         classpath(libs.build.gradle.agp)
-        // classpath(libs.build.google.service)
-        // classpath(libs.build.firebase.crashlytics)
-        // classpath(libs.build.firebase.performance)
+        classpath(libs.build.google.service)
+        classpath(libs.build.firebase.crashlytics)
+        classpath(libs.build.firebase.performance)
         classpath(libs.build.androidx.navigation.safeargs)
         classpath(libs.build.ui.oss.license)
         classpath(libs.build.di.hilt)
@@ -73,12 +74,20 @@ allprojects {
 
         tasks.withType<KotlinCompile> {
             kotlinOptions {
-                jvmTarget = "17"
+                jvmTarget = "11"
                 freeCompilerArgs = freeCompilerArgs + listOf(
                     "-opt-in=kotlin.OptIn",
                     "-opt-in=kotlin.RequiresOptIn",
                 )
             }
+        }
+
+        tasks.withType<Detekt>().configureEach {
+            exclude(project.buildDir.absolutePath)
+        }
+
+        tasks.withType<DetektCreateBaselineTask>().configureEach {
+            exclude(project.buildDir.absolutePath)
         }
     }
 }
@@ -88,7 +97,7 @@ subprojects {
     @Suppress("UnstableApiUsage")
     if (
         gradle.startParameter.isConfigureOnDemand &&
-        buildscript.sourceFile?.extension?.lowercase(Locale.getDefault()) == "kts" &&
+        buildscript.sourceFile?.extension?.toLowerCase() == "kts" &&
         parent != rootProject
     ) {
         generateSequence(parent) { project ->

@@ -25,16 +25,20 @@ android {
     namespace = "team.brave.devevent.android.presentation"
 
     sourceSets {
-        getByName("main").java.srcDirs("build/generated/source/navigation-args")
+        getByName("debug").kotlin.srcDirs("build/generated/source/navigation-args/debug")
+        getByName("release").kotlin.srcDirs("build/generated/source/navigation-args/release")
     }
 
     buildFeatures {
         dataBinding = true
+        buildConfig = true
     }
 }
 
 dependencies {
     implementations(
+        platform(libs.firebase.bom),
+        libs.firebase.crashlytics,
         libs.androidx.appcompat,
         libs.androidx.navigation.ktx.ui,
         libs.androidx.navigation.ktx.fragment,
