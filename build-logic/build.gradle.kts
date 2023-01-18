@@ -13,7 +13,6 @@ import DependencyHandler.Extensions.implementations
 
 plugins {
     `kotlin-dsl`
-    alias(libs.plugins.local.convention.enum)
     alias(libs.plugins.util.dependency.handler.extensions)
 }
 
@@ -25,6 +24,19 @@ dependencies {
         libs.build.gradle.agp,
         libs.build.dependency.handler.extensions,
     )
+}
+
+// Always stay in sync with buildSrc/ConventionEnum
+private object ConventionEnum {
+    private const val prefix = "devevent"
+
+    const val AndroidApplication = "$prefix.android.application"
+    const val AndroidLibrary = "$prefix.android.library"
+
+    const val AndroidHilt = "$prefix.android.hilt"
+
+    const val JvmLibrary = "$prefix.jvm.library"
+    const val JvmJUnit4 = "$prefix.jvm.junit4"
 }
 
 gradlePlugin {

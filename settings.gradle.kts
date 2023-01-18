@@ -22,7 +22,6 @@ pluginManagement {
     }
 
     includeBuild("build-logic")
-    includeBuild("build-logic/local-enums")
 }
 
 buildCache {

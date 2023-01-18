@@ -19,9 +19,6 @@ plugin-ui-oss-license = "0.10.5"
 # plugin - util
 plugin-util-dependency-handler-extensions = "1.0.3"
 
-# plugin - local
-plugin-local-master = "master"
-
 # kotlin
 kotlin-core = "1.7.20"
 kotlin-kover = "0.6.1"
@@ -87,8 +84,6 @@ androidx-navigation-safeargs = { id = "androidx.navigation.safeargs.kotlin", ver
 di-hilt = { id = "com.google.dagger.hilt.android", version.ref = "di-hilt" }
 
 util-dependency-handler-extensions = { id = "land.sungbin.dependency.handler.extensions", version.ref = "plugin-util-dependency-handler-extensions" }
-
-local-convention-enum = { id = "land.sungbin.androidprojecttemplate.local.convention.enum", version.ref = "plugin-local-master" }
 
 [libraries]
 build-gradle-agp = { module = "com.android.tools.build:gradle", version.ref = "plugin-build-gradle-android" }
