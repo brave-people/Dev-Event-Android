@@ -35,6 +35,10 @@ dependencies {
         libs.ui.oss.license,
         libs.ui.glide.core,
         libs.ui.glide.recyclerview,
+        libs.ktx.activiy,
+        libs.ktx.fragment,
+        libs.ktx.lifecycle.runtime,
+        libs.ktx.lifecycle.viewmodel,
         projects.di,
         projects.domain,
     )
