@@ -36,7 +36,7 @@ class MainViewModel @Inject constructor(
         key = EventListSaveKey,
         initialValue = null,
     )
-    val evnets: StateFlow<List<Event>?> = _events.asStateFlow()
+    val events: StateFlow<List<Event>?> = _events.asStateFlow()
 
     private val _exception = Channel<Throwable>()
     val exception = _exception.receiveAsFlow()
