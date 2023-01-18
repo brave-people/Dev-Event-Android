@@ -17,7 +17,11 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 
 class SettingFragment : Fragment() {
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?,
+    ): View {
         @Suppress("SetTextI18n")
         return TextView(inflater.context).apply { text = "TODO" }
     }

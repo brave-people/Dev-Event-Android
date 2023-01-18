@@ -33,8 +33,17 @@ class DashboardFragment : Fragment() {
 
     private lateinit var binding: FragmentEventsBinding
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return DataBindingUtil.inflate<FragmentEventsBinding>(inflater, R.layout.fragment_events, container, false)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?,
+    ): View {
+        return DataBindingUtil.inflate<FragmentEventsBinding>(
+            inflater,
+            R.layout.fragment_events,
+            container,
+            false,
+        )
             .also { binding = it }
             .root
     }
