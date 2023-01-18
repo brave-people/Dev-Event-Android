@@ -15,4 +15,9 @@
     <string name="menu_settings">Settings</string>
 
     <string name="layout_event_organizer">주최: %s</string>
+
+    <string name="activity_main_toast_exception_occurred">문제가 발생했어요. 문제가 지속되면 ji@sungb.in 으로 제보해 주세요.\n\n\n%s</string>
+
+    <string name="fragment_events_title_all">전체 이벤트</string>
+    <string name="fragment_events_title_favorite">즐겨찾기 이벤트</string>
 </resources>
