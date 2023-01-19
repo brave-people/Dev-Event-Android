@@ -9,9 +9,9 @@
 
 package team.brave.devevent.android.data.repository
 
-import io.ktor.client.HttpClient
-import io.ktor.client.call.body
-import io.ktor.client.request.get
+import com.github.kittinunf.fuel.Fuel
+import com.github.kittinunf.fuel.coroutines.awaitObjectResult
+import com.github.kittinunf.fuel.jackson.jacksonDeserializerOf
 import javax.inject.Inject
 import team.brave.devevent.android.data.mapper.toDomain
 import team.brave.devevent.android.data.model.EventResponseItem
@@ -19,11 +19,10 @@ import team.brave.devevent.android.domain.model.Event
 import team.brave.devevent.android.domain.repository.EventRepository
 
 class EventRepositoryImpl @Inject constructor(
-    private val client: HttpClient,
+    private val client: Fuel,
 ) : EventRepository {
     override suspend fun getAllEvents(): List<Event> {
-        val request = client.get("/current")
-        val response: List<EventResponseItem> = request.body()
-        return response.toDomain()
+        val deserializer = jacksonDeserializerOf<List<EventResponseItem>>()
+        return client.get("/current").awaitObjectResult(deserializer).get().toDomain()
     }
 }
