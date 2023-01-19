@@ -24,8 +24,8 @@ import team.brave.devevent.android.data.util.buildDate
 
 class DateTest {
     @Test
-    fun `ISO 8601 date 변환`() {
-        val isoString = "2022-11-28T06:37".toDate()
+    fun `string 에서 date 변환`() {
+        val isoString = "2022-11-28 06:37".toDate()
         val isoDate = buildDate(
             year = 2022,
             month = 10,

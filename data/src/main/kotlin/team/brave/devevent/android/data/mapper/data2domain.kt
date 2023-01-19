@@ -92,8 +92,8 @@ internal fun Pair<EventDate, EventDate>.toEventDateString(): String? {
     }
 }
 
-// 2022-12-15T19:26
-private const val EventRawDateFormat = "yyyy-MM-dd'T'HH:mm"
+// 2022-12-22 00:00
+private const val EventRawDateFormat = "yyyy-MM-dd HH:mm"
 
 @VisibleForTesting
 internal fun String.toDate(): Date? {
