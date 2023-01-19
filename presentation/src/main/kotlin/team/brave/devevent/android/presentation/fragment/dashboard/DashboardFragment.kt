@@ -69,7 +69,6 @@ class DashboardFragment : Fragment() {
 
         binding.isFavorite = args.isFavorite
         binding.rvEvents.setHasFixedSize(true)
-
     }
 
     override fun onDestroyView() {
