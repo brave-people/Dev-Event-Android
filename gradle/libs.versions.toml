@@ -54,8 +54,11 @@ firebase-plugin-performance = "1.4.2"
 di-hilt = "2.44.2"
 di-inject = "1"
 
-# ktor
-ktor-core = "2.2.2"
+# fuel
+fuel-core = "2.3.1"
+
+# jackson
+jackson-core = "2.14.1"
 
 # test
 test-strikt = "0.34.1"
@@ -127,11 +130,11 @@ di-hilt-core = { module = "com.google.dagger:hilt-android", version.ref = "di-hi
 di-hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "di-hilt" }
 di-inject = { module = "javax.inject:javax.inject", version.ref = "di-inject" }
 
-ktor-client = { module = "io.ktor:ktor-client-core", version.ref = "ktor-core" }
-ktor-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor-core" }
-ktor-jackson = { module = "io.ktor:ktor-serialization-jackson", version.ref = "ktor-core" }
-ktor-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor-core" }
-ktor-engine = { module = "io.ktor:ktor-client-cio", version.ref = "ktor-core" }
+fuel-core = { module = "com.github.kittinunf.fuel:fuel", version.ref = "fuel-core" }
+fuel-jackson = { module = "com.github.kittinunf.fuel:fuel-jackson", version.ref = "fuel-core" }
+fuel-coroutines = { module = "com.github.kittinunf.fuel:fuel-coroutines", version.ref = "fuel-core" }
+
+jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jackson-core" }
 
 test-strikt = { module = "io.strikt:strikt-core", version.ref = "test-strikt" }
 test-junit-core = { module = "junit:junit", version.ref = "test-junit-core" }
@@ -141,9 +144,8 @@ test-androidx-runner = { module = "androidx.test:runner", version.ref = "test-an
 test-androidx-navigation = { module = "androidx.navigation:navigation-testing", version.ref = "androidx-navigation" }
 test-turbine = { module = "app.cash.turbine:turbine", version.ref = "test-turbine" }
 test-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlin-coroutines" }
-test-ktor-client = { module = "io.ktor:ktor-client-mock", version.ref = "ktor-core" }
 
 detekt-plugin-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "plugin-code-detekt" }
 
 [bundles]
-ktor = ["ktor-client", "ktor-content-negotiation", "ktor-jackson", "ktor-logging", "ktor-engine"]
+fuel = ["fuel-core", "fuel-jackson", "fuel-coroutines"]

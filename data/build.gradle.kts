@@ -22,12 +22,9 @@ android {
 
 dependencies {
     implementations(
-        libs.kotlin.coroutines,
-        libs.bundles.ktor,
+        libs.jackson.databind,
+        libs.bundles.fuel,
         projects.domain,
     )
-    testImplementations(
-        libs.test.coroutines,
-        libs.test.ktor.client,
-    )
+    testImplementations(libs.test.coroutines)
 }
