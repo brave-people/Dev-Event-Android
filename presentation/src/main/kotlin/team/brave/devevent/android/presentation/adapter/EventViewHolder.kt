@@ -9,12 +9,34 @@
 
 package team.brave.devevent.android.presentation.adapter
 
+import android.view.ViewGroup.MarginLayoutParams
+import androidx.core.view.updateLayoutParams
+import androidx.core.view.updateMargins
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import team.brave.devevent.android.domain.model.Event
+import team.brave.devevent.android.domain.model.Tag
 import team.brave.devevent.android.presentation.databinding.LayoutEventBinding
+import team.brave.devevent.android.presentation.util.dp2px
 
 class EventViewHolder(private val binding: LayoutEventBinding) : ViewHolder(binding.root) {
     fun setEvent(event: Event) {
         binding.event = event
+    }
+
+    fun enableSpacing() {
+        binding.cvRoot.updateLayoutParams<MarginLayoutParams> {
+            updateMargins(bottom = 16.dp2px)
+        }
+    }
+
+    fun disableSpacing() {
+        binding.cvRoot.updateLayoutParams<MarginLayoutParams> {
+            updateMargins(bottom = 0.dp2px)
+        }
+    }
+
+    fun setTags(@Suppress("UNUSED_PARAMETER") tags: List<Tag>) {
+        // TODO: 태그 연결
+        binding.rvTag.setHasFixedSize(true)
     }
 }
