@@ -17,7 +17,11 @@ import team.brave.devevent.android.domain.model.Event
 import team.brave.devevent.android.presentation.R
 import team.brave.devevent.android.presentation.databinding.LayoutEventBinding
 
+private const val EventViewType = 0
+
 class EventAdapter(private val events: List<Event>) : RecyclerView.Adapter<EventViewHolder>() {
+    private val eventSize = events.size
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = DataBindingUtil.inflate<LayoutEventBinding>(inflater, R.layout.layout_event, parent, false)
@@ -26,7 +30,16 @@ class EventAdapter(private val events: List<Event>) : RecyclerView.Adapter<Event
 
     override fun onBindViewHolder(holder: EventViewHolder, position: Int) {
         holder.setEvent(events[position])
+        if (position != eventSize - 1) {
+            holder.enableSpacing()
+        } else {
+            holder.disableSpacing()
+        }
     }
 
-    override fun getItemCount() = events.size
+    override fun getItemCount() = eventSize
+
+    override fun getItemId(position: Int) = position.toLong()
+
+    override fun getItemViewType(position: Int) = EventViewType
 }
