@@ -11,20 +11,10 @@
 
 package team.brave.devevent.android.data
 
-import io.ktor.client.HttpClient
-import kotlinx.coroutines.test.runTest
-import org.junit.After
-import org.junit.Before
-import org.junit.Test
-import strikt.api.expectThat
-import strikt.assertions.containsExactly
-import team.brave.devevent.android.data.dummy.DummyResponse
-import team.brave.devevent.android.data.mock.buildMockHttpClient
-import team.brave.devevent.android.data.repository.EventRepositoryImpl
-import team.brave.devevent.android.domain.repository.EventRepository
-
+// TODO: mock 테스트 작성
+// https://stackoverflow.com/q/53280953/14299073
 class ServerResponseMapperTest {
-    private lateinit var client: HttpClient
+    /*private lateinit var client: HttpClient
     private val repository: EventRepository by lazy { EventRepositoryImpl(client) }
 
     @Before
@@ -42,5 +32,5 @@ class ServerResponseMapperTest {
     @After
     fun closeClient() {
         client.close()
-    }
+    }*/
 }
