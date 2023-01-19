@@ -31,8 +31,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_root"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp">
+            android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/iv_banner"
@@ -68,7 +67,7 @@
 
             <TextView
                 android:id="@+id/tv_title"
-                style="@style/TextAppearance.Material3.TitleLarge"
+                style="@style/TextAppearance.Material3.TitleMedium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
@@ -112,6 +111,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
                 android:clipToPadding="false"
                 android:orientation="horizontal"
                 android:paddingHorizontal="16dp"
