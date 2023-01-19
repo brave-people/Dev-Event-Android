@@ -17,18 +17,7 @@ import org.jlleitschuh.gradle.ktlint.KtlintExtension
 plugins {
     alias(libs.plugins.code.ktlint)
     alias(libs.plugins.code.detekt)
-    alias(libs.plugins.kotlin.kover)
     alias(libs.plugins.util.dependency.handler.extensions)
-}
-
-koverMerged {
-    enable()
-    xmlReport {
-        reportFile.set(file("$rootDir/report/test-coverage/report.xml"))
-    }
-    htmlReport {
-        reportDir.set(file("$rootDir/report/test-coverage/html"))
-    }
 }
 
 buildscript {
@@ -53,7 +42,6 @@ buildscript {
 
 allprojects {
     apply {
-        plugin(rootProject.libs.plugins.kotlin.kover.get().pluginId)
         plugin(rootProject.libs.plugins.code.ktlint.get().pluginId)
         plugin(rootProject.libs.plugins.code.detekt.get().pluginId)
         plugin(rootProject.libs.plugins.util.dependency.handler.extensions.get().pluginId)
