@@ -16,6 +16,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.google.firebase.crashlytics.ktx.crashlytics
@@ -41,10 +42,12 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fcv_navigator) as NavHostFragment
         navController = navHostFragment.navController
 
-        lifecycleScope.launchWhenCreated {
-            vm.getAllEvents()
-
+        lifecycleScope.launch {
             launch {
+                vm.getAllEvents()
+            }
+
+            repeatOnLifecycle(Lifecycle.State.CREATED) {
                 vm.exception
                     .flowWithLifecycle(
                         lifecycle = lifecycle,

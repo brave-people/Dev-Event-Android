@@ -19,8 +19,10 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
 import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.launch
 import team.brave.devevent.android.domain.model.Event
 import team.brave.devevent.android.presentation.R
 import team.brave.devevent.android.presentation.adapter.EventAdapter
@@ -50,18 +52,24 @@ class DashboardFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.isFavorite = args.isFavorite
-        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-            vm.events
-                .flowWithLifecycle(
-                    lifecycle = viewLifecycleOwner.lifecycle,
-                    minActiveState = Lifecycle.State.CREATED,
-                )
-                .filterNotNull()
-                .collect { events ->
-                    updateEvents(events)
-                }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.CREATED) {
+                vm.events
+                    .flowWithLifecycle(
+                        lifecycle = viewLifecycleOwner.lifecycle,
+                        minActiveState = Lifecycle.State.CREATED,
+                    )
+                    .filterNotNull()
+                    .collect { events ->
+                        updateEvents(events)
+                    }
+            }
         }
+
+        binding.isFavorite = args.isFavorite
+        binding.rvEvents.setHasFixedSize(true)
+
     }
 
     override fun onDestroyView() {
