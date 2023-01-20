@@ -34,13 +34,17 @@ class ServerResponseMapperTest {
     private val originalClient = FuelManager.instance.client
 
     @Before
-    fun setupClient() {
+    fun installMockClient() {
         val client = mockk<Client>()
         coEvery { client.awaitRequest(any()) } returns Response(
             url = URL("https:"),
             body = DefaultBody(openStream = { DummyResponse.RawData.byteInputStream() }),
         )
         FuelManager.instance.client = client
+    }
+
+    @Before
+    fun setBasePath() {
         FuelManager.instance.basePath = "https:"
     }
 
@@ -52,7 +56,7 @@ class ServerResponseMapperTest {
     }
 
     @After
-    fun closeClient() {
+    fun rollbackClient() {
         FuelManager.instance.client = originalClient
     }
 }
