@@ -11,15 +11,37 @@
 
 package team.brave.devevent.android.data
 
-// TODO: mock 테스트 작성
-// https://stackoverflow.com/q/53280953/14299073
+import com.github.kittinunf.fuel.Fuel
+import com.github.kittinunf.fuel.core.Client
+import com.github.kittinunf.fuel.core.FuelManager
+import com.github.kittinunf.fuel.core.Response
+import com.github.kittinunf.fuel.core.requests.DefaultBody
+import io.mockk.coEvery
+import io.mockk.mockk
+import java.net.URL
+import kotlinx.coroutines.test.runTest
+import org.junit.After
+import org.junit.Before
+import org.junit.Test
+import strikt.api.expectThat
+import strikt.assertions.containsExactly
+import team.brave.devevent.android.data.dummy.DummyResponse
+import team.brave.devevent.android.data.repository.EventRepositoryImpl
+import team.brave.devevent.android.domain.repository.EventRepository
+
 class ServerResponseMapperTest {
-    /*private lateinit var client: HttpClient
-    private val repository: EventRepository by lazy { EventRepositoryImpl(client) }
+    private val repository: EventRepository = EventRepositoryImpl(client = Fuel)
+    private val originalClient = FuelManager.instance.client
 
     @Before
     fun setupClient() {
-        client = buildMockHttpClient(content = DummyResponse.RawData)
+        val client = mockk<Client>()
+        coEvery { client.awaitRequest(any()) } returns Response(
+            url = URL("https:"),
+            body = DefaultBody(openStream = { DummyResponse.RawData.byteInputStream() }),
+        )
+        FuelManager.instance.client = client
+        FuelManager.instance.basePath = "https:"
     }
 
     @Test
@@ -31,6 +53,6 @@ class ServerResponseMapperTest {
 
     @After
     fun closeClient() {
-        client.close()
-    }*/
+        FuelManager.instance.client = originalClient
+    }
 }

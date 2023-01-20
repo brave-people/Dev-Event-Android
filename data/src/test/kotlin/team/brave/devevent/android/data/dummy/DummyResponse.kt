@@ -38,11 +38,11 @@ object DummyResponse {
                 "event_time_type": "DATE",
                 "start_day_week": "목",
                 "use_start_date_time_yn": "N",
-                "start_date_time": "2022-12-22T00:00",
+                "start_date_time": "2022-12-22 00:00",
                 "end_day_week": "목",
                 "use_end_date_time_yn": "N",
-                "end_date_time": "2023-01-05T00:00",
-                "create_date_time": "2022-12-30T22:06",
+                "end_date_time": "2023-01-05 00:00",
+                "create_date_time": "2022-12-30 22:06",
                 "tags": [
                   {
                     "id": 9,
@@ -61,11 +61,11 @@ object DummyResponse {
                 "event_time_type": "RECRUIT",
                 "start_day_week": "목",
                 "use_start_date_time_yn": "Y",
-                "start_date_time": "2023-01-05T11:00",
+                "start_date_time": "2023-01-05 11:00",
                 "end_day_week": "목",
                 "use_end_date_time_yn": "Y",
-                "end_date_time": "2023-01-05T12:00",
-                "create_date_time": "2022-12-30T22:11",
+                "end_date_time": "2023-01-05 12:00",
+                "create_date_time": "2022-12-30 22:11",
                 "tags": []
               }
             ]
@@ -87,11 +87,11 @@ object DummyResponse {
                 "event_time_type": "DATE",
                 "start_day_week": "월",
                 "use_start_date_time_yn": "N",
-                "start_date_time": "2023-02-27T00:00",
+                "start_date_time": "2023-02-27 00:00",
                 "end_day_week": "화",
                 "use_end_date_time_yn": "N",
-                "end_date_time": "2023-02-28T00:00",
-                "create_date_time": "2022-10-21T23:58",
+                "end_date_time": "2023-02-28 00:00",
+                "create_date_time": "2022-10-21 23:58",
                 "tags": [
                   {
                     "id": 5,
