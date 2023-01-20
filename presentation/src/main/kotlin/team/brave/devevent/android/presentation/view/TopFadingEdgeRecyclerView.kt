@@ -14,7 +14,8 @@ import android.util.AttributeSet
 import androidx.recyclerview.widget.RecyclerView
 
 // https://stackoverflow.com/a/56338638/14299073
-class FadingEdgeRecyclerView @JvmOverloads constructor(
+// https://stackoverflow.com/a/65329420/14299073
+class TopFadingEdgeRecyclerView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0,
@@ -22,4 +23,5 @@ class FadingEdgeRecyclerView @JvmOverloads constructor(
     override fun isPaddingOffsetRequired() = true
     override fun getTopPaddingOffset() = -paddingTop
     override fun getBottomPaddingOffset() = paddingBottom
+    override fun getBottomFadingEdgeStrength() = 0f
 }
