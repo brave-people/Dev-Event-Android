@@ -27,7 +27,6 @@ import javax.net.ssl.SSLSocketFactory
 import javax.net.ssl.TrustManagerFactory
 import team.brave.devevent.android.data.R
 
-
 @Suppress("unused")
 @Module
 @InstallIn(SingletonComponent::class)

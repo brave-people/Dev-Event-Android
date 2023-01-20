@@ -14,16 +14,18 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
 import androidx.core.view.updateLayoutParams
-import androidx.core.view.updateMargins
 import androidx.core.view.updateMarginsRelative
 import androidx.recyclerview.widget.RecyclerView
 import team.brave.devevent.android.domain.model.Tag
 import team.brave.devevent.android.presentation.databinding.LayoutEventTagBinding
 import team.brave.devevent.android.presentation.util.dp2px
 
+private const val DarkColorLuminanceThreshold = 0.5
+
 class TagViewHolder(private val binding: LayoutEventTagBinding) : RecyclerView.ViewHolder(binding.root) {
     fun setTag(tag: Tag) {
-        val isDarkColor = ColorUtils.calculateLuminance(Color.parseColor(tag.hexColor)) < 0.5
+        @Suppress("MagicNumber")
+        val isDarkColor = ColorUtils.calculateLuminance(Color.parseColor(tag.hexColor)) < DarkColorLuminanceThreshold
         binding.tag = tag
         if (isDarkColor) {
             val context = binding.root.context
