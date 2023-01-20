@@ -9,7 +9,8 @@
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:theme="@style/Theme.DevEvent.Styled">
 
     <data>
 
@@ -18,17 +19,15 @@
             type="team.brave.devevent.android.domain.model.Tag" />
     </data>
 
-    <merge tools:theme="@style/Theme.DevEvent.Styled">
-
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chip_tag"
-            style="@style/Widget.Material3.Chip.Suggestion"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{tag.name}"
-            app:backgroundColor="@{tag.hexColor}"
-            tools:text="@string/app_name" />
-
-    </merge>
+    <com.google.android.material.chip.Chip
+        android:id="@+id/chip_tag"
+        style="@style/Widget.Material3.Chip.Suggestion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@{tag.name}"
+        android:textColor="#000"
+        app:backgroundColor="@{tag.hexColor}"
+        app:ensureMinTouchTargetSize="false"
+        tools:text="@string/app_name" />
 
 </layout>
