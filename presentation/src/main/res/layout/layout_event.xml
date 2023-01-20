@@ -26,6 +26,7 @@
         android:id="@+id/cv_root"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:contentPaddingBottom="16dp"
         tools:theme="@style/Theme.DevEvent.Styled">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -110,8 +111,7 @@
                 android:id="@+id/rv_tag"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginTop="16dp"
                 android:clipToPadding="false"
                 android:orientation="horizontal"
                 android:paddingHorizontal="16dp"
