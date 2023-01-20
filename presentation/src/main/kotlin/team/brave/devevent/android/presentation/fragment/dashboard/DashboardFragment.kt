@@ -13,7 +13,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
@@ -24,8 +23,7 @@ import androidx.navigation.fragment.navArgs
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 import team.brave.devevent.android.domain.model.Event
-import team.brave.devevent.android.presentation.R
-import team.brave.devevent.android.presentation.adapter.EventAdapter
+import team.brave.devevent.android.presentation.adapter.event.EventAdapter
 import team.brave.devevent.android.presentation.databinding.FragmentEventsBinding
 import team.brave.devevent.android.presentation.viewmodel.MainViewModel
 
@@ -40,12 +38,8 @@ class DashboardFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        return DataBindingUtil.inflate<FragmentEventsBinding>(
-            inflater,
-            R.layout.fragment_events,
-            container,
-            false,
-        )
+        return FragmentEventsBinding
+            .inflate(inflater, container, false)
             .also { binding = it }
             .root
     }
@@ -61,9 +55,7 @@ class DashboardFragment : Fragment() {
                         minActiveState = Lifecycle.State.CREATED,
                     )
                     .filterNotNull()
-                    .collect { events ->
-                        updateEvents(events)
-                    }
+                    .collect(::updateEvents)
             }
         }
 
