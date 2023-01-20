@@ -39,17 +39,20 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <team.brave.devevent.android.presentation.view.FadingEdgeRecyclerView
+        <team.brave.devevent.android.presentation.view.TopFadingEdgeRecyclerView
             android:id="@+id/rv_events"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginHorizontal="16dp"
             android:clipToPadding="false"
             android:orientation="vertical"
+            android:background="#00000000"
+            android:overScrollMode="never"
             android:paddingVertical="16dp"
             android:requiresFadingEdge="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/layout_event" />
 
     </LinearLayout>
+
 </layout>
