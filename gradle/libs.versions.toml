@@ -57,6 +57,7 @@ fuel-core = "2.3.1"
 moshi-core = "1.14.0"
 
 # test
+test-mockk = "1.13.3"
 test-strikt = "0.34.1"
 test-junit-core = "4.13.2"
 test-junit-engine = "5.9.2"
@@ -130,6 +131,7 @@ fuel-coroutines = { module = "com.github.kittinunf.fuel:fuel-coroutines", versio
 moshi-core = { module = "com.squareup.moshi:moshi", version.ref = "moshi-core" }
 moshi-kotlin = { module = "com.squareup.moshi:moshi-kotlin", version.ref = "moshi-core" }
 
+test-mockk = { module = "io.mockk:mockk", version.ref = "test-mockk" }
 test-strikt = { module = "io.strikt:strikt-core", version.ref = "test-strikt" }
 test-junit-core = { module = "junit:junit", version.ref = "test-junit-core" }
 test-junit-engine = { module = "org.junit.vintage:junit-vintage-engine", version.ref = "test-junit-engine" } # testRuntimeOnly
@@ -143,4 +145,4 @@ detekt-plugin-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-format
 
 [bundles]
 fuel = ["fuel-core", "fuel-moshi", "fuel-coroutines"]
-moshi = ["moshi-core", "moshi-kotlin",]
+moshi = ["moshi-core", "moshi-kotlin", ]

@@ -26,5 +26,8 @@ dependencies {
         libs.bundles.moshi,
         projects.domain,
     )
-    testImplementations(libs.test.coroutines)
+    testImplementations(
+        libs.test.mockk,
+        libs.test.coroutines,
+    )
 }
