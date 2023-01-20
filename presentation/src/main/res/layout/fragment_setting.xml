@@ -9,9 +9,7 @@
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <data>
-
-    </data>
+    <data />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_root"
@@ -19,4 +17,5 @@
         android:layout_height="match_parent">
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>
