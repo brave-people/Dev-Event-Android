@@ -7,7 +7,8 @@
  * Please see: https://github.com/brave-people/Dev-Event-Android/blob/master/LICENSE
  */
 
-@file:Suppress("NonAsciiCharacters", "OPT_IN_USAGE")
+@file:Suppress("NonAsciiCharacters")
+@file:OptIn(ExperimentalCoroutinesApi::class)
 
 package team.brave.devevent.android.data
 
@@ -19,6 +20,7 @@ import com.github.kittinunf.fuel.core.requests.DefaultBody
 import io.mockk.coEvery
 import io.mockk.mockk
 import java.net.URL
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Before
