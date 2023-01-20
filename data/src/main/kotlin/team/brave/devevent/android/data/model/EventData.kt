@@ -2,14 +2,14 @@
  * DevEvent-Android © 2022 Ji Sungbin. all rights reserved.
  * DevEvent-Android license is under the MIT.
  *
- * [DevEventItem.kt] created by Ji Sungbin on 22. 12. 8. 오전 1:30
+ * [DevEventItem.kt] created by Ji Sungbin on 23. 1. 20. 오후 11:09
  *
  * Please see: https://github.com/brave-people/Dev-Event-Android/blob/master/LICENSE
  */
 
 package team.brave.devevent.android.data.model
 
-import com.fasterxml.jackson.annotation.JsonProperty
+import com.squareup.moshi.Json
 import team.brave.devevent.android.domain.constants.EventTimeType
 
 // [NOTE] eventTimeType 는 2가지 종류로 나뉨
@@ -19,51 +19,51 @@ import team.brave.devevent.android.domain.constants.EventTimeType
 // [NOTE] start_date_time ~ end_date_time 이 기간을 나타냄
 
 internal data class EventData(
-    @field:JsonProperty("event_time_type")
-    val eventTimeType: EventTimeType? = null,
+	@Json(name = "event_time_type")
+	val eventTimeType: EventTimeType? = null,
 
-    @field:JsonProperty("start_day_week")
-    val startDayWeek: String? = null,
+	@Json(name = "start_day_week")
+	val startDayWeek: String? = null,
 
-    @field:JsonProperty("description")
-    val description: String? = null,
+	@Json(name = "end_time")
+	val endTime: Any? = null,
 
-    @field:JsonProperty("cover_image_link")
-    val coverImageLink: String? = null,
+	@Json(name = "description")
+	val description: String? = null,
 
-    @field:JsonProperty("title")
-    val title: String? = null,
+	@Json(name = "cover_image_link")
+	val coverImageLink: String? = null,
 
-    @field:JsonProperty("display_sequence")
-    val displaySequence: Int? = null,
+	@Json(name = "title")
+	val title: String? = null,
 
-    @field:JsonProperty("tags")
-    val tags: List<TagData?>? = null,
+	@Json(name = "display_sequence")
+	val displaySequence: Int? = null,
 
-    @field:JsonProperty("use_end_date_time_yn")
-    val useEndDateTimeYn: String? = null,
+	@Json(name = "tags")
+	val tags: List<TagData?>? = null,
 
-    @field:JsonProperty("end_date_time")
-    val endDateTime: String? = null,
+	@Json(name = "start_time")
+	val startTime: Any? = null,
 
-    @field:JsonProperty("create_date_time")
-    val createDateTime: String? = null,
+	@Json(name = "end_date_time")
+	val endDateTime: String? = null,
 
-    @field:JsonProperty("end_day_week")
-    val endDayWeek: String? = null,
+	@Json(name = "create_date_time")
+	val createDateTime: String? = null,
 
-    @field:JsonProperty("organizer")
-    val organizer: String? = null,
+	@Json(name = "end_day_week")
+	val endDayWeek: String? = null,
 
-    @field:JsonProperty("event_link")
-    val eventLink: String? = null,
+	@Json(name = "organizer")
+	val organizer: String? = null,
 
-    @field:JsonProperty("id")
-    val id: Int? = null,
+	@Json(name = "event_link")
+	val eventLink: String? = null,
 
-    @field:JsonProperty("start_date_time")
-    val startDateTime: String? = null,
+	@Json(name = "id")
+	val id: Int? = null,
 
-    @field:JsonProperty("use_start_date_time_yn")
-    val useStartDateTimeYn: String? = null,
+	@Json(name = "start_date_time")
+	val startDateTime: String? = null,
 )

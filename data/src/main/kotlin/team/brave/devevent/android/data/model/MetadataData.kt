@@ -2,22 +2,22 @@
  * DevEvent-Android © 2022 Ji Sungbin. all rights reserved.
  * DevEvent-Android license is under the MIT.
  *
- * [Metadata.kt] created by Ji Sungbin on 22. 12. 8. 오전 1:30
+ * [Metadata.kt] created by Ji Sungbin on 23. 1. 20. 오후 11:09
  *
  * Please see: https://github.com/brave-people/Dev-Event-Android/blob/master/LICENSE
  */
 
 package team.brave.devevent.android.data.model
 
-import com.fasterxml.jackson.annotation.JsonProperty
+import com.squareup.moshi.Json
 
-internal data class Metadata(
-    @field:JsonProperty("total")
+internal data class MetadataData(
+    @Json(name = "total")
     val total: Int? = null,
 
-    @field:JsonProperty("month")
+    @Json(name = "month")
     val month: Int? = null,
 
-    @field:JsonProperty("year")
+    @Json(name = "year")
     val year: Int? = null,
 )

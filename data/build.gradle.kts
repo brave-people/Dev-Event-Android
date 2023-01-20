@@ -22,8 +22,8 @@ android {
 
 dependencies {
     implementations(
-        libs.jackson.databind,
         libs.bundles.fuel,
+        libs.bundles.moshi,
         projects.domain,
     )
     testImplementations(libs.test.coroutines)
