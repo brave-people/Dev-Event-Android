@@ -9,6 +9,6 @@
 
 package team.brave.devevent.android.presentation.util
 
-fun <T> Collection<T>.mutate(mutator: MutableCollection<T>.() -> Unit): Collection<T> {
-    return toMutableList().apply(mutator)
+fun <T> Set<T>.mutate(mutator: MutableSet<T>.() -> Unit): Set<T> {
+    return toMutableSet().apply(mutator)
 }
