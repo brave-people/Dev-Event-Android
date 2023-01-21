@@ -20,8 +20,24 @@ import team.brave.devevent.android.presentation.databinding.LayoutEventBinding
 import team.brave.devevent.android.presentation.util.dp2px
 
 class EventViewHolder(private val binding: LayoutEventBinding) : RecyclerView.ViewHolder(binding.root) {
-    fun setEvent(event: Event) {
+    fun setEvent(event: Event, isFavorite: Boolean) {
         binding.event = event
+        binding.isFavorite = isFavorite
+    }
+
+    private fun toggleFavorite() {
+        binding.isFavorite = !(binding.isFavorite ?: error("isFavorite not initialized"))
+    }
+
+    fun setEventClickListener(listener: EventItemClickListener, toggleFavoriteEventIdMap: () -> Unit) {
+        binding.ivFavorite.setOnClickListener {
+            listener.onFavoriteClick(binding.event ?: error("event not initialized"))
+            toggleFavorite()
+            toggleFavoriteEventIdMap()
+        }
+        binding.ivShare.setOnClickListener {
+            listener.onShareClick(binding.event ?: error("event not initialized"))
+        }
     }
 
     fun enableSpacing() {

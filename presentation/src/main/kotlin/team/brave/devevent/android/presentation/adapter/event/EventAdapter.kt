@@ -17,7 +17,12 @@ import team.brave.devevent.android.presentation.databinding.LayoutEventBinding
 
 private const val EventViewType = 0
 
-class EventAdapter(private val events: List<Event>) : RecyclerView.Adapter<EventViewHolder>() {
+class EventAdapter(
+    private val events: List<Event>,
+    // 매번 contains 하는 시간 없애기 위해 Map 으로 변환
+    private val favoriteEventIds: MutableMap<Int, Boolean>,
+    private val eventItemClickListener: EventItemClickListener,
+) : RecyclerView.Adapter<EventViewHolder>() {
     private val eventSize = events.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
@@ -27,8 +32,17 @@ class EventAdapter(private val events: List<Event>) : RecyclerView.Adapter<Event
     }
 
     override fun onBindViewHolder(holder: EventViewHolder, position: Int) {
-        holder.setEvent(events[position])
-        holder.setTags(events[position].tags)
+        val event = events[position]
+
+        holder.setEvent(event = event, isFavorite = favoriteEventIds[event.id] ?: false)
+        holder.setTags(event.tags)
+        holder.setEventClickListener(
+            listener = eventItemClickListener,
+            toggleFavoriteEventIdMap = {
+                favoriteEventIds[event.id] = !(favoriteEventIds[event.id] ?: false)
+            },
+        )
+
         if (position != eventSize - 1) {
             holder.enableSpacing()
         } else {
@@ -38,7 +52,7 @@ class EventAdapter(private val events: List<Event>) : RecyclerView.Adapter<Event
 
     override fun getItemCount() = eventSize
 
-    override fun getItemId(position: Int) = position.toLong()
+    override fun getItemId(position: Int) = events[position].id.toLong()
 
     override fun getItemViewType(position: Int) = EventViewType
 }

@@ -21,9 +21,13 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
 import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import team.brave.devevent.android.datastore.PreferenceKey
+import team.brave.devevent.android.datastore.dataStore
 import team.brave.devevent.android.domain.model.Event
 import team.brave.devevent.android.presentation.adapter.event.EventAdapter
+import team.brave.devevent.android.presentation.adapter.event.EventItemClickListener
 import team.brave.devevent.android.presentation.databinding.FragmentEventsBinding
 import team.brave.devevent.android.presentation.viewmodel.MainViewModel
 
@@ -55,7 +59,20 @@ class DashboardFragment : Fragment() {
                         minActiveState = Lifecycle.State.CREATED,
                     )
                     .filterNotNull()
-                    .collect(::updateEvents)
+                    .collect { events ->
+                        @Suppress("ReplaceGetOrSet")
+                        val favoriteEventIdSet = requireContext().applicationContext.dataStore.data.first()
+                            .get(PreferenceKey.Event.FavoriteId).orEmpty()
+
+                        updateEvents(
+                            events = events,
+                            favoriteEventIdMap = buildMap {
+                                favoriteEventIdSet.forEach { favoriteEventId ->
+                                    set(favoriteEventId.toInt(), true)
+                                }
+                            },
+                        )
+                    }
             }
         }
 
@@ -69,10 +86,27 @@ class DashboardFragment : Fragment() {
     }
 
     // TODO: RecyclerView 최적화
-    private fun updateEvents(events: List<Event>) {
-        // TODO: 즐겨찾기 기능 연결
-        val filteredEvents = if (args.isFavorite) emptyList() else events
-        val adapter = EventAdapter(filteredEvents)
+    private fun updateEvents(events: List<Event>, favoriteEventIdMap: Map<Int, Boolean>) {
+        val filteredEvents = if (args.isFavorite) {
+            events.filter { event -> favoriteEventIdMap[event.id] ?: false }
+        } else {
+            events
+        }
+        val eventItemClickListener = object : EventItemClickListener {
+            override fun onFavoriteClick(event: Event) {
+                vm.toggleEventFavorite(event.id)
+            }
+
+            override fun onShareClick(event: Event) {
+                vm.shareEvent(event)
+            }
+        }
+        val adapter = EventAdapter(
+            events = filteredEvents,
+            favoriteEventIds = favoriteEventIdMap.toMutableMap(),
+            eventItemClickListener = eventItemClickListener,
+        )
+
         binding.rvEvents.adapter = adapter
     }
 }

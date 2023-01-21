@@ -20,6 +20,10 @@
         <variable
             name="event"
             type="team.brave.devevent.android.domain.model.Event" />
+
+        <variable
+            name="isFavorite"
+            type="java.lang.Boolean" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -51,7 +55,7 @@
                 android:layout_margin="8dp"
                 android:contentDescription="@null"
                 android:padding="8dp"
-                android:src="@drawable/round_favorite_border_24"
+                android:src="@{ isFavorite ? @drawable/round_favorite_24 : @drawable/round_favorite_border_24 }"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
