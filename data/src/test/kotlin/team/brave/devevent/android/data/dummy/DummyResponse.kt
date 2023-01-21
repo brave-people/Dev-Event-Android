@@ -16,8 +16,8 @@ import team.brave.devevent.android.domain.model.Event
 import team.brave.devevent.android.domain.model.Tag
 
 object DummyResponse {
-    // 436 이벤트는 tags 아이템 및 cover_image_link 가 없음
-    // 284 이벤트는 organizer 가 없음
+    // 436 이벤트는 tags 아이템 및 cover_image_link 가 없음 -> 선택 필드 누락
+    // 284 이벤트는 organizer 가 없음 -> 필수 필드 누락으로 결과에서 제외
     const val RawData = """
         [
           {
@@ -107,21 +107,23 @@ object DummyResponse {
 
     val DomainData = listOf(
         Event(
+            id = 433,
             title = "프리온보딩 백엔드 챌린지 1월",
             organizer = "원티드",
             time = "2022.12.22(목) ~ 2023.01.05(목)",
             timeType = EventTimeType.DATE,
             tags = listOf(Tag(name = "교육", hexColor = "#5D93E4")),
-            eventLink = "https://www.wanted.co.kr/events/pre_challenge_be_3",
+            link = "https://www.wanted.co.kr/events/pre_challenge_be_3",
             bannerUrl = "https://brave-people-3.s3.ap-northeast-2.amazonaws.com/DEVEVENT/2022-12-30-22-06-1816-39373946.png",
         ),
         Event(
+            id = 436,
             title = "Certificate Manager로 인증서 쉽게 관리하기",
             organizer = "네이버 클라우드 플랫폼",
             time = "2023.01.05(목) 11:00 ~ 12:00",
             timeType = EventTimeType.RECRUIT,
             tags = emptyList(),
-            eventLink = "https://app.livestorm.co/naver-cloud/certificate-manager2",
+            link = "https://app.livestorm.co/naver-cloud/certificate-manager2",
             bannerUrl = null,
         ),
     )
