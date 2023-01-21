@@ -29,7 +29,10 @@ class EventViewHolder(private val binding: LayoutEventBinding) : RecyclerView.Vi
         binding.isFavorite = !(binding.isFavorite ?: error("isFavorite not initialized"))
     }
 
-    fun setEventClickListener(listener: EventItemClickListener, toggleFavoriteEventIdMap: () -> Unit) {
+    fun setEventClickListener(
+        listener: EventItemClickListener,
+        toggleFavoriteEventIdMap: () -> Unit,
+    ) {
         binding.ivFavorite.setOnClickListener {
             listener.onFavoriteClick(binding.event ?: error("event not initialized"))
             toggleFavorite()

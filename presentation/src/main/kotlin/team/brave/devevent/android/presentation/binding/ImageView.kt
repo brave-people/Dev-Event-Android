@@ -14,6 +14,8 @@ import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import team.brave.devevent.android.presentation.R
 
+private const val ThumbnailImageScale = 0.25f
+
 @BindingAdapter("app:loadUrl")
 fun imageViewLoadUrl(imageView: ImageView, url: String) {
     val context = imageView.context
@@ -21,7 +23,7 @@ fun imageViewLoadUrl(imageView: ImageView, url: String) {
     val thumbnailGlide = Glide
         .with(context)
         .load(url)
-        .sizeMultiplier(0.25f)
+        .sizeMultiplier(ThumbnailImageScale)
 
     val errorGlide = Glide
         .with(context)
