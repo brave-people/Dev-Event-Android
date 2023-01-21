@@ -10,8 +10,8 @@
 <resources>
     <string name="app_name">DevEvent</string>
 
-    <string name="menu_dashboard">Dashboard</string>
-    <string name="menu_favorite">Favorite</string>
+    <string name="menu_all_events">Dashboard</string>
+    <string name="menu_favorite_events">Favorite</string>
     <string name="menu_settings">Settings</string>
 
     <string name="layout_event_organizer">주최: %s</string>
