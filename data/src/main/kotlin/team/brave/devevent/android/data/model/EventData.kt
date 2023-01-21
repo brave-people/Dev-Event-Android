@@ -19,6 +19,9 @@ import team.brave.devevent.android.domain.constants.EventTimeType
 // [NOTE] start_date_time ~ end_date_time 이 기간을 나타냄
 
 internal data class EventData(
+	@Json(name = "id")
+	val id: Int? = null,
+
 	@Json(name = "event_time_type")
 	val eventTimeType: EventTimeType? = null,
 
@@ -60,9 +63,6 @@ internal data class EventData(
 
 	@Json(name = "event_link")
 	val eventLink: String? = null,
-
-	@Json(name = "id")
-	val id: Int? = null,
 
 	@Json(name = "start_date_time")
 	val startDateTime: String? = null,

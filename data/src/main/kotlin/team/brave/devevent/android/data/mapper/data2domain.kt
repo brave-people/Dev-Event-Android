@@ -25,6 +25,7 @@ internal fun List<EventResponseItem>.toDomain(): List<Event> {
         val events = item.events?.filterNotNull() ?: return@mapNotNull null
         events.mapNotNull nestedMapNotNull@{ event ->
             // require fields assertion
+            event.id ?: return@nestedMapNotNull null
             event.title ?: return@nestedMapNotNull null
             event.organizer ?: return@nestedMapNotNull null
             event.startDateTime ?: return@nestedMapNotNull null
@@ -33,13 +34,14 @@ internal fun List<EventResponseItem>.toDomain(): List<Event> {
             event.eventLink ?: return@nestedMapNotNull null
 
             Event(
+                id = event.id,
                 title = event.title,
                 organizer = event.organizer,
                 time = (EventDate.from(event.startDateTime) to EventDate.from(event.endDateTime)).toEventDateString()
                     ?: "조회 실패",
                 timeType = event.eventTimeType,
                 tags = event.tags?.filterNotNull()?.mapNotNull(TagData::toDomain).orEmpty(),
-                eventLink = event.eventLink,
+                link = event.eventLink,
                 bannerUrl = event.coverImageLink,
             )
         }

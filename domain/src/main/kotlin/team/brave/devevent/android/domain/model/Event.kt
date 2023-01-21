@@ -16,6 +16,7 @@ import team.brave.devevent.android.domain.constants.EventTimeType
 /**
  * 이벤트 정보 객체
  *
+ * @param id 이벤트 모델의 고유 아이디
  * @param title 이벤트 제목
  * @param organizer 이벤트 주최자
  * @param time 이벤트 진행 일정. 2가지 형식을 나타냄.
@@ -24,17 +25,18 @@ import team.brave.devevent.android.domain.constants.EventTimeType
  * @param timeType 표시되는 [이벤트 진행 일정][time] 의 종류.
  * See: [EventTimeType]
  * @param tags 포함된 태그 목록
- * @param eventLink 이벤트 상세 보기 링크
+ * @param link 이벤트 상세 보기 링크
  * @param bannerUrl 이벤트 배너 이미지 링크
  */
 @Parcelize
 data class Event(
+    val id: Int,
     val title: String,
     val organizer: String,
     val time: String,
     val timeType: EventTimeType,
     val tags: List<Tag>,
-    val eventLink: String,
+    val link: String,
     val bannerUrl: String?,
 ) : Parcelable
 
