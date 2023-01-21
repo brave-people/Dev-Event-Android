@@ -14,17 +14,9 @@ import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import team.brave.devevent.android.presentation.R
 
-private const val ThumbnailImageScale = 0.25f
-
 @BindingAdapter("app:loadUrl")
 fun imageViewLoadUrl(imageView: ImageView, url: String) {
     val context = imageView.context
-
-    val thumbnailGlide = Glide
-        .with(context)
-        .load(url)
-        .sizeMultiplier(ThumbnailImageScale)
-
     val errorGlide = Glide
         .with(context)
         .load(R.drawable.round_broken_image_24)
@@ -33,7 +25,6 @@ fun imageViewLoadUrl(imageView: ImageView, url: String) {
     Glide
         .with(context)
         .load(url)
-        .thumbnail(thumbnailGlide)
         .error(errorGlide)
         .into(imageView)
 }
