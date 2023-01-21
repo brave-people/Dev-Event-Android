@@ -52,6 +52,7 @@ dependencies {
         libs.ktx.lifecycle.viewmodel,
         projects.di,
         projects.domain,
+        projects.datastore,
     )
     androidTestImplementation(libs.test.androidx.navigation)
 }
