@@ -80,24 +80,6 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun shareEvent(event: Event) {
-        val title = "${event.title} 이벤트 공유"
-        val message = """
-            이 이벤트 어때요?
-            
-            [${event.title}]
-            주최: ${event.organizer}
-            일시: ${event.toTimeString()}
-            태그: ${event.tags.joinToString(", ")}
-            ${event.link}
-        """.trimIndent()
-        val intent = Intent(Intent.ACTION_SEND).apply {
-            type = "text/plain"
-            putExtra(Intent.EXTRA_TEXT, message)
-        }
-        context.startActivity(Intent.createChooser(intent, title))
-    }
-
     fun menuReselected(menu: BnvMenu) {
         viewModelScope.launch {
             _reselectMenu.send(menu)

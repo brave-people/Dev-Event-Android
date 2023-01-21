@@ -9,6 +9,7 @@
 
 package team.brave.devevent.android.presentation.fragment.dashboard
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -28,13 +29,15 @@ import kotlinx.coroutines.launch
 import team.brave.devevent.android.datastore.PreferenceKey
 import team.brave.devevent.android.datastore.dataStore
 import team.brave.devevent.android.domain.model.Event
+import team.brave.devevent.android.domain.model.Tag
+import team.brave.devevent.android.domain.model.toTimeString
 import team.brave.devevent.android.presentation.adapter.event.EventAdapter
 import team.brave.devevent.android.presentation.adapter.event.EventItemClickListener
 import team.brave.devevent.android.presentation.databinding.FragmentEventsBinding
 import team.brave.devevent.android.presentation.viewmodel.BnvMenu
 import team.brave.devevent.android.presentation.viewmodel.MainViewModel
 
-
+// TODO: RecyclerView Adapter 인스턴스를 보존할 방법이 없을까?
 class DashboardFragment : Fragment() {
     private val args: DashboardFragmentArgs by navArgs()
     private val vm: MainViewModel by activityViewModels()
@@ -131,7 +134,23 @@ class DashboardFragment : Fragment() {
             }
 
             override fun onShareClick(event: Event) {
-                vm.shareEvent(event)
+                val title = "${event.title} 이벤트 공유"
+                val message = """
+                    이 이벤트 어때요?
+                    
+                    [${event.title}]
+                    주최: ${event.organizer}
+                    ${event.toTimeString()}
+                    태그: ${event.tags.map(Tag::name).joinToString(", ")}
+                    
+                    ${event.link}
+                """.trimIndent()
+                val intent = Intent(Intent.ACTION_SEND).apply {
+                    type = "text/plain"
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                    putExtra(Intent.EXTRA_TEXT, message)
+                }
+                startActivity(Intent.createChooser(intent, title))
             }
         }
 
