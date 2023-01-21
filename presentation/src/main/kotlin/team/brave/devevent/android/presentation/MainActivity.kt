@@ -26,6 +26,7 @@ import kotlinx.coroutines.launch
 import team.brave.devevent.android.presentation.databinding.ActivityMainBinding
 import team.brave.devevent.android.presentation.fragment.dashboard.DashboardFragmentArgs
 import team.brave.devevent.android.presentation.util.toast
+import team.brave.devevent.android.presentation.viewmodel.BnvMenu
 import team.brave.devevent.android.presentation.viewmodel.MainViewModel
 
 @AndroidEntryPoint
@@ -61,13 +62,15 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.bnvNavigator.setOnItemSelectedListener { item ->
+            if (item.itemId == binding.bnvNavigator.selectedItemId) return@setOnItemSelectedListener false
+
             when (item.itemId) {
-                R.id.menu_dashboard -> {
+                R.id.menu_all_events -> {
                     val args = DashboardFragmentArgs(isFavorite = false).toBundle()
                     navController.navigate(R.id.navigation_dashboard, args)
                     true
                 }
-                R.id.menu_favorite -> {
+                R.id.menu_favorite_events -> {
                     val args = DashboardFragmentArgs(isFavorite = true).toBundle()
                     navController.navigate(R.id.navigation_dashboard, args)
                     true
@@ -78,6 +81,16 @@ class MainActivity : AppCompatActivity() {
                 }
                 else -> false
             }
+        }
+
+        binding.bnvNavigator.setOnItemReselectedListener { item ->
+            val menu = when (item.itemId) {
+                R.id.menu_all_events -> BnvMenu.AllEvent
+                R.id.menu_favorite_events -> BnvMenu.FavoriteEvent
+                R.id.menu_settings -> BnvMenu.Setting
+                else -> null
+            }
+            menu?.let { vm.menuReselected(menu) }
         }
     }
 }

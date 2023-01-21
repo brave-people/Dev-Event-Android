@@ -47,8 +47,14 @@ class MainViewModel @Inject constructor(
     )
     val events: StateFlow<List<Event>?> = _events.asStateFlow()
 
+    private val _reselectMenu = Channel<BnvMenu>()
+    val reselectMenu = _reselectMenu.receiveAsFlow()
+
     private val _exception = Channel<Throwable>()
     val exception = _exception.receiveAsFlow()
+
+    private var allEventLastScrollPosition = 0
+    private var favoriteEventLastScrollPosition = 0
 
     suspend fun getAllEvents() {
         viewModelScope.launch {
@@ -69,7 +75,7 @@ class MainViewModel @Inject constructor(
                 val newFavoriteEventIds = favoriteEventIds.mutate {
                     if (!remove(eventId.toString())) add(eventId.toString())
                 }
-                preference[PreferenceKey.Event.FavoriteId] = newFavoriteEventIds as Set<String>
+                preference[PreferenceKey.Event.FavoriteId] = newFavoriteEventIds
             }
         }
     }
@@ -90,5 +96,27 @@ class MainViewModel @Inject constructor(
             putExtra(Intent.EXTRA_TEXT, message)
         }
         context.startActivity(Intent.createChooser(intent, title))
+    }
+
+    fun menuReselected(menu: BnvMenu) {
+        viewModelScope.launch {
+            _reselectMenu.send(menu)
+        }
+    }
+
+    fun updateLastScrollPosition(position: Int, isFavorite: Boolean) {
+        if (isFavorite) {
+            favoriteEventLastScrollPosition = position
+        } else {
+            allEventLastScrollPosition = position
+        }
+    }
+
+    fun getLastScrollPosition(isFavorite: Boolean): Int {
+        return if (isFavorite) {
+            favoriteEventLastScrollPosition
+        } else {
+            allEventLastScrollPosition
+        }
     }
 }
