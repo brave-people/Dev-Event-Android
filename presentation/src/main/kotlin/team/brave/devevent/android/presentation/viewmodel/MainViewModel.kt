@@ -12,7 +12,6 @@
 package team.brave.devevent.android.presentation.viewmodel
 
 import android.app.Application
-import android.content.Intent
 import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.SavedStateHandle
@@ -26,7 +25,6 @@ import kotlinx.coroutines.launch
 import team.brave.devevent.android.datastore.PreferenceKey
 import team.brave.devevent.android.datastore.dataStore
 import team.brave.devevent.android.domain.model.Event
-import team.brave.devevent.android.domain.model.toTimeString
 import team.brave.devevent.android.domain.usecase.GetAllEventsUseCase
 import team.brave.devevent.android.presentation.util.SaveableMutableStateFlow
 import team.brave.devevent.android.presentation.util.context
