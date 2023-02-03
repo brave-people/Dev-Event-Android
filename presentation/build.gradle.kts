@@ -7,21 +7,11 @@
  * Please see: https://github.com/brave-people/Dev-Event-Android/blob/master/LICENSE
  */
 
-@file:Suppress(
-    "UnstableApiUsage",
-    "DSL_SCOPE_VIOLATION",
-)
+@file:Suppress("UnstableApiUsage", "DSL_SCOPE_VIOLATION")
 
 import DependencyHandler.Extensions.implementations
 
-plugins {
-    id(ConventionEnum.AndroidLibrary)
-    id(ConventionEnum.AndroidHilt)
-    id(ConventionEnum.JvmJUnit4)
-    id(libs.plugins.androidx.navigation.safeargs.get().pluginId)
-}
-
-android {
+GradleInstallation.library(project) {
     namespace = "team.brave.devevent.android.presentation"
 
     sourceSets {
@@ -33,6 +23,13 @@ android {
         dataBinding = true
         buildConfig = true
     }
+}
+
+GradleInstallation.hilt(project)
+GradleInstallation.junit(project)
+
+plugins {
+    id(libs.plugins.androidx.navigation.safeargs.get().pluginId)
 }
 
 dependencies {

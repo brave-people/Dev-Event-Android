@@ -7,7 +7,7 @@
  * Please see: https://github.com/brave-people/Dev-Event-Android/blob/master/LICENSE
  */
 
-package team.brave.devevent.android.convention
+package utils
 
 internal object PluginEnum {
     const val KotlinKapt = "kotlin-kapt"

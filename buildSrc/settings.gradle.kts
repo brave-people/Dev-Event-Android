@@ -9,18 +9,16 @@
 
 @file:Suppress("UnstableApiUsage")
 
-rootProject.name = "build-logic"
+rootProject.name = "buildSrc"
 
 dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        mavenLocal()
     }
 
     pluginManagement {
         repositories {
-            mavenLocal()
             mavenCentral()
             gradlePluginPortal()
         }

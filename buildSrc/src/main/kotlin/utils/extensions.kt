@@ -9,10 +9,8 @@
 
 @file:Suppress("SameParameterValue")
 
-package team.brave.devevent.android.convention
+package utils
 
-import DependencyHandler.Extensions.testImplementations
-import DependencyHandler.Extensions.testRuntimeOnlys
 import org.gradle.api.Action
 import org.gradle.api.NamedDomainObjectContainer
 import org.gradle.api.Project
@@ -36,6 +34,11 @@ internal inline operator fun <T : Any, C : NamedDomainObjectContainer<T>> C.invo
 ) = apply { configuration.execute(NamedDomainObjectContainerScope.of(this)) }
 
 internal fun DependencyHandler.setupJunit(core: Any, engine: Any) {
-    testImplementations(core)
-    testRuntimeOnlys(engine)
+    add("testImplementation", core)
+    add("testRuntimeOnly", engine)
 }
+
+// Back-end (JVM) Internal error: wrong bytecode generated
+// context(DependencyHandler) internal operator fun String.invoke(dependencyNotation: Any) {
+//     add(this, dependencyNotation)
+// }

@@ -9,14 +9,11 @@
 
 import DependencyHandler.Extensions.implementations
 
-plugins {
-    id(ConventionEnum.AndroidLibrary)
-    id(ConventionEnum.AndroidHilt)
-}
-
-android {
+GradleInstallation.library(project) {
     namespace = "team.brave.devevent.android.di"
 }
+
+GradleInstallation.hilt(project)
 
 dependencies {
     implementations(

@@ -7,10 +7,13 @@
  * Please see: https://github.com/brave-people/Dev-Event-Android/blob/master/LICENSE
  */
 
+@file:Suppress("DSL_SCOPE_VIOLATION")
+
 plugins {
     `kotlin-dsl`
 }
 
-repositories {
-    gradlePluginPortal()
+dependencies {
+    implementation(libs.kotlin.core)
+    implementation(libs.build.gradle.agp)
 }

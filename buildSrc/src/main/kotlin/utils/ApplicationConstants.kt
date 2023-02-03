@@ -7,7 +7,7 @@
  * Please see: https://github.com/brave-people/Dev-Event-Android/blob/master/LICENSE
  */
 
-package team.brave.devevent.android.convention
+package utils
 
 import org.gradle.api.JavaVersion
 
@@ -15,7 +15,7 @@ internal object ApplicationConstants {
     const val minSdk = 21
     const val targetSdk = 33
     const val compileSdk = 33
-    const val versionCode = 20001
-    const val versionName = "2.0.0-dev01"
+    const val versionCode = 20002
+    const val versionName = "2.0.0-dev02"
     val javaVersion = JavaVersion.VERSION_11
 }
