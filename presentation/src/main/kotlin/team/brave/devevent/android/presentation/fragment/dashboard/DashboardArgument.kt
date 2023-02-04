@@ -10,6 +10,7 @@
 package team.brave.devevent.android.presentation.fragment.dashboard
 
 import android.os.Bundle
+import androidx.core.os.bundleOf
 
 data class DashboardArgument(val isFavorite: Boolean) {
     companion object {
@@ -17,4 +18,6 @@ data class DashboardArgument(val isFavorite: Boolean) {
             return DashboardArgument(isFavorite = args.getBoolean("isFavorite"))
         }
     }
+
+    fun toBundle() = bundleOf("isFavorite" to isFavorite)
 }

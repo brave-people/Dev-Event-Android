@@ -37,7 +37,7 @@ import team.brave.devevent.android.presentation.viewmodel.BnvMenu
 import team.brave.devevent.android.presentation.viewmodel.MainViewModel
 
 class DashboardFragment : Fragment() {
-    private val args by lazy { DashboardArgument.fromBundle(requireArguments()) }
+    private val args get() = DashboardArgument.fromBundle(requireArguments())
     private val vm: MainViewModel by activityViewModels()
 
     private var _binding: FragmentEventsBinding? = null
