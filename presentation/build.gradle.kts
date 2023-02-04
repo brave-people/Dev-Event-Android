@@ -11,25 +11,28 @@
 
 import DependencyHandler.Extensions.implementations
 
-GradleInstallation.library(project) {
-    namespace = "team.brave.devevent.android.presentation"
-
-    sourceSets {
-        getByName("debug").kotlin.srcDirs("build/generated/source/navigation-args/debug")
-        getByName("release").kotlin.srcDirs("build/generated/source/navigation-args/release")
-    }
-
-    buildFeatures {
-        dataBinding = true
-        buildConfig = true
-    }
+plugins {
+    `android-library`
+    `kotlin-android`
+    id(libs.plugins.androidx.navigation.safeargs.get().pluginId)
 }
 
-GradleInstallation.hilt(project)
-GradleInstallation.junit(project)
+GradleInstallation.with(project) {
+    library {
+        namespace = "team.brave.devevent.android.presentation"
 
-plugins {
-    id(libs.plugins.androidx.navigation.safeargs.get().pluginId)
+        sourceSets {
+            getByName("debug").kotlin.srcDirs("build/generated/source/navigation-args/debug")
+            getByName("release").kotlin.srcDirs("build/generated/source/navigation-args/release")
+        }
+
+        buildFeatures {
+            dataBinding = true
+            buildConfig = true
+        }
+    }
+    hilt()
+    junit()
 }
 
 dependencies {

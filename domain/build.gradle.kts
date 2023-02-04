@@ -7,12 +7,13 @@
  * Please see: https://github.com/brave-people/Dev-Event-Android/blob/master/LICENSE
  */
 
-GradleInstallation.library(project) {
-    namespace = "team.brave.devevent.android.domain"
+plugins {
+    `android-library`
+    `kotlin-parcelize`
 }
 
-plugins {
-    id("kotlin-parcelize")
+GradleInstallation.with(project) {
+    library(namespace = "team.brave.devevent.android.domain")
 }
 
 dependencies {

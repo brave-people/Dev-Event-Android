@@ -7,8 +7,12 @@
  * Please see: https://github.com/brave-people/Dev-Event-Android/blob/master/LICENSE
  */
 
-GradleInstallation.library(project) {
-    namespace = "team.brave.devevent.android.datastore"
+plugins {
+    `android-library`
+}
+
+GradleInstallation.with(project) {
+    library(namespace = "team.brave.devevent.android.datastore")
 }
 
 dependencies {

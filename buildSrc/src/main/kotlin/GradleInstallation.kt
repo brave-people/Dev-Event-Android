@@ -13,15 +13,22 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 import utils.ApplicationConstants
-import utils.PluginEnum
 import utils.applyPlugins
 import utils.configureApplication
 import utils.libs
 import utils.setupJunit
 
-// Unsupported receiver value: Cxt { context(org.gradle.api.Project) public final fun android() }
-object GradleInstallation {
-    fun android(project: Project, block: BaseAppModuleExtension.() -> Unit = {}) {
+interface GradleInstallationScope {
+    fun android(block: BaseAppModuleExtension.() -> Unit = {})
+    fun library(block: LibraryExtension.() -> Unit = {})
+    fun library(namespace: String)
+    fun jvm()
+    fun junit()
+    fun hilt()
+}
+
+private class GradleInstallationScopeImpl(private val project: Project) : GradleInstallationScope {
+    override fun android(block: BaseAppModuleExtension.() -> Unit) {
         with(project) {
             applyPlugins(
                 PluginEnum.AndroidApplication,
@@ -46,7 +53,7 @@ object GradleInstallation {
         }
     }
 
-    fun library(project: Project, block: LibraryExtension.() -> Unit = {}) {
+    override fun library(block: LibraryExtension.() -> Unit) {
         with(project) {
             applyPlugins(
                 PluginEnum.AndroidLibrary,
@@ -69,7 +76,34 @@ object GradleInstallation {
         }
     }
 
-    fun junit(project: Project) {
+    override fun library(namespace: String) {
+        with(project) {
+            applyPlugins(
+                PluginEnum.AndroidLibrary,
+                PluginEnum.KotlinAndroid,
+            )
+
+            extensions.configure<LibraryExtension> {
+                configureApplication(this)
+
+                buildFeatures {
+                    buildConfig = false
+                }
+
+                defaultConfig.apply {
+                    targetSdk = ApplicationConstants.targetSdk
+                }
+
+                this.namespace = namespace
+            }
+        }
+    }
+
+    override fun jvm() {
+        TODO("Not yet implemented")
+    }
+
+    override fun junit() {
         with(project) {
             dependencies {
                 setupJunit(
@@ -81,7 +115,7 @@ object GradleInstallation {
         }
     }
 
-    fun hilt(project: Project) {
+    override fun hilt() {
         with(project) {
             applyPlugins(
                 PluginEnum.KotlinKapt,
@@ -93,5 +127,12 @@ object GradleInstallation {
                 add("kapt", libs.findLibrary("di-hilt-compiler").get())
             }
         }
+    }
+}
+
+// Unsupported receiver value: Cxt { context(org.gradle.api.Project) }
+object GradleInstallation {
+    fun with(project: Project, block: GradleInstallationScope.() -> Unit) {
+        GradleInstallationScopeImpl(project).block()
     }
 }

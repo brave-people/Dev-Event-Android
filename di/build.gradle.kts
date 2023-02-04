@@ -9,11 +9,10 @@
 
 import DependencyHandler.Extensions.implementations
 
-GradleInstallation.library(project) {
-    namespace = "team.brave.devevent.android.di"
+GradleInstallation.with(project) {
+    library(namespace = "team.brave.devevent.android.di")
+    hilt()
 }
-
-GradleInstallation.hilt(project)
 
 dependencies {
     implementations(

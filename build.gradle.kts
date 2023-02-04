@@ -7,7 +7,7 @@
  * Please see: https://github.com/brave-people/Dev-Event-Android/blob/master/LICENSE
  */
 
-@file:Suppress("DSL_SCOPE_VIOLATION", "PropertyName")
+@file:Suppress("DSL_SCOPE_VIOLATION")
 
 import io.gitlab.arturbosch.detekt.Detekt
 import io.gitlab.arturbosch.detekt.DetektCreateBaselineTask
@@ -23,7 +23,6 @@ plugins {
 buildscript {
     repositories {
         google()
-        mavenLocal()
         mavenCentral()
         gradlePluginPortal()
     }
@@ -82,22 +81,6 @@ allprojects {
 }
 
 subprojects {
-    // https://github.com/gradle/gradle/issues/4823#issuecomment-715615422
-    @Suppress("UnstableApiUsage")
-    if (
-        gradle.startParameter.isConfigureOnDemand &&
-        buildscript.sourceFile?.extension?.toLowerCase() == "kts" &&
-        parent != rootProject
-    ) {
-        generateSequence(parent) { project ->
-            project.parent.takeIf { parent ->
-                parent != rootProject
-            }
-        }.forEach { project ->
-            evaluationDependsOn(project.path)
-        }
-    }
-
     configure<KtlintExtension> {
         version.set(rootProject.libs.versions.plugin.code.ktlint.source.get())
         android.set(true)
@@ -106,9 +89,6 @@ subprojects {
     }
 }
 
-tasks.register(
-    name = "cleanAll",
-    type = Delete::class,
-) {
+tasks.register(name = "cleanAll", type = Delete::class) {
     allprojects.map(Project::getBuildDir).forEach(::delete)
 }
