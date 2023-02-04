@@ -16,6 +16,10 @@
 - [ ] 이벤트 필터 (목록에서 이벤트 필터링)
 - [x] 원하는 기능이 있으신가요? [Issue](https://github.com/brave-people/Dev-Event-Android/issues) 에 등록해 주세요.
 
+## 빌드하는 방법
+
+빌드하기 전에 `./gradlew moveGoogleServiceFile` 를 먼저 실행해 주세요.
+
 ---
 
 <h3 align="center">용감한 친구들</h3>
