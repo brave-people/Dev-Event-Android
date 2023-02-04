@@ -23,7 +23,6 @@ kotlin-coroutines = "1.6.4"
 # androidx
 androidx-appcompat = "1.6.0" # needs for oss license activity
 androidx-datastore = "1.0.0"
-androidx-navigation = "2.5.3"
 androidx-lifecycle-savedstate = "2.5.1"
 
 # ktx
@@ -76,8 +75,6 @@ firebase-performance = { id = "com.google.firebase.firebase-perf", version.ref =
 code-ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "plugin-code-ktlint-core" }
 code-detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "plugin-code-detekt" }
 
-androidx-navigation-safeargs = { id = "androidx.navigation.safeargs.kotlin", version.ref = "androidx-navigation" }
-
 di-hilt = { id = "com.google.dagger.hilt.android", version.ref = "di-hilt" }
 
 util-dependency-handler-extensions = { id = "land.sungbin.dependency.handler.extensions", version.ref = "plugin-util-dependency-handler-extensions" }
@@ -85,7 +82,6 @@ util-dependency-handler-extensions = { id = "land.sungbin.dependency.handler.ext
 [libraries]
 build-gradle-agp = { module = "com.android.tools.build:gradle", version.ref = "plugin-build-gradle-android" }
 build-google-service = { module = "com.google.gms:google-services", version.ref = "plugin-build-google-service" }
-build-androidx-navigation-safeargs = { module = "androidx.navigation:navigation-safe-args-gradle-plugin", version.ref = "androidx-navigation" }
 build-ui-oss-license = { module = "com.google.android.gms:play-services-oss-licenses", version.ref = "ui-oss-license" }
 build-di-hilt = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "di-hilt" }
 build-firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-gradle", version.ref = "firebase-plugin-crashlytics" }
@@ -97,8 +93,6 @@ kotlin-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", 
 
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
 androidx-datastore = { module = "androidx.datastore:datastore-preferences", version.ref = "androidx-datastore" }
-androidx-navigation-ktx-ui = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "androidx-navigation" }
-androidx-navigation-ktx-fragment = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "androidx-navigation" }
 
 ktx-core = { module = "androidx.core:core-ktx", version.ref = "ktx-core" }
 ktx-activiy = { module = "androidx.activity:activity-ktx", version.ref = "ktx-activity" }
@@ -115,7 +109,6 @@ analytics-leakcanary = { module = "com.squareup.leakcanary:leakcanary-android", 
 analytics-anrwatchdog = { module = "com.github.anrwatchdog:anrwatchdog", version.ref = "analytics-anrwatchdog" }
 
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase-bom" }
-firebase-remote-config = { module = "com.google.firebase:firebase-config-ktx" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx" }
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-ktx" }
 firebase-performance = { module = "com.google.firebase:firebase-perf-ktx" }
@@ -137,7 +130,6 @@ test-junit-core = { module = "junit:junit", version.ref = "test-junit-core" }
 test-junit-engine = { module = "org.junit.vintage:junit-vintage-engine", version.ref = "test-junit-engine" } # testRuntimeOnly
 test-androidx-junit = { module = "androidx.test.ext:junit-ktx", version.ref = "test-androidx-junit" }
 test-androidx-runner = { module = "androidx.test:runner", version.ref = "test-androidx-runner" }
-test-androidx-navigation = { module = "androidx.navigation:navigation-testing", version.ref = "androidx-navigation" }
 test-turbine = { module = "app.cash.turbine:turbine", version.ref = "test-turbine" }
 test-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlin-coroutines" }
 
@@ -145,4 +137,4 @@ detekt-plugin-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-format
 
 [bundles]
 fuel = ["fuel-core", "fuel-moshi", "fuel-coroutines"]
-moshi = ["moshi-core", "moshi-kotlin", ]
+moshi = ["moshi-core", "moshi-kotlin"]

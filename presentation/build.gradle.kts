@@ -14,7 +14,6 @@ import DependencyHandler.Extensions.implementations
 plugins {
     `android-library`
     `kotlin-android`
-    id(libs.plugins.androidx.navigation.safeargs.get().pluginId)
 }
 
 GradleInstallation.with(project) {
@@ -40,8 +39,6 @@ dependencies {
         platform(libs.firebase.bom),
         libs.firebase.crashlytics,
         libs.androidx.appcompat,
-        libs.androidx.navigation.ktx.ui,
-        libs.androidx.navigation.ktx.fragment,
         libs.ui.material3,
         libs.ui.oss.license,
         libs.ui.glide.core,
@@ -54,5 +51,4 @@ dependencies {
         projects.domain,
         projects.datastore,
     )
-    androidTestImplementation(libs.test.androidx.navigation)
 }
