@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "234812760704",
+    "project_id": "devevent-android-public",
+    "storage_bucket": "devevent-android-public.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:234812760704:android:1da844d87b70ca55893c65",
+        "android_client_info": {
+          "package_name": "team.brave.devevent.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "234812760704-lbftj135n2khp9tk925tq278o8krn9ka.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBZD15DlWbms3FxxpAIrTTQxgus93d9tVU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "234812760704-lbftj135n2khp9tk925tq278o8krn9ka.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

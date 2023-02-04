@@ -92,3 +92,11 @@ subprojects {
 tasks.register(name = "cleanAll", type = Delete::class) {
     allprojects.map(Project::getBuildDir).forEach(::delete)
 }
+
+// TODO: GitHub Actions 의 yml 로 변경
+tasks.create("moveGoogleServiceFile") {
+    val file = File("$rootDir/public-build-resource/google-services.json")
+    val target = File("$rootDir/app/google-services.json")
+    if (target.exists()) return@create
+    file.copyTo(target)
+}
