@@ -13,9 +13,7 @@ import javax.inject.Inject
 import team.brave.devevent.android.domain.model.Event
 import team.brave.devevent.android.domain.repository.EventRepository
 
-class GetAllEventsUseCase @Inject constructor(
-    private val repository: EventRepository,
-) {
+class GetAllEventsUseCase @Inject constructor(private val repository: EventRepository) {
     suspend operator fun invoke(): Result<List<Event>> {
         return runCatching {
             repository.getAllEvents()

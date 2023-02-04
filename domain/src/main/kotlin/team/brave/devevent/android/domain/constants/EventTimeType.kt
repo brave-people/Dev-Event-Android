@@ -18,4 +18,5 @@ package team.brave.devevent.android.domain.constants
 enum class EventTimeType(val string: String) {
     DATE("일시"),
     RECRUIT("모집"),
+    ;
 }
