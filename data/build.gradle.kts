@@ -10,14 +10,10 @@
 import DependencyHandler.Extensions.implementations
 import DependencyHandler.Extensions.testImplementations
 
-plugins {
-    id(ConventionEnum.AndroidLibrary)
-    id(ConventionEnum.AndroidHilt)
-    id(ConventionEnum.JvmJUnit4)
-}
-
-android {
-    namespace = "team.brave.devevent.android.data"
+GradleInstallation.with(project) {
+    library(namespace = "team.brave.devevent.android.data")
+    hilt()
+    junit()
 }
 
 dependencies {

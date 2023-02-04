@@ -9,7 +9,7 @@
 
 @file:Suppress("UnstableApiUsage", "UnusedReceiverParameter")
 
-package team.brave.devevent.android.convention
+package utils
 
 import com.android.build.api.dsl.CommonExtension
 import org.gradle.api.Project

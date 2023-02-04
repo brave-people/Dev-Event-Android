@@ -8,12 +8,12 @@
  */
 
 plugins {
-    id(ConventionEnum.AndroidLibrary)
-    id("kotlin-parcelize")
+    `android-library`
+    `kotlin-parcelize`
 }
 
-android {
-    namespace = "team.brave.devevent.android.domain"
+GradleInstallation.with(project) {
+    library(namespace = "team.brave.devevent.android.domain")
 }
 
 dependencies {

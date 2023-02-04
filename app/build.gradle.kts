@@ -12,24 +12,27 @@
 import DependencyHandler.Extensions.implementations
 
 plugins {
-    id(ConventionEnum.AndroidApplication)
-    id(ConventionEnum.AndroidHilt)
+    `android-application`
     id(libs.plugins.gms.google.service.get().pluginId)
     id(libs.plugins.firebase.crashlytics.get().pluginId)
     id(libs.plugins.firebase.performance.get().pluginId)
 }
 
-android {
-    namespace = "team.brave.devevent.android"
+GradleInstallation.with(project) {
+    android {
+        namespace = "team.brave.devevent.android"
 
-    buildFeatures {
-        dataBinding = true
+        buildFeatures {
+            dataBinding = true
+        }
+
+        lint {
+            // Error: When targeting Android 13 or higher, posting a permission requires holding the POST_NOTIFICATIONS permission (usage from leakcanary.NotificationEventListener)
+            disable.add("NotificationPermission")
+        }
     }
 
-    lint {
-        // Error: When targeting Android 13 or higher, posting a permission requires holding the POST_NOTIFICATIONS permission (usage from leakcanary.NotificationEventListener)
-        disable.add("NotificationPermission")
-    }
+    hilt()
 }
 
 dependencies {

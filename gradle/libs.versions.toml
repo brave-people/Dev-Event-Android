@@ -1,6 +1,6 @@
 [versions]
 # plugin - build
-plugin-build-gradle-android = "7.4.0"
+plugin-build-gradle-android = "7.4.1"
 plugin-build-google-service = "4.3.15"
 
 # plugin - code
@@ -17,7 +17,7 @@ plugin-ui-oss-license = "0.10.5"
 plugin-util-dependency-handler-extensions = "1.0.3"
 
 # kotlin
-kotlin-core = "1.8.0"
+kotlin-core = "1.8.10"
 kotlin-coroutines = "1.6.4"
 
 # androidx

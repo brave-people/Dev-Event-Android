@@ -8,11 +8,11 @@
  */
 
 plugins {
-    id(ConventionEnum.AndroidLibrary)
+    `android-library`
 }
 
-android {
-    namespace = "team.brave.devevent.android.datastore"
+GradleInstallation.with(project) {
+    library(namespace = "team.brave.devevent.android.datastore")
 }
 
 dependencies {

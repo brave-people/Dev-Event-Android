@@ -7,32 +7,32 @@
  * Please see: https://github.com/brave-people/Dev-Event-Android/blob/master/LICENSE
  */
 
-@file:Suppress(
-    "UnstableApiUsage",
-    "DSL_SCOPE_VIOLATION",
-)
+@file:Suppress("UnstableApiUsage", "DSL_SCOPE_VIOLATION")
 
 import DependencyHandler.Extensions.implementations
 
 plugins {
-    id(ConventionEnum.AndroidLibrary)
-    id(ConventionEnum.AndroidHilt)
-    id(ConventionEnum.JvmJUnit4)
+    `android-library`
+    `kotlin-android`
     id(libs.plugins.androidx.navigation.safeargs.get().pluginId)
 }
 
-android {
-    namespace = "team.brave.devevent.android.presentation"
+GradleInstallation.with(project) {
+    library {
+        namespace = "team.brave.devevent.android.presentation"
 
-    sourceSets {
-        getByName("debug").kotlin.srcDirs("build/generated/source/navigation-args/debug")
-        getByName("release").kotlin.srcDirs("build/generated/source/navigation-args/release")
-    }
+        sourceSets {
+            getByName("debug").kotlin.srcDirs("build/generated/source/navigation-args/debug")
+            getByName("release").kotlin.srcDirs("build/generated/source/navigation-args/release")
+        }
 
-    buildFeatures {
-        dataBinding = true
-        buildConfig = true
+        buildFeatures {
+            dataBinding = true
+            buildConfig = true
+        }
     }
+    hilt()
+    junit()
 }
 
 dependencies {
