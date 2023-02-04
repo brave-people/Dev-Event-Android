@@ -33,7 +33,7 @@ ktx-fragment = "1.5.5"
 ktx-lifecycle = "2.5.1"
 
 # ui
-ui-material3 = "1.8.0-rc01"
+ui-material3 = "1.8.0"
 ui-oss-license = "17.0.0"
 ui-glide = "4.14.2"
 
