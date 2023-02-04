@@ -57,7 +57,8 @@
                 android:padding="8dp"
                 android:src="@{ isFavorite ? @drawable/round_favorite_24 : @drawable/round_favorite_border_24 }"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/round_favorite_24" />
 
             <ImageView
                 android:id="@+id/iv_share"

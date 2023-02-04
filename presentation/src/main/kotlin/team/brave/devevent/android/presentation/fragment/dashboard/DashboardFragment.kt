@@ -20,7 +20,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
@@ -37,9 +36,8 @@ import team.brave.devevent.android.presentation.databinding.FragmentEventsBindin
 import team.brave.devevent.android.presentation.viewmodel.BnvMenu
 import team.brave.devevent.android.presentation.viewmodel.MainViewModel
 
-// TODO: RecyclerView Adapter 인스턴스를 보존할 방법이 없을까?
 class DashboardFragment : Fragment() {
-    private val args: DashboardFragmentArgs by navArgs()
+    private val args by lazy { DashboardArgument.fromBundle(requireArguments()) }
     private val vm: MainViewModel by activityViewModels()
 
     private var _binding: FragmentEventsBinding? = null
@@ -122,6 +120,7 @@ class DashboardFragment : Fragment() {
     }
 
     // TODO: RecyclerView 최적화
+    // param - favoriteEventIdMap: Map<이벤트 아이디, 즐겨찾기 여부>
     private fun updateEvents(events: List<Event>, favoriteEventIdMap: Map<Int, Boolean>) {
         val filteredEvents = if (args.isFavorite) {
             events.filter { event -> favoriteEventIdMap[event.id] ?: false }

@@ -17,14 +17,13 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.NavController
-import androidx.navigation.fragment.NavHostFragment
 import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import team.brave.devevent.android.presentation.databinding.ActivityMainBinding
-import team.brave.devevent.android.presentation.fragment.dashboard.DashboardFragmentArgs
 import team.brave.devevent.android.presentation.util.toast
 import team.brave.devevent.android.presentation.viewmodel.BnvMenu
 import team.brave.devevent.android.presentation.viewmodel.MainViewModel
@@ -32,16 +31,11 @@ import team.brave.devevent.android.presentation.viewmodel.MainViewModel
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private lateinit var navController: NavController
-
     private val vm: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fcv_navigator) as NavHostFragment
-        navController = navHostFragment.navController
 
         lifecycleScope.launch {
             launch {
@@ -53,11 +47,13 @@ class MainActivity : AppCompatActivity() {
                     .flowWithLifecycle(
                         lifecycle = lifecycle,
                         minActiveState = Lifecycle.State.CREATED,
-                    ).collect { exception ->
+                    )
+                    .onEach { exception ->
                         toast(getString(R.string.activity_main_toast_exception_occurred, exception.message.orEmpty()))
                         if (BuildConfig.DEBUG) exception.printStackTrace()
                         if (!BuildConfig.DEBUG) Firebase.crashlytics.recordException(exception)
                     }
+                    .collect()
             }
         }
 
@@ -66,17 +62,12 @@ class MainActivity : AppCompatActivity() {
 
             when (item.itemId) {
                 R.id.menu_all_events -> {
-                    val args = DashboardFragmentArgs(isFavorite = false).toBundle()
-                    navController.navigate(R.id.navigation_dashboard, args)
                     true
                 }
                 R.id.menu_favorite_events -> {
-                    val args = DashboardFragmentArgs(isFavorite = true).toBundle()
-                    navController.navigate(R.id.navigation_dashboard, args)
                     true
                 }
                 R.id.menu_settings -> {
-                    navController.navigate(R.id.navigation_setting)
                     true
                 }
                 else -> false
@@ -90,7 +81,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.menu_settings -> BnvMenu.Setting
                 else -> null
             }
-            menu?.let { vm.menuReselected(menu) }
+            menu?.let(vm::menuReselected)
         }
     }
 }
