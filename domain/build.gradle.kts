@@ -8,12 +8,11 @@
  */
 
 plugins {
-    `android-library`
-    `kotlin-parcelize`
+    `java-library`
 }
 
 GradleInstallation.with(project) {
-    library(namespace = "team.brave.devevent.android.domain")
+    jvm()
 }
 
 dependencies {

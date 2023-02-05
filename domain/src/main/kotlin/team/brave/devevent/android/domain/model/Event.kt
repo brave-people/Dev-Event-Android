@@ -9,8 +9,6 @@
 
 package team.brave.devevent.android.domain.model
 
-import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
 import team.brave.devevent.android.domain.constants.EventTimeType
 
 /**
@@ -28,7 +26,6 @@ import team.brave.devevent.android.domain.constants.EventTimeType
  * @param link 이벤트 상세 보기 링크
  * @param bannerUrl 이벤트 배너 이미지 링크
  */
-@Parcelize
 data class Event(
     val id: Int,
     val title: String,
@@ -38,7 +35,7 @@ data class Event(
     val tags: List<Tag>,
     val link: String,
     val bannerUrl: String?,
-) : Parcelable
+)
 
 /**
  * [이벤트 진행 일정][Event.time]을 [일정 타입][Event.timeType]에 맞게
