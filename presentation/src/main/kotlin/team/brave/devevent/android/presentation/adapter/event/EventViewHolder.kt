@@ -51,7 +51,7 @@ class EventViewHolder(private val binding: LayoutEventBinding) : RecyclerView.Vi
 
     fun disableSpacing() {
         binding.cvRoot.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-            updateMargins(bottom = 0.dp2px)
+            updateMargins(bottom = 0)
         }
     }
 
