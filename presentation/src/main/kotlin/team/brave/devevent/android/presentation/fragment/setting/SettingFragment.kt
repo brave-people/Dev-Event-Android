@@ -7,7 +7,7 @@
  * Please see: https://github.com/brave-people/Dev-Event-Android/blob/master/LICENSE
  */
 
-package team.brave.devevent.android.presentation.fragment.settings
+package team.brave.devevent.android.presentation.fragment.setting
 
 import android.os.Bundle
 import android.view.LayoutInflater
