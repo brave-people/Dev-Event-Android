@@ -20,7 +20,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
@@ -104,15 +103,6 @@ class DashboardFragment : Fragment() {
         binding.rvEvents.setHasFixedSize(true)
     }
 
-    override fun onPause() {
-        super.onPause()
-        val manager = binding.rvEvents.layoutManager as LinearLayoutManager
-        vm.updateLastScrollPosition(
-            position = manager.findFirstCompletelyVisibleItemPosition(),
-            isFavorite = args.isFavorite,
-        )
-    }
-
     override fun onDestroyView() {
         _binding?.unbind()
         _binding = null
@@ -153,8 +143,6 @@ class DashboardFragment : Fragment() {
             }
         }
 
-        val isFavorite = args.isFavorite
-        val lastPosition = vm.getLastScrollPosition(isFavorite)
         val adapter = EventAdapter(
             events = filteredEvents,
             favoriteEventIds = favoriteEventIdMap.toMutableMap(),
@@ -162,6 +150,5 @@ class DashboardFragment : Fragment() {
         )
 
         binding.rvEvents.adapter = adapter
-        binding.rvEvents.scrollToPosition(lastPosition)
     }
 }

@@ -77,23 +77,31 @@ class MainActivity : AppCompatActivity() {
         binding.bnvNavigator.setOnItemSelectedListener { item ->
             if (item.itemId == binding.bnvNavigator.selectedItemId) return@setOnItemSelectedListener false
 
-            val navigateFragment = when (item.itemId) {
-                R.id.menu_all_events -> dashboardFragment.apply {
-                    arguments = DashboardArgument(isFavorite = false).toBundle()
+            when (item.itemId) {
+                R.id.menu_all_events, R.id.menu_favorite_events -> {
+                    val isFavorite = item.itemId == R.id.menu_favorite_events
+                    supportFragmentManager.commit {
+                        show(dashboardFragment.apply {
+                            arguments = DashboardArgument(isFavorite = isFavorite).toBundle()
+                        })
+                        hide(settingFragment)
+                    }
+                    true
                 }
-                R.id.menu_favorite_events -> dashboardFragment.apply {
-                    arguments = DashboardArgument(isFavorite = true).toBundle()
+                R.id.menu_settings -> {
+                    if (!supportFragmentManager.fragments.contains(settingFragment)) {
+                        supportFragmentManager.commit {
+                            add(R.id.fcv_navigator, settingFragment)
+                        }
+                    }
+                    supportFragmentManager.commit {
+                        show(settingFragment)
+                        hide(dashboardFragment)
+                    }
+                    true
                 }
-                R.id.menu_settings -> settingFragment
-                else -> null
+                else -> false
             }
-
-            navigateFragment?.let { fragment ->
-                supportFragmentManager.commit {
-                    replace(R.id.fcv_navigator, fragment)
-                }
-                true
-            } ?: false
         }
 
         binding.bnvNavigator.setOnItemReselectedListener { item ->
