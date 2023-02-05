@@ -13,6 +13,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.commit
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
@@ -24,6 +25,9 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import team.brave.devevent.android.presentation.databinding.ActivityMainBinding
+import team.brave.devevent.android.presentation.fragment.dashboard.DashboardArgument
+import team.brave.devevent.android.presentation.fragment.dashboard.DashboardFragment
+import team.brave.devevent.android.presentation.fragment.settings.SettingFragment
 import team.brave.devevent.android.presentation.util.toast
 import team.brave.devevent.android.presentation.viewmodel.BnvMenu
 import team.brave.devevent.android.presentation.viewmodel.MainViewModel
@@ -33,9 +37,19 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val vm: MainViewModel by viewModels()
 
+    private val dashboardFragment by lazy { DashboardFragment() }
+    private val settingFragment by lazy { SettingFragment() }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+
+        supportFragmentManager.commit {
+            replace(
+                R.id.fcv_navigator,
+                dashboardFragment.apply { arguments = DashboardArgument(isFavorite = false).toBundle() }
+            )
+        }
 
         lifecycleScope.launch {
             launch {
@@ -50,8 +64,11 @@ class MainActivity : AppCompatActivity() {
                     )
                     .onEach { exception ->
                         toast(getString(R.string.activity_main_toast_exception_occurred, exception.message.orEmpty()))
-                        if (BuildConfig.DEBUG) exception.printStackTrace()
-                        if (!BuildConfig.DEBUG) Firebase.crashlytics.recordException(exception)
+                        if (BuildConfig.DEBUG) {
+                            exception.printStackTrace()
+                        } else {
+                            Firebase.crashlytics.recordException(exception)
+                        }
                     }
                     .collect()
             }
@@ -60,18 +77,23 @@ class MainActivity : AppCompatActivity() {
         binding.bnvNavigator.setOnItemSelectedListener { item ->
             if (item.itemId == binding.bnvNavigator.selectedItemId) return@setOnItemSelectedListener false
 
-            when (item.itemId) {
-                R.id.menu_all_events -> {
-                    true
+            val navigateFragment = when (item.itemId) {
+                R.id.menu_all_events -> dashboardFragment.apply {
+                    arguments = DashboardArgument(isFavorite = false).toBundle()
                 }
-                R.id.menu_favorite_events -> {
-                    true
+                R.id.menu_favorite_events -> dashboardFragment.apply {
+                    arguments = DashboardArgument(isFavorite = true).toBundle()
                 }
-                R.id.menu_settings -> {
-                    true
-                }
-                else -> false
+                R.id.menu_settings -> settingFragment
+                else -> null
             }
+
+            navigateFragment?.let { fragment ->
+                supportFragmentManager.commit {
+                    replace(R.id.fcv_navigator, fragment)
+                }
+                true
+            } ?: false
         }
 
         binding.bnvNavigator.setOnItemReselectedListener { item ->
