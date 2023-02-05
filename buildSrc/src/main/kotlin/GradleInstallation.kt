@@ -10,6 +10,7 @@
 import com.android.build.gradle.LibraryExtension
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 import org.gradle.api.Project
+import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 import utils.ApplicationConstants
@@ -77,30 +78,23 @@ private class GradleInstallationScopeImpl(private val project: Project) : Gradle
     }
 
     override fun library(namespace: String) {
-        with(project) {
-            applyPlugins(
-                PluginEnum.AndroidLibrary,
-                PluginEnum.KotlinAndroid,
-            )
-
-            extensions.configure<LibraryExtension> {
-                configureApplication(this)
-
-                buildFeatures {
-                    buildConfig = false
-                }
-
-                defaultConfig.apply {
-                    targetSdk = ApplicationConstants.targetSdk
-                }
-
-                this.namespace = namespace
-            }
+        library {
+            this.namespace = namespace
         }
     }
 
     override fun jvm() {
-        TODO("Not yet implemented")
+        with(project) {
+            applyPlugins(
+                PluginEnum.JavaLibrary,
+                PluginEnum.KotlinCore,
+            )
+
+            extensions.configure<JavaPluginExtension> {
+                sourceCompatibility = ApplicationConstants.javaVersion
+                targetCompatibility = ApplicationConstants.javaVersion
+            }
+        }
     }
 
     override fun junit() {
