@@ -18,12 +18,27 @@ import team.brave.devevent.android.presentation.databinding.LayoutEventBinding
 private const val EventViewType = 0
 
 class EventAdapter(
-    private val events: List<Event>,
+    private var events: List<Event>,
     // 매번 contains 하는 시간 없애기 위해 Map 으로 변환
     private val favoriteEventIds: MutableMap<Int, Boolean>,
     private val eventItemClickListener: EventItemClickListener,
 ) : RecyclerView.Adapter<EventViewHolder>() {
-    private val eventSize = events.size
+    private val originalEvents = events
+    private var eventSize = events.size
+    var favoriteFilter = false
+        set(value) {
+            field = value
+            val filteredEvents = if (value) {
+                originalEvents.filter { event -> favoriteEventIds[event.id] ?: false }
+            } else {
+                originalEvents
+            }
+            events = filteredEvents
+            eventSize = filteredEvents.size
+
+            @Suppress("NotifyDataSetChanged")
+            notifyDataSetChanged()
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
         val inflater = LayoutInflater.from(parent.context)

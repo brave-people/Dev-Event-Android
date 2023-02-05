@@ -44,7 +44,7 @@ class DashboardFragment : Fragment() {
         set(value) {
             field = value
             binding.isFavorite = value
-            updateEvents()
+            initAdapter()
         }
 
     private var _binding: FragmentEventsBinding? = null
@@ -84,7 +84,7 @@ class DashboardFragment : Fragment() {
                                     set(favoriteEventId.toInt(), true)
                                 }
                             }
-                            updateEvents()
+                            initAdapter(updateModels = true)
                         }
                 }
 
@@ -125,12 +125,7 @@ class DashboardFragment : Fragment() {
     }
 
     // TODO: RecyclerView 최적화
-    private fun updateEvents() {
-        val filteredEvents = if (isFavoriteScreen) {
-            events.filter { event -> favoriteEvents[event.id] ?: false }
-        } else {
-            events
-        }
+    private fun initAdapter(updateModels: Boolean = false) {
         val eventItemClickListener = object : EventItemClickListener {
             override fun onFavoriteClick(event: Event) {
                 vm.toggleEventFavorite(event.id)
@@ -158,13 +153,16 @@ class DashboardFragment : Fragment() {
         }
 
         val lastPosition = vm.getLastScrollPosition(isFavoriteScreen)
-        val adapter = EventAdapter(
-            events = filteredEvents,
-            favoriteEventIds = favoriteEvents.toMutableMap(),
-            eventItemClickListener = eventItemClickListener,
-        )
-
-        binding.rvEvents.adapter = adapter
+        if (binding.rvEvents.adapter == null || updateModels) {
+            val adapter = EventAdapter(
+                events = events,
+                favoriteEventIds = favoriteEvents.toMutableMap(),
+                eventItemClickListener = eventItemClickListener,
+            )
+            adapter.setHasStableIds(true)
+            binding.rvEvents.adapter = adapter
+        }
+        (binding.rvEvents.adapter as EventAdapter).favoriteFilter = isFavoriteScreen
         binding.rvEvents.scrollToPosition(lastPosition)
     }
 }
