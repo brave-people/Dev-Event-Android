@@ -25,9 +25,8 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import team.brave.devevent.android.presentation.databinding.ActivityMainBinding
-import team.brave.devevent.android.presentation.fragment.dashboard.DashboardArgument
 import team.brave.devevent.android.presentation.fragment.dashboard.DashboardFragment
-import team.brave.devevent.android.presentation.fragment.settings.SettingFragment
+import team.brave.devevent.android.presentation.fragment.setting.SettingFragment
 import team.brave.devevent.android.presentation.util.toast
 import team.brave.devevent.android.presentation.viewmodel.BnvMenu
 import team.brave.devevent.android.presentation.viewmodel.MainViewModel
@@ -44,12 +43,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-        supportFragmentManager.commit {
-            replace(
-                R.id.fcv_navigator,
-                dashboardFragment.apply { arguments = DashboardArgument(isFavorite = false).toBundle() }
-            )
-        }
+        initFragments()
 
         lifecycleScope.launch {
             launch {
@@ -80,20 +74,14 @@ class MainActivity : AppCompatActivity() {
             when (item.itemId) {
                 R.id.menu_all_events, R.id.menu_favorite_events -> {
                     val isFavorite = item.itemId == R.id.menu_favorite_events
+                    dashboardFragment.saveScrollState()
                     supportFragmentManager.commit {
-                        show(dashboardFragment.apply {
-                            arguments = DashboardArgument(isFavorite = isFavorite).toBundle()
-                        })
+                        show(dashboardFragment.also { it.isFavoriteScreen = isFavorite })
                         hide(settingFragment)
                     }
                     true
                 }
                 R.id.menu_settings -> {
-                    if (!supportFragmentManager.fragments.contains(settingFragment)) {
-                        supportFragmentManager.commit {
-                            add(R.id.fcv_navigator, settingFragment)
-                        }
-                    }
                     supportFragmentManager.commit {
                         show(settingFragment)
                         hide(dashboardFragment)
@@ -112,6 +100,16 @@ class MainActivity : AppCompatActivity() {
                 else -> null
             }
             menu?.let(vm::menuReselected)
+        }
+    }
+
+    private fun initFragments() {
+        supportFragmentManager.commit {
+            add(R.id.fcv_navigator, dashboardFragment)
+            add(R.id.fcv_navigator, settingFragment)
+
+            show(dashboardFragment)
+            hide(settingFragment)
         }
     }
 }
