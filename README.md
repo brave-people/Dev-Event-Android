@@ -21,6 +21,12 @@
 - 빌드하기 전에 `./gradlew moveGoogleServiceFile` 를 먼저 실행해 주세요.
 - Android Studio 버전은 플라밍고 이상으로 해주세요.
 
+## 선정 사유
+
+#### composite build 를 사용하지 않은 이유
+
+#### Jetpack Compose 를 사용하지 않은 이유
+
 ---
 
 <h3 align="center">용감한 친구들</h3>
