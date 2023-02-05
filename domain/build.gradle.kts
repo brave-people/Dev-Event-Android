@@ -8,11 +8,13 @@
  */
 
 plugins {
-    `java-library`
+    `android-library`
+    `kotlin-parcelize`
 }
 
 GradleInstallation.with(project) {
-    jvm()
+    // presentation 에서 SavedStateHandle 을 사용하기에 parcelable 이 필요함
+    library(namespace = "team.brave.devevent.android.domain")
 }
 
 dependencies {

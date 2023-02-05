@@ -9,13 +9,17 @@
 
 package team.brave.devevent.android.domain.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
 /**
  * [이벤트][Event] 의 태그 모델
  *
  * @param name 태그 이름
  * @param hexColor 표시할 색깔
  */
+@Parcelize
 data class Tag(
     val name: String,
     val hexColor: String,
-)
+) : Parcelable
