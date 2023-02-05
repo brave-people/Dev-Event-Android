@@ -51,6 +51,9 @@ class MainViewModel @Inject constructor(
     private val _exception = Channel<Throwable>()
     val exception = _exception.receiveAsFlow()
 
+    private var allEventLastScrollPosition = 0
+    private var favoriteEventLastScrollPosition = 0
+
     suspend fun getAllEvents() {
         viewModelScope.launch {
             getAllEventsUseCase()
@@ -78,6 +81,22 @@ class MainViewModel @Inject constructor(
     fun menuReselected(menu: BnvMenu) {
         viewModelScope.launch {
             _reselectMenu.send(menu)
+        }
+    }
+
+    fun updateLastScrollPosition(isFavorite: Boolean, position: Int, ) {
+        if (isFavorite) {
+            favoriteEventLastScrollPosition = position
+        } else {
+            allEventLastScrollPosition = position
+        }
+    }
+
+    fun getLastScrollPosition(isFavorite: Boolean): Int {
+        return if (isFavorite) {
+            favoriteEventLastScrollPosition
+        } else {
+            allEventLastScrollPosition
         }
     }
 }

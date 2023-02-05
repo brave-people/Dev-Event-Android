@@ -20,6 +20,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
@@ -36,8 +37,15 @@ import team.brave.devevent.android.presentation.viewmodel.BnvMenu
 import team.brave.devevent.android.presentation.viewmodel.MainViewModel
 
 class DashboardFragment : Fragment() {
-    private val args get() = DashboardArgument.fromBundle(requireArguments())
     private val vm: MainViewModel by activityViewModels()
+    private var events: List<Event> = emptyList()
+    private var favoriteEvents: Map<Int, Boolean> = emptyMap()
+    var isFavoriteScreen = false
+        set(value) {
+            field = value
+            binding.isFavorite = value
+            updateEvents()
+        }
 
     private var _binding: FragmentEventsBinding? = null
     private val binding get() = _binding!!
@@ -70,14 +78,13 @@ class DashboardFragment : Fragment() {
                             val favoriteEventIdSet = requireContext().applicationContext.dataStore.data.first()
                                 .get(PreferenceKey.Event.FavoriteId).orEmpty()
 
-                            updateEvents(
-                                events = events,
-                                favoriteEventIdMap = buildMap {
-                                    favoriteEventIdSet.forEach { favoriteEventId ->
-                                        set(favoriteEventId.toInt(), true)
-                                    }
-                                },
-                            )
+                            this@DashboardFragment.events = events
+                            favoriteEvents = buildMap {
+                                favoriteEventIdSet.forEach { favoriteEventId ->
+                                    set(favoriteEventId.toInt(), true)
+                                }
+                            }
+                            updateEvents()
                         }
                 }
 
@@ -87,7 +94,7 @@ class DashboardFragment : Fragment() {
                             lifecycle = viewLifecycleOwner.lifecycle,
                             minActiveState = Lifecycle.State.CREATED,
                         )
-                        .filter { it == if (args.isFavorite) BnvMenu.FavoriteEvent else BnvMenu.AllEvent }
+                        .filter { it == if (isFavoriteScreen) BnvMenu.FavoriteEvent else BnvMenu.AllEvent }
                         .collect {
                             if (binding.rvEvents.layoutManager?.isSmoothScrolling == false) {
                                 binding.rvEvents.smoothScrollToPosition(0)
@@ -99,7 +106,7 @@ class DashboardFragment : Fragment() {
             }
         }
 
-        binding.isFavorite = args.isFavorite
+        binding.isFavorite = isFavoriteScreen
         binding.rvEvents.setHasFixedSize(true)
     }
 
@@ -109,11 +116,18 @@ class DashboardFragment : Fragment() {
         super.onDestroyView()
     }
 
+    fun saveScrollState() {
+        val manager = binding.rvEvents.layoutManager as LinearLayoutManager
+        vm.updateLastScrollPosition(
+            isFavorite = isFavoriteScreen,
+            position = manager.findFirstCompletelyVisibleItemPosition(),
+        )
+    }
+
     // TODO: RecyclerView 최적화
-    // param - favoriteEventIdMap: Map<이벤트 아이디, 즐겨찾기 여부>
-    private fun updateEvents(events: List<Event>, favoriteEventIdMap: Map<Int, Boolean>) {
-        val filteredEvents = if (args.isFavorite) {
-            events.filter { event -> favoriteEventIdMap[event.id] ?: false }
+    private fun updateEvents() {
+        val filteredEvents = if (isFavoriteScreen) {
+            events.filter { event -> favoriteEvents[event.id] ?: false }
         } else {
             events
         }
@@ -143,12 +157,14 @@ class DashboardFragment : Fragment() {
             }
         }
 
+        val lastPosition = vm.getLastScrollPosition(isFavoriteScreen)
         val adapter = EventAdapter(
             events = filteredEvents,
-            favoriteEventIds = favoriteEventIdMap.toMutableMap(),
+            favoriteEventIds = favoriteEvents.toMutableMap(),
             eventItemClickListener = eventItemClickListener,
         )
 
         binding.rvEvents.adapter = adapter
+        binding.rvEvents.scrollToPosition(lastPosition)
     }
 }
