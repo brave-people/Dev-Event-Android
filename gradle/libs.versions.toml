@@ -21,7 +21,7 @@ kotlin-core = "1.8.10"
 kotlin-coroutines = "1.6.4"
 
 # androidx
-androidx-appcompat = "1.6.0" # needs for oss license activity
+androidx-appcompat = "1.6.1" # needs for oss license activity
 androidx-datastore = "1.0.0"
 androidx-lifecycle-savedstate = "2.5.1"
 
