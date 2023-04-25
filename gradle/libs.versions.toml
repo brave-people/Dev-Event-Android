@@ -17,7 +17,7 @@ plugin-ui-oss-license = "0.10.5"
 plugin-util-dependency-handler-extensions = "1.0.3"
 
 # kotlin
-kotlin-core = "1.8.10"
+kotlin-core = "1.8.21"
 kotlin-coroutines = "1.6.4"
 
 # androidx
