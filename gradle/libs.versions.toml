@@ -33,7 +33,7 @@ ktx-lifecycle = "2.5.1"
 
 # ui
 ui-material3 = "1.8.0"
-ui-oss-license = "17.0.0"
+ui-oss-license = "17.0.1"
 ui-glide = "4.14.2"
 
 # analytics
