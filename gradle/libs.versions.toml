@@ -17,8 +17,8 @@ plugin-ui-oss-license = "0.10.5"
 plugin-util-dependency-handler-extensions = "1.0.3"
 
 # kotlin
-kotlin-core = "1.8.10"
-kotlin-coroutines = "1.6.4"
+kotlin-core = "1.9.10"
+kotlin-coroutines = "1.7.3"
 
 # androidx
 androidx-appcompat = "1.6.0" # needs for oss license activity
